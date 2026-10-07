@@ -375,6 +375,53 @@
       .essay-angle b { color:var(--ink); }
       .essay-angle svg { flex:none; margin-top:2px; color:#8a7420; }
       @media (max-width: 880px) { .quiz-setup { grid-template-columns: 1fr; } .setup-grid { grid-template-columns: 1fr; } }
+      /* ============ polish layer (round 3) ============ */
+      .hero { background-image: radial-gradient(circle at 88% -20%, rgba(239, 212, 107, 0.35), transparent 42%), radial-gradient(circle at -8% 118%, rgba(138, 154, 106, 0.16), transparent 46%), linear-gradient(135deg, #fdfcf4 0%, #f7f3dd 58%, #f3ead0 100%); }
+      .hero::after { content: ''; position: absolute; inset: 0; pointer-events: none; background-image: radial-gradient(rgba(48, 53, 44, 0.055) 1px, transparent 1px); background-size: 17px 17px; mask-image: linear-gradient(180deg, rgba(0,0,0,.5), transparent 68%); }
+      .hero > *:not(:first-child) { position: relative; z-index: 1; }
+      .hero .hero-chip { position: relative; z-index: 1; background: rgba(255, 255, 255, 0.72); backdrop-filter: blur(4px); }
+      .stat-tile { transition: transform .16s, box-shadow .16s, border-color .16s; }
+      .stat-tile:hover { transform: translateY(-2px); box-shadow: var(--shadow-lift); border-color: #d8ddb4; }
+      .stat-tile.accent { border-color: #e5cf7e; box-shadow: 0 0 0 3px rgba(239, 212, 107, 0.22), var(--shadow); }
+      .stat-tile.streak { border-color: #e0b96a; background: linear-gradient(160deg, #fffdf4 0%, #fdf6e0 100%); }
+      .stat-suffix { font-size: .42em; font-weight: 700; color: var(--muted); margin-left: 4px; }
+      .quiz-option:not(:disabled):hover { box-shadow: var(--shadow-lift); border-color: #b9c1a6; }
+      .quiz-option:not(:disabled):active { transform: translateY(0); }
+      .match-progress i, .progress-bar i { background: linear-gradient(90deg, #c9b23c, #e8d272); }
+      .scene-tile .art, .scene-tile svg.art { transition: transform .2s ease; }
+      .scene-tile:hover svg.art { transform: translateY(-2px) scale(1.015); }
+      .tag-chip { transition: filter .14s; }
+      .tag-chip:hover { filter: brightness(0.94); }
+      .tile-tags i { font-style: normal; }
+      .forecast-card { background: var(--card); border: 1px solid var(--line); border-radius: 16px; padding: 18px 20px 14px; margin: 18px 0 24px; box-shadow: var(--shadow); }
+      .forecast-head { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; margin-bottom: 12px; }
+      .forecast-sum { color: var(--muted); font-size: .84rem; font-weight: 600; }
+      .forecast-bars { display: grid; grid-template-columns: repeat(7, 1fr); gap: 8px; align-items: end; }
+      .forecast-col { display: flex; flex-direction: column; align-items: center; gap: 4px; }
+      .forecast-barwrap { height: 74px; width: 100%; display: flex; align-items: flex-end; justify-content: center; background: #f4f6ec; border-radius: 7px; overflow: hidden; }
+      .forecast-bar { width: 62%; min-height: 2px; border-radius: 6px 6px 0 0; background: linear-gradient(180deg, #8a9a6a, #a5b38e); transition: height .3s ease; }
+      .forecast-bar.today { background: linear-gradient(180deg, #c9a72e, #e0c45a); }
+      .forecast-col b { font-size: .8rem; font-variant-numeric: tabular-nums; color: var(--ink); min-height: 1em; }
+      .forecast-col span { font-size: .68rem; color: var(--muted); font-weight: 600; letter-spacing: .02em; }
+      .answer-review { width: 100%; max-width: 420px; margin: 10px auto 0; border: 1px solid var(--line); border-radius: 12px; background: #fff; text-align: left; }
+      .answer-review summary { cursor: pointer; padding: 11px 16px; font-weight: 700; font-size: .9rem; color: var(--ink-soft); list-style: none; display: flex; align-items: center; gap: 8px; }
+      .answer-review summary::-webkit-details-marker { display: none; }
+      .answer-review summary::before { content: '+'; font-family: var(--mono); font-weight: 800; color: #8a7420; }
+      .answer-review[open] summary::before { content: '\2013'; }
+      .answer-review summary:hover { background: #fafbf4; }
+      .review-list { max-height: 340px; overflow-y: auto; border-top: 1px solid var(--line); }
+      .review-row { display: flex; gap: 10px; padding: 11px 14px; border-bottom: 1px dashed #eef0e6; }
+      .review-row:last-child { border-bottom: 0; }
+      .review-mark { flex: none; width: 22px; height: 22px; border-radius: 50%; display: grid; place-items: center; margin-top: 2px; }
+      .review-row.ok .review-mark { background: var(--ok-soft); color: #5c7046; }
+      .review-row.bad .review-mark { background: var(--danger-soft); color: #a3513b; }
+      .review-body { min-width: 0; }
+      .review-kind { display: block; font-family: var(--mono); font-size: .68rem; letter-spacing: .05em; color: #7d8371; margin-bottom: 2px; }
+      .review-body b { display: block; font-size: .88rem; line-height: 1.4; }
+      .review-exp { font-size: .8rem; color: var(--muted); line-height: 1.5; margin-top: 4px; }
+      .scrollbar-pretty::-webkit-scrollbar, .review-list::-webkit-scrollbar { width: 9px; }
+      .review-list::-webkit-scrollbar-thumb { background: #d5dcc4; border-radius: 99px; border: 2px solid #fff; }
+      .review-list::-webkit-scrollbar-track { background: transparent; }
       .theme-chip { background: var(--sage-soft); color: #55604a; border: 1px solid #dfe5cf; padding: 4px 12px; border-radius: 999px; font-size: 0.78rem; font-weight: 700; }
       .flip-hint { text-align: center; color: var(--muted); font-size: 0.82rem; margin-top: 14px; }
       .flip-hint kbd { font-family: var(--mono); background: #f1f3e8; border: 1px solid var(--line-strong); border-bottom-width: 2px; border-radius: 5px; padding: 1px 6px; font-size: 0.76rem; }
@@ -856,6 +903,17 @@
         }
         const tagLabel = (t) => (TAGS[t] && TAGS[t].label) || t;
         const tagDef = (t) => (TAGS[t] && TAGS[t].def) || 'a key idea for your essay';
+        const TAG_COLORS = {
+          racism: '#a3513b', sexism: '#b0688c', segregation: '#8a6d3b', injustice: '#7d5a3c',
+          perseverance: '#b3801f', courage: '#b34a2f', dignity: '#7c6fa0', education: '#5c7046',
+          opportunity: '#7a8c4f', merit: '#a08424', leadership: '#55604a', solidarity: '#4e7d6b',
+          alliance: '#3f6f5f', technology: '#56666b', coldwar: '#93482f', intersectionality: '#7c4a6e',
+        };
+        const tagColor = (t) => TAG_COLORS[t] || '#6e7463';
+        const tagChip = (t, withIcon = true) => {
+          const c = tagColor(t);
+          return `<span class="tag-chip" style="color:${c};border-color:${c}59;background:${c}14">${withIcon ? icon('tag', 11) + ' ' : ''}${esc(tagLabel(t))}</span>`;
+        };
         const getTagUniverse = () => {
           const counts = {};
           getScenes().forEach((s) => tagsOf(s).forEach((t) => { counts[t] = (counts[t] || 0) + 1; }));
@@ -932,7 +990,7 @@
           cards: {},            // id -> { dueAt, interval(days), last, reviews }
           bookmarks: [],
           notes: {},            // id -> recall text
-          activity: { matches: 0, quizzes: 0, lastScore: null, explanations: [] },
+          activity: { matches: 0, quizzes: 0, lastScore: null, explanations: [], streak: 0, lastStudyDay: null },
           customSheet: null,    // { name, description, scenes }
         });
         let state = freshState();
@@ -943,6 +1001,9 @@
             if (parsed && parsed.v === 2) state = Object.assign(freshState(), parsed);
           }
         } catch (e) { state = freshState(); }
+        // migration guards for activity fields added later
+        state.activity.streak = Number.isFinite(state.activity.streak) ? state.activity.streak : 0;
+        state.activity.lastStudyDay = state.activity.lastStudyDay || null;
         let saveTimer = null;
         const save = () => {
           clearTimeout(saveTimer);
@@ -969,7 +1030,7 @@
             c.dueAt = now + c.interval * DAY;
           }
           c.last = now; c.reviews = (c.reviews || 0) + 1; c.lastRating = rating;
-          state.cards[id] = c; save();
+          state.cards[id] = c; save(); markStudied();
         }
         const isDue = (id) => { const c = state.cards[id]; return !c || c.dueAt <= Date.now(); };
         const dueCount = () => getScenes().filter((s) => isDue(s.id)).length;
@@ -995,6 +1056,17 @@
           const d = rating === 'easy' ? Math.min(30, Math.round(base * 2.5) + 1) : Math.min(30, Math.max(1, Math.round(base * 2)));
           return d === 1 ? '1 day' : `${d} days`;
         };
+
+        /* ================= STUDY STREAK ================= */
+        function markStudied() {
+          const today = new Date().toDateString();
+          const a = state.activity;
+          if (a.lastStudyDay === today) return;
+          const yesterday = new Date(Date.now() - DAY).toDateString();
+          a.streak = a.lastStudyDay === yesterday ? (a.streak || 0) + 1 : 1;
+          a.lastStudyDay = today;
+          save();
+        }
 
         /* ================= TOAST & MODAL ================= */
         const toastRoot = $('#toastRoot');
@@ -1261,7 +1333,7 @@
           const learning = scenes.filter((s) => masteryOf(s.id) === 'learning').length;
           root.innerHTML = `
             <section class="hero" aria-labelledby="heroTitle">
-              <span class="hero-chip">${icon('film', 15)} ${esc(getSheet().name)} · ${plural(scenes.length, 'scene')} · essay-ready</span>
+              <span class="hero-chip">${icon('film', 15)} ${esc(getSheet().name)} · ${plural(scenes.length, 'scene')} · essay-ready${state.activity.streak ? ` · ${state.activity.streak}-day streak` : ''}</span>
               <h1 id="heroTitle">Know every scene — and what it proves.</h1>
               <p class="hero-sub">${esc(getSheet().description || 'A private, offline study space for film scenes — flashcards, matching, quizzes, and recall practice, built on how memory actually works.')}</p>
               <div class="hero-actions">
@@ -1294,6 +1366,7 @@
           const scenes = getScenes();
           if (flash.deck === 'due') return scenes.filter((s) => isDue(s.id));
           if (flash.deck === 'saved') return scenes.filter((s) => state.bookmarks.includes(s.id));
+          if (flash.deck.startsWith('tag:')) { const t = flash.deck.slice(4); return scenes.filter((s) => tagsOf(s).includes(t)); }
           if (flash.deck === 'all') return scenes;
           return scenes.filter((s) => s.character === flash.deck);
         }
@@ -1325,7 +1398,8 @@
                   <option value="all" ${flash.deck === 'all' ? 'selected' : ''}>All scenes (${getScenes().length})</option>
                   <option value="due" ${flash.deck === 'due' ? 'selected' : ''}>Due for review (${due})</option>
                   <option value="saved" ${flash.deck === 'saved' ? 'selected' : ''}>Bookmarked (${state.bookmarks.length})</option>
-                  ${charOpts.map((c) => `<option value="${esc(c)}" ${flash.deck === c ? 'selected' : ''}>${esc(c)}</option>`).join('')}
+                  ${charOpts.length ? `<optgroup label="Characters">${charOpts.map((c) => `<option value="${esc(c)}" ${flash.deck === c ? 'selected' : ''}>${esc(c)}</option>`).join('')}</optgroup>` : ''}
+                  ${getTagUniverse().length ? `<optgroup label="Essay tags">${getTagUniverse().map((t) => `<option value="tag:${t}" ${flash.deck === 'tag:' + t ? 'selected' : ''}>${esc(tagLabel(t))}</option>`).join('')}</optgroup>` : ''}
                 </select>${icon('sliders', 14)}</span>
               </div>
             </div>
@@ -1365,7 +1439,7 @@
                       <div class="fc-block"><h4>${esc(scene.techniqueLabel)}</h4><p>${esc(scene.techniques)}</p></div>
                       <div class="fc-block"><h4>${esc(scene.meaningLabel)}</h4><p>${esc(scene.essay)}</p></div>
                     </div>
-                    <div class="theme-chips">${(scene.themes || []).map((t) => `<span class="theme-chip">${esc(t)}</span>`).join('')}${tagsOf(scene).map((t) => `<span class="tag-chip">${icon('tag', 11)} ${esc(tagLabel(t))}</span>`).join('')}</div>
+                    <div class="theme-chips">${(scene.themes || []).map((t) => `<span class="theme-chip">${esc(t)}</span>`).join('')}${tagsOf(scene).map((t) => tagChip(t)).join('')}</div>
                     <div class="rate-row">
                       ${[['again', 'Again', 'ok-soft'], ['good', 'Good', ''], ['easy', 'Easy', '']].map(([r, lbl]) => `
                         <button class="rate-btn ${r}" data-action="rate" data-rating="${r}" data-id="${scene.id}">
@@ -1399,7 +1473,7 @@
                 </div>
               </aside>
             </div>` : `
-            <div class="empty-note">${flash.deck === 'due' ? 'Nothing is due right now. Beautiful. Take a quiz to keep sharp, or come back later.' : flash.deck === 'saved' ? 'No bookmarks yet. Tap the bookmark on a flashcard or in the library to build your shortlist.' : 'This deck is empty.'}</div>`}`;
+            <div class="empty-note">${flash.deck === 'due' ? 'Nothing is due right now. Beautiful. Take a quiz to keep sharp, or come back later.' : flash.deck === 'saved' ? 'No bookmarks yet. Tap the bookmark on a flashcard or in the library to build your shortlist.' : flash.deck.startsWith('tag:') ? `No scenes carry the ${esc(tagLabel(flash.deck.slice(4)))} tag in this sheet.` : 'This deck is empty.'}</div>`}`;
         }
         function flashRate(rating) {
           const id = flash.order[flash.idx];
@@ -1422,20 +1496,27 @@
         function newMatchRound() {
           const scenes = getScenes();
           if (scenes.length < 5) { match.left = []; match.right = []; return; }
-          match.left = shuffle(scenes).slice(0, 5);
+          let pool = shuffle(scenes);
+          if (match.category === 'tag') {
+            const seen = new Set();
+            pool = pool.filter((s) => { const t = tagsOf(s)[0]; if (!t || seen.has(t)) return false; seen.add(t); return true; });
+            if (pool.length < 5) { match.left = []; match.right = []; return; }
+          }
+          match.left = pool.slice(0, 5);
           match.right = shuffle(match.left);
           match.selL = null; match.selR = null; match.pairs = []; match.attempts = 0; match.wrong = false; match.done = false;
         }
-        function rightLabel(s) { return match.category === 'technique' ? s.techniqueLabel : s.meaningLabel; }
+        function rightLabel(s) { return match.category === 'technique' ? s.techniqueLabel : match.category === 'tag' ? tagLabel(tagsOf(s)[0] || 'merit') : s.meaningLabel; }
         function vMatching(root) {
           const scenes = getScenes();
-          const enough = scenes.length >= 5;
+          const enough = scenes.length >= 5 && !(match.category === 'tag' && !match.left.length);
           root.innerHTML = `
             <div class="section-toolbar">
               <div><h2>Match &amp; mix</h2><p class="section-sub">Connect a scene to the way it tells its story.</p></div>
               <span class="select-wrap"><select aria-label="Matching category" data-change="matchCategory">
                 <option value="technique" ${match.category === 'technique' ? 'selected' : ''}>Scene + film technique</option>
                 <option value="meaning" ${match.category === 'meaning' ? 'selected' : ''}>Scene + big idea</option>
+                <option value="tag" ${match.category === 'tag' ? 'selected' : ''}>Scene + essay tag</option>
               </select>${icon('sliders', 14)}</span>
             </div>
             ${enough ? `
@@ -1455,12 +1536,12 @@
               </div>
               <div class="matching-link" aria-hidden="true">${icon('link', 22)}</div>
               <div>
-                <div class="column-label"><span>${match.category === 'technique' ? 'THE TECHNIQUE' : 'THE BIG IDEA'}</span><span>5 CONNECTIONS</span></div>
+                <div class="column-label"><span>${match.category === 'technique' ? 'THE TECHNIQUE' : match.category === 'tag' ? 'THE ESSAY TAG' : 'THE BIG IDEA'}</span><span>5 CONNECTIONS</span></div>
                 <div class="match-list">
                   ${match.right.map((s) => `
                     <button class="match-item right-item ${match.selR === s.id ? 'selected' : ''} ${match.pairs.includes(s.id) ? 'matched' : ''} ${match.wrong && match.selR === s.id ? 'wrong' : ''}"
                       data-action="pickRight" data-id="${s.id}" aria-pressed="${match.selR === s.id}"
-                      aria-label="${match.category === 'technique' ? 'Technique' : 'Idea'}: ${esc(rightLabel(s))}"
+                      aria-label="${match.category === 'technique' ? 'Technique' : match.category === 'tag' ? 'Essay tag' : 'Idea'}: ${esc(rightLabel(s))}"
                       ${match.pairs.includes(s.id) || match.wrong ? 'disabled' : ''}>
                       <strong>${esc(rightLabel(s))}</strong>
                       <span class="match-check">${match.pairs.includes(s.id) ? icon('check', 17) : ''}</span>
@@ -1472,12 +1553,12 @@
               ${match.done ? `
                 <div class="match-success">${icon('checkCircle', 26)}<div><h3>Everything clicked.</h3><p>5 pairs in ${plural(match.attempts, 'attempt')}. Ready for a fresh mix?</p></div>
                 <button class="button yellow" style="margin-left:auto" data-action="newMatch">${icon('shuffle', 16)} New round</button></div>`
-              : match.wrong ? `<p class="error-text">Not quite. Think about the ${match.category === 'technique' ? 'technique' : 'idea'}, then try again.</p>`
-              : match.selL || match.selR ? `<p>Now pick the ${match.selL ? (match.category === 'technique' ? 'technique' : 'idea') : 'scene'} that connects.</p>`
+              : match.wrong ? `<p class="error-text">Not quite. Think about the ${match.category === 'technique' ? 'technique' : match.category === 'tag' ? 'essay tag' : 'idea'}, then try again.</p>`
+              : match.selL || match.selR ? `<p>Now pick the ${match.selL ? (match.category === 'technique' ? 'technique' : match.category === 'tag' ? 'essay tag' : 'idea') : 'scene'} that connects.</p>`
               : `<p>Pick any scene to start matching.</p>`}
             </div>
             <div class="technique-footer">${icon('bulb', 18)}<div><strong>Concrete examples</strong><p>Matching forces you to tell similar moments apart — the exact skill an essay question rewards.</p></div></div>`
-            : `<div class="empty-note">Match &amp; mix needs at least 5 scenes, and this sheet has ${scenes.length}. Add more scenes to your sheet and come back.</div>`}`;
+            : `<div class="empty-note">${scenes.length < 5 ? `Match &amp; mix needs at least 5 scenes, and this sheet has ${scenes.length}. Add more scenes to your sheet and come back.` : match.category === 'tag' ? 'The essay-tag round needs 5 scenes with five different primary tags — this sheet has fewer. Try another category.' : 'This round cannot start.'}</div>`}`;
         }
         function matchPick(side, id) {
           if (match.wrong || match.done || match.pairs.includes(id)) return;
@@ -1488,7 +1569,7 @@
             if (match.selL === match.selR) {
               match.pairs.push(match.selL);
               match.selL = null; match.selR = null;
-              if (match.pairs.length === 5) { match.done = true; state.activity.matches++; save(); }
+              if (match.pairs.length === 5) { match.done = true; state.activity.matches++; save(); markStudied(); }
             } else {
               match.wrong = true;
               setTimeout(() => { match.wrong = false; match.selL = null; match.selR = null; renderView(); }, 650);
@@ -1730,6 +1811,21 @@
                   ${Object.entries(skills).map(([lbl, v]) => `
                     <div class="skill-row ${v.ok === v.n ? 'perfect' : v.ok === 0 ? 'weak' : ''}"><span>${esc(lbl)}</span><span class="skill-score"><b>${v.ok}</b>/${v.n}</span></div>`).join('')}
                 </div>
+                <details class="answer-review">
+                  <summary>Review every question</summary>
+                  <div class="review-list">
+                    ${quiz.qs.map((qq, i) => {
+                      const a = quiz.answers[i];
+                      if (!a) return '';
+                      return `<div class="review-row ${a.correct ? 'ok' : 'bad'}">
+                        <span class="review-mark" aria-label="${a.correct ? 'Correct' : 'Incorrect'}">${a.correct ? icon('check', 15) : icon('x', 15)}</span>
+                        <div class="review-body"><span class="review-kind">${esc(qq.kindLabel)}${qq.tag ? ` · ${esc(tagLabel(qq.tag))}` : ''}</span>
+                        <b>${esc(qq.prompt)}</b>
+                        <p class="review-exp">${esc(qq.explanation)}</p></div>
+                      </div>`;
+                    }).join('')}
+                  </div>
+                </details>
                 <button class="button primary" data-action="newQuiz">${icon('shuffle', 16)} Set up a new round</button>
               </div>
               ${score < quiz.qs.length ? `
@@ -1751,7 +1847,7 @@
             <div class="quiz-topline"><span>Question <b>${quiz.idx + 1}</b> of ${quiz.qs.length}</span><span class="mono">${esc(q.kindLabel)}</span></div>
             <div class="match-progress"><i style="width:${Math.round((quiz.idx / quiz.qs.length) * 100)}%"></i></div>
             <section class="quiz-body" aria-label="Quiz question">
-              ${q.tag ? `<div class="quiz-tagrow"><span class="tag-chip">${icon('tag', 13)} ${esc(tagLabel(q.tag))}</span></div>` : ''}
+              ${q.tag ? `<div class="quiz-tagrow">${tagChip(q.tag)}</div>` : ''}
               <h3>${esc(q.prompt)}</h3>
               <p class="quiz-clue ${q.kind !== 'tech' && q.kind !== 'topic' && q.kind !== 'barrier' && q.kind !== 'analysis' ? 'scene-name' : ''}">${esc(q.clue)}</p>
               <div class="quiz-options">
@@ -1785,7 +1881,7 @@
             quiz.done = true;
             state.activity.quizzes++;
             state.activity.lastScore = Math.round((quiz.answers.filter((a) => a.correct).length / quiz.qs.length) * 100);
-            save();
+            save(); markStudied();
           } else { quiz.idx++; quiz.picked = null; }
           renderView();
         }
@@ -1850,7 +1946,7 @@
           if (!text.trim()) return;
           state.notes[recall.sceneId] = text;
           if (!state.activity.explanations.includes(recall.sceneId)) state.activity.explanations.push(recall.sceneId);
-          save();
+          save(); markStudied();
           recall.checked = true;
           renderView();
           toast('Explanation saved. Compare the ideas, not exact wording.', 'checkCircle');
@@ -1904,7 +2000,7 @@
                   ${cueArt(s.cue, s.cueText, 'art')}
                   <h3>${esc(s.title)}</h3>
                   <span class="tile-char">${esc(s.character)}</span>
-                  ${tagsOf(s).length ? `<span class="tile-tags">${tagsOf(s).slice(0, 3).map((t) => `#${esc(t)}`).join(' ')}${tagsOf(s).length > 3 ? ` <b>+${tagsOf(s).length - 3}</b>` : ''}</span>` : ''}
+                  ${tagsOf(s).length ? `<span class="tile-tags">${tagsOf(s).slice(0, 3).map((t) => `<i style="color:${tagColor(t)}">#${esc(t)}</i>`).join(' ')}${tagsOf(s).length > 3 ? ` <b>+${tagsOf(s).length - 3}</b>` : ''}</span>` : ''}
                 </button>`;
               }).join('')}
             </div>` : `<div class="empty-note">No scenes match. Try a different search or filter.</div>`}`;
@@ -1922,7 +2018,7 @@
                 <span class="theme-chip">${esc(s.character)}</span>
                 ${(s.themes || []).map((t) => `<span class="theme-chip">${esc(t)}</span>`).join('')}
               </div>
-              ${tagsOf(s).length ? `<div class="detail-tagrow"><span class="answer-label">ESSAY TAGS</span><div class="detail-tags">${tagsOf(s).map((t) => `<span class="tag-chip">${icon('tag', 12)} ${esc(tagLabel(t))}</span>`).join('')}</div></div>` : ''}
+              ${tagsOf(s).length ? `<div class="detail-tagrow"><span class="answer-label">ESSAY TAGS</span><div class="detail-tags">${tagsOf(s).map((t) => tagChip(t)).join('')}</div></div>` : ''}
               <div class="detail-block"><span class="answer-label">THE MOMENT</span><p>${esc(s.description)}</p></div>
               <div class="detail-block"><span class="answer-label">${esc(s.techniqueLabel)}</span><p>${esc(s.techniques)}</p></div>
               <div class="detail-block"><span class="answer-label">${esc(s.meaningLabel)}</span><p>${esc(s.essay)}</p></div>
@@ -1966,6 +2062,16 @@
           const learning = scenes.filter((s) => masteryOf(s.id) === 'learning').length;
           const due = dueCount();
           const a = state.activity;
+          const buckets = new Array(7).fill(0);
+          const startOfToday = new Date().setHours(0, 0, 0, 0);
+          scenes.forEach((s) => {
+            const c = state.cards[s.id];
+            if (!c || !c.reviews || !c.dueAt) return;
+            const d = Math.floor((c.dueAt - startOfToday) / DAY);
+            if (d < 0) buckets[0]++; else if (d < 7) buckets[d]++;
+          });
+          const bMax = Math.max(1, ...buckets);
+          const dayLabels = ['Today', 'Tomorrow', 'In 2 days', 'In 3 days', 'In 4 days', 'In 5 days', 'In 6 days'];
           root.innerHTML = `
             <div class="section-toolbar">
               <div><h2>Progress</h2><p class="section-sub">Your memory, measured honestly.</p></div>
@@ -1973,11 +2079,19 @@
             </div>
             <div class="progress-grid" role="list">
               <div class="stat-tile ${due ? 'accent' : ''}" role="listitem"><div class="stat-num">${due}</div><div class="stat-label">due for review</div></div>
+              <div class="stat-tile ${a.streak ? 'streak' : ''}" role="listitem"><div class="stat-num">${a.streak || 0}<span class="stat-suffix">${a.streak === 1 ? ' day' : ' days'}</span></div><div class="stat-label">study streak</div></div>
               <div class="stat-tile" role="listitem"><div class="stat-num">${confident}</div><div class="stat-label">confident</div></div>
               <div class="stat-tile" role="listitem"><div class="stat-num">${learning}</div><div class="stat-label">learning</div></div>
               <div class="stat-tile" role="listitem"><div class="stat-num">${a.matches}</div><div class="stat-label">matching rounds</div></div>
               <div class="stat-tile" role="listitem"><div class="stat-num">${a.quizzes ? a.lastScore + '%' : '—'}</div><div class="stat-label">latest quiz score</div></div>
               <div class="stat-tile" role="listitem"><div class="stat-num">${a.explanations.length}</div><div class="stat-label">scenes explained</div></div>
+            </div>
+            <div class="forecast-card">
+              <div class="forecast-head"><span class="eyebrow">REVIEW FORECAST</span><span class="forecast-sum">${buckets.reduce((x, y) => x + y, 0)} reviews scheduled this week</span></div>
+              <div class="forecast-bars" role="img" aria-label="Reviews due over the next 7 days: ${buckets.join(', ')}">
+                ${buckets.map((n, i) => `
+                <div class="forecast-col"><div class="forecast-barwrap"><i class="forecast-bar ${i === 0 ? 'today' : ''}" style="height:${Math.round((n / bMax) * 100)}%" title="${dayLabels[i]}: ${n}"></i></div><b>${n || ''}</b><span>${i === 0 ? 'Today' : i === 1 ? 'Tmrw' : '+' + i + 'd'}</span></div>`).join('')}
+              </div>
             </div>
             <h2 class="progress-h2">Scene by scene</h2>
             <div class="scene-status-list">
@@ -2187,7 +2301,7 @@
                   ${cueArt(s.cue, s.cueText, 'art')}
                   <h3>${esc(s.title)}</h3>
                   <span class="tile-char">${esc(s.character)}</span>
-                  ${tagsOf(s).length ? `<span class="tile-tags">${tagsOf(s).slice(0, 3).map((t) => `#${esc(t)}`).join(' ')}${tagsOf(s).length > 3 ? ` <b>+${tagsOf(s).length - 3}</b>` : ''}</span>` : ''}
+                  ${tagsOf(s).length ? `<span class="tile-tags">${tagsOf(s).slice(0, 3).map((t) => `<i style="color:${tagColor(t)}">#${esc(t)}</i>`).join(' ')}${tagsOf(s).length > 3 ? ` <b>+${tagsOf(s).length - 3}</b>` : ''}</span>` : ''}
                 </button>`;
               }).join('') : `<div class="empty-note" style="grid-column:1/-1">No scenes match. Try a different search or filter.</div>`;
             }
@@ -2235,6 +2349,20 @@
           else if (e.key === '1' && flash.flipped) { e.preventDefault(); flashRate('again'); }
           else if (e.key === '2' && flash.flipped) { e.preventDefault(); flashRate('good'); }
           else if (e.key === '3' && flash.flipped) { e.preventDefault(); flashRate('easy'); }
+        });
+
+        // Quiz keyboard shortcuts: 1-4 pick, Enter/ArrowRight next
+        document.addEventListener('keydown', (e) => {
+          if (currentView !== 'quiz' || !quiz.qs.length || quiz.done) return;
+          if (e.target.closest('input, textarea, select') || modalRoot.childElementCount) return;
+          const q = quiz.qs[quiz.idx];
+          if (!q) return;
+          if (['1', '2', '3', '4'].includes(e.key)) {
+            const i = Number(e.key) - 1;
+            if (q.options[i] && quiz.picked == null) { e.preventDefault(); quizPick(q.options[i].id); }
+          } else if ((e.key === 'Enter' || e.key === 'ArrowRight') && quiz.picked != null) {
+            e.preventDefault(); quizNext();
+          }
         });
 
         // Escape closes modal; mobile nav toggle
