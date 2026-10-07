@@ -4,8 +4,10 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <script>try { if (localStorage.getItem('scenestudy-theme') === 'dark') document.documentElement.setAttribute('data-theme', 'dark'); } catch (e) {}</script>
-    <meta name="theme-color" content="#efd46b" />
+    <meta name="theme-color" content="#fcfcf9" />
     <meta name="description" content="Remember every important scene with flashcards, matching, quizzes, and recall practice. Bring your own film by uploading a custom scene sheet. Private, offline-ready study space." />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-title" content="SceneStudy" />
     <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Crect width='40' height='40' rx='10' fill='%23efd46b'/%3E%3Cpath d='m8 16 12-6 12 6-12 6Zm0 6 12 6 12-6m-24 6 12 6 12-6' fill='none' stroke='%2330352c' stroke-width='2' stroke-linejoin='round'/%3E%3C/svg%3E" />
     <title>Hidden Figures | SceneStudy</title>
     <style>
@@ -764,14 +766,25 @@
         border: 1px solid var(--line); border-radius: 16px; padding: 16px 18px; margin-bottom: 28px;
         box-shadow: var(--shadow);
       }
-      .tagstat-row { display: grid; grid-template-columns: minmax(120px, 185px) 62px 1fr 46px; align-items: center; gap: 12px; }
+      .tagstat-row { display: grid; grid-template-columns: minmax(120px, 185px) 62px 1fr 46px auto; align-items: center; gap: 12px; }
       .tagstat-row .tag-chip { justify-self: start; }
+      .practice-btn { display: inline-flex; align-items: center; justify-content: center; gap: 5px; height: 34px; padding: 0 11px; border-radius: 9px; border: 1px solid var(--line-strong); background: var(--card); color: var(--ink-soft); font: inherit; font-size: 0.8rem; font-weight: 700; cursor: pointer; transition: transform .15s ease, background .15s ease, border-color .15s ease, color .15s ease; white-space: nowrap; }
+      .practice-btn:hover { background: var(--yellow-soft); border-color: var(--yellow-line); color: var(--yellow-ink-deep); transform: translateY(-1px); }
+      .practice-btn:active { transform: translateY(0); }
+      .tag-chip-btn { font: inherit; cursor: pointer; transition: transform .12s ease, box-shadow .12s ease; }
+      .tag-chip-btn:hover { transform: translateY(-1px); box-shadow: 0 3px 10px -4px rgba(0, 0, 0, 0.3); }
+      .tagrow-hint { color: var(--muted); font-size: 0.72rem; font-weight: 600; }
+      .breakdown-cap { display: block; font-family: var(--mono); font-size: 0.62rem; font-weight: 700; letter-spacing: 0.13em; color: var(--muted); margin-bottom: 7px; }
+      .skill-breakdown + .skill-breakdown { margin-top: 10px; }
+      .search-box kbd.search-kbd { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); font-family: var(--mono); background: var(--soft); border: 1px solid var(--line-strong); border-bottom-width: 2px; border-radius: 5px; padding: 1px 7px; font-size: 0.72rem; color: var(--muted); pointer-events: none; transition: opacity .12s ease; }
+      .search-box:focus-within kbd.search-kbd { opacity: 0; }
+      .tile-cue { display: none; }
       .tagstat-n { font-size: 0.78rem; color: var(--muted); white-space: nowrap; }
       .tagstat-barwrap { height: 9px; border-radius: 99px; background: var(--soft); overflow: hidden; }
       .tagstat-bar { display: block; height: 100%; border-radius: 99px; transition: width 0.5s ease; min-width: 2%; }
       .tagstat-pct { font-size: 0.8rem; text-align: right; color: var(--ink-soft); font-variant-numeric: tabular-nums; }
       @media (max-width: 640px) {
-        .tagstat-row { grid-template-columns: 1fr 1fr 46px; }
+        .tagstat-row { grid-template-columns: 1fr auto auto; }
         .tagstat-row .tag-chip { grid-column: 1 / -1; margin-bottom: -4px; }
         .tagstat-n { display: none; }
       }
@@ -856,6 +869,8 @@
         .scene-tile { break-inside: avoid; page-break-inside: avoid; border: 1px solid #b8bba9 !important; box-shadow: none !important; }
         .scene-tile:hover { transform: none !important; }
         .scene-tile h3 { font-size: 11pt; }
+        .scene-tile .tile-cue { display: block; font-size: 8pt; color: #4a4d3e; margin-top: 3px; font-style: italic; line-height: 1.35; }
+        .print-legend { margin-top: 3px; }
       }
     </style>
   </head>
@@ -881,7 +896,7 @@
         <div class="sidebar-foot">
           <button type="button" class="theme-toggle" data-action="theme" aria-label="Switch color theme"></button>
           <p class="offline-chip" id="offlineChip"></p>
-          <p class="sidebar-version">SceneStudy v2.2 — works offline, saves in this browser.</p>
+          <p class="sidebar-version">SceneStudy v2.3 — works offline, saves in this browser.</p>
         </div>
       </aside>
       <div class="sidebar-overlay" id="sidebarOverlay" aria-hidden="true"></div>
@@ -1943,6 +1958,8 @@
           if (quiz.done) {
             const skills = {};
             quiz.qs.forEach((qq, i) => { const a = quiz.answers[i]; if (!a) return; const key = qq.kindLabel; (skills[key] = skills[key] || { ok: 0, n: 0 }); skills[key].n++; if (a.correct) skills[key].ok++; });
+            const types = {};
+            quiz.qs.forEach((qq, i) => { const a = quiz.answers[i]; if (!a || !qq.scene || !qq.scene.analysisType) return; const key = qq.scene.analysisType; (types[key] = types[key] || { ok: 0, n: 0 }); types[key].n++; if (a.correct) types[key].ok++; });
             root.innerHTML = `
             <div class="section-toolbar">
               <div><h2>Essay quiz</h2><p class="section-sub">Round complete — here is what the results say about your essay readiness.</p></div>
@@ -1956,9 +1973,16 @@
                 <div class="quiz-score"><b>${score}</b><span>/ ${quiz.qs.length}</span></div>
                 <p>${score === quiz.qs.length ? 'A perfect round. Come back later to make it last.' : 'The scenes below deserve another look. Getting feedback is part of learning.'}</p>
                 <div class="skill-breakdown" aria-label="Score by question skill">
+                  <span class="breakdown-cap">BY QUESTION SKILL</span>
                   ${Object.entries(skills).map(([lbl, v]) => `
                     <div class="skill-row ${v.ok === v.n ? 'perfect' : v.ok === 0 ? 'weak' : ''}"><span>${esc(lbl)}</span><span class="skill-score"><b>${v.ok}</b>/${v.n}</span></div>`).join('')}
                 </div>
+                ${Object.keys(types).length ? `
+                <div class="skill-breakdown" aria-label="Score by essay type">
+                  <span class="breakdown-cap">BY ESSAY TYPE</span>
+                  ${Object.entries(types).map(([lbl, v]) => `
+                    <div class="skill-row ${v.ok === v.n ? 'perfect' : v.ok === 0 ? 'weak' : ''}"><span>${esc(lbl)}</span><span class="skill-score"><b>${v.ok}</b>/${v.n}</span></div>`).join('')}
+                </div>` : ''}
                 <details class="answer-review">
                   <summary>Review every question</summary>
                   <div class="review-list">
@@ -2110,7 +2134,7 @@
             if (library.theme !== 'all' && !(s.themes || []).includes(library.theme)) return false;
             if (library.tag !== 'all' && !tagsOf(s).includes(library.tag)) return false;
             if (q) {
-              const hay = `${s.title} ${s.fullTitle} ${s.description} ${s.character} ${(s.themes || []).join(' ')} ${tagsOf(s).map((t) => tagLabel(t)).join(' ')}`.toLowerCase();
+              const hay = `${s.title} ${s.fullTitle} ${s.description} ${s.character} ${(s.themes || []).join(' ')} ${tagsOf(s).map((t) => tagLabel(t)).join(' ')} ${s.cueText || ''} ${s.cue || ''} ${s.techniqueLabel || ''} ${s.meaningLabel || ''}`.toLowerCase();
               if (!hay.includes(q)) return false;
             }
             return true;
@@ -2120,6 +2144,8 @@
           const scenes = filteredScenes();
           const chars = getCharacters();
           const themes = getThemes();
+          const all = getScenes();
+          const typeCounts = [...new Set(all.map((s) => s.analysisType).filter(Boolean))].map((a) => `${all.filter((s) => s.analysisType === a).length} ${a.toLowerCase()}s`).join(' · ');
           root.innerHTML = `
             <div class="section-toolbar">
               <div><h2>Scene library</h2><p class="section-sub">Every moment from the sheet, ready to browse.</p></div>
@@ -2127,10 +2153,10 @@
             </div>
             <div class="print-only print-head" aria-hidden="true">
               <h1>${esc(getSheet().name)} — evidence cards</h1>
-              <p>${getScenes().length} scenes · printed from SceneStudy on ${new Date().toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric' })} · cover the tags and quiz yourself from paper</p>
+              <p>${getScenes().length} scenes${typeCounts ? ` · ${typeCounts}` : ''} · printed from SceneStudy on ${new Date().toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric' })} · cover the tags and quiz yourself from paper</p>
             </div>
             <div class="library-controls">
-              <span class="search-box">${icon('search', 18)}<input type="search" placeholder="Search scenes, characters, themes…" aria-label="Search scenes" data-input="librarySearch" value="${esc(library.q)}"/></span>
+              <span class="search-box">${icon('search', 18)}<input type="search" id="librarySearch" placeholder="Search scenes, characters, themes…" aria-label="Search scenes" data-input="librarySearch" value="${esc(library.q)}"/><kbd class="search-kbd" aria-hidden="true">/</kbd></span>
               <div class="chip-row" role="group" aria-label="Filter by character">
                 <button class="filter-chip ${library.char === 'all' ? 'active' : ''}" data-action="libChar" data-char="all">All characters</button>
                 ${chars.map((c) => `<button class="filter-chip ${library.char === c ? 'active' : ''}" data-action="libChar" data-char="${esc(c)}">${esc(c)}</button>`).join('')}
@@ -2162,6 +2188,7 @@
                   <span class="tile-char">${esc(s.character)}</span>
                   ${s.analysisType ? `<span class="tile-analysis">${esc(s.analysisType)}</span>` : ''}
                   ${tagsOf(s).length ? `<span class="tile-tags">${tagsOf(s).slice(0, 3).map((t) => `<i style="color:${tagColor(t)}">#${esc(t)}</i>`).join(' ')}${tagsOf(s).length > 3 ? ` <b>+${tagsOf(s).length - 3}</b>` : ''}</span>` : ''}
+                  <span class="tile-cue print-only">${esc(s.cueText)}</span>
                 </button>`;
               }).join('')}
             </div>` : `<div class="empty-note">No scenes match. Try a different search or filter.</div>`}`;
@@ -2180,7 +2207,7 @@
                 ${s.analysisType ? `<span class="theme-chip analysis-chip">${icon('quote', 12)} ${esc(s.analysisType)}</span>` : ''}
                 ${(s.themes || []).map((t) => `<span class="theme-chip">${esc(t)}</span>`).join('')}
               </div>
-              ${tagsOf(s).length ? `<div class="detail-tagrow"><span class="answer-label">ESSAY TAGS</span><div class="detail-tags">${tagsOf(s).map((t) => tagChip(t)).join('')}</div></div>` : ''}
+              ${tagsOf(s).length ? `<div class="detail-tagrow"><span class="answer-label">ESSAY TAGS <span class="tagrow-hint">· tap a tag to filter the library</span></span><div class="detail-tags">${tagsOf(s).map((t) => `<button class="tag-chip tag-chip-btn" style="color:${tagColor(t)};border-color:${tagColor(t)}59;background:${tagColor(t)}14" data-action="modalTag" data-tag="${esc(t)}" aria-label="Show all ${esc(tagLabel(t))} scenes in the library">${icon('tag', 11)} ${esc(tagLabel(t))}</button>`).join('')}</div></div>` : ''}
               <div class="detail-block"><span class="answer-label">THE MOMENT</span><p>${esc(s.description)}</p></div>
               <div class="detail-block"><span class="answer-label">${esc(s.techniqueLabel)}</span><p>${esc(s.techniques)}</p></div>
               <div class="detail-block"><span class="answer-label">${esc(s.meaningLabel)}</span><p>${esc(s.essay)}</p></div>
@@ -2273,6 +2300,7 @@
                 <span class="tagstat-n">${ts.n} scene${ts.n === 1 ? '' : 's'}</span>
                 <span class="tagstat-barwrap"><i class="tagstat-bar" style="width:${ts.pct}%;background:${tagColor(ts.t)}"></i></span>
                 <b class="tagstat-pct">${ts.pct}%</b>
+                <button class="practice-btn" data-action="practiceTag" data-tag="${esc(ts.t)}" aria-label="Practice ${esc(tagLabel(ts.t))} in a focused quiz round">${icon('zap', 13)} Practice</button>
               </div>`).join('')}
             </div>` : ''}
             <h2 class="progress-h2">Scene by scene</h2>
@@ -2432,6 +2460,8 @@
             case 'quizStart': newQuiz(); renderView(); break;
             case 'newQuiz': quiz.qs = []; quiz.idx = 0; quiz.picked = null; quiz.answers = []; quiz.done = false; renderView(); break;
             case 'studyScene': closeModal(); flash.focus = id; go('flashcards'); break;
+            case 'practiceTag': quiz.focus = target.dataset.tag; quiz.qs = []; quiz.idx = 0; quiz.picked = null; quiz.answers = []; quiz.done = false; go('quiz'); break;
+            case 'modalTag': library.q = ''; library.char = 'all'; library.theme = 'all'; library.analysis = 'all'; library.tag = target.dataset.tag; closeModal(); go('library'); break;
             case 'studyDue': flashSetDeck('due', false); go('flashcards'); break;
             case 'checkRecall': recallCheck(); break;
             case 'newRecallPrompt': {
@@ -2501,6 +2531,7 @@
                   <span class="tile-char">${esc(s.character)}</span>
                   ${s.analysisType ? `<span class="tile-analysis">${esc(s.analysisType)}</span>` : ''}
                   ${tagsOf(s).length ? `<span class="tile-tags">${tagsOf(s).slice(0, 3).map((t) => `<i style="color:${tagColor(t)}">#${esc(t)}</i>`).join(' ')}${tagsOf(s).length > 3 ? ` <b>+${tagsOf(s).length - 3}</b>` : ''}</span>` : ''}
+                  <span class="tile-cue print-only">${esc(s.cueText)}</span>
                 </button>`;
               }).join('') : `<div class="empty-note" style="grid-column:1/-1">No scenes match. Try a different search or filter.</div>`;
             }
@@ -2564,6 +2595,15 @@
           }
         });
 
+        // "/" jumps to the library search
+        document.addEventListener('keydown', (e) => {
+          if (currentView !== 'library' || e.key !== '/') return;
+          if (e.target.closest('input, textarea, select') || modalRoot.childElementCount) return;
+          e.preventDefault();
+          const inp = $('#librarySearch');
+          if (inp) { inp.focus(); inp.select(); }
+        });
+
         // Escape closes modal; mobile nav toggle
         document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && modalRoot.childElementCount) closeModal(); });
         $('#menuBtn').innerHTML = icon('menu', 22);
@@ -2584,6 +2624,8 @@
             b.setAttribute('aria-label', `Switch to ${label.toLowerCase()}`);
             b.title = `Switch to ${label.toLowerCase()}`;
           });
+          const meta = document.querySelector('meta[name="theme-color"]');
+          if (meta) meta.setAttribute('content', dark ? '#15170f' : '#fcfcf9');
         }
 
         function exportNotesMarkdown() {
