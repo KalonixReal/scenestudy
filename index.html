@@ -845,6 +845,50 @@
       html[data-theme="dark"] .dropzone .dz-icon { color: #d9bd4a; }
       html[data-theme="dark"] .modal .scene-art-lg { color: #9ba18c; }
 
+      /* ============ V2.4 POLISH LAYER ============ */
+      /* Frosted modal backdrop */
+      .modal-backdrop { background: rgba(38, 41, 32, 0.42); backdrop-filter: blur(5px) saturate(1.08); -webkit-backdrop-filter: blur(5px) saturate(1.08); animation: fadein 0.18s ease; }
+      @keyframes fadein { from { opacity: 0; } to { opacity: 1; } }
+      /* Focus-visible rings for keyboard users */
+      .scene-tile:focus-visible, .filter-chip:focus-visible, .button:focus-visible, .nav-item:focus-visible,
+      .rate-btn:focus-visible, .tag-chip-btn:focus-visible, .tool-row:focus-visible, .kbd-help-btn:focus-visible {
+        outline: 2.5px solid #b8941c; outline-offset: 2px; border-radius: inherit;
+      }
+      .scene-tile:focus-visible { border-radius: 14px; }
+      /* Mastery rings on library tiles */
+      .scene-tile .tile-num { display: inline-flex; align-items: center; gap: 7px; }
+      .tile-ring { width: 17px; height: 17px; flex: none; display: inline-block; }
+      .tile-ring svg { width: 100%; height: 100%; display: block; transform: rotate(-90deg); }
+      .tile-ring .ring-track { fill: none; stroke: var(--line); stroke-width: 3; }
+      .tile-ring .ring-fill { fill: none; stroke-width: 3; stroke-linecap: round; transition: stroke-dasharray 0.5s ease, stroke 0.3s ease; }
+      .scene-tile:hover .tile-ring .ring-track { stroke: var(--line-strong); }
+      /* Mastery chip in scene modal */
+      .mastery-chip.mastery-learning { color: #8a7420; border-color: #d9bd4a66; background: #efd46b1c; }
+      .mastery-chip.mastery-confident { color: #5f7047; border-color: #8a9a6a66; background: #8a9a6a1c; }
+      html[data-theme="dark"] .mastery-chip.mastery-learning { color: #e8ca62; border-color: #5c5426; background: #33301a; }
+      html[data-theme="dark"] .mastery-chip.mastery-confident { color: #b9c8a0; border-color: #3d442f; background: #2a2f20; }
+      /* Keyboard shortcut cheat sheet */
+      .sc-cap { font-family: var(--mono); font-size: 0.68rem; font-weight: 700; letter-spacing: 0.14em; color: #8a7420; margin: 18px 0 6px; }
+      .sc-cap:first-of-type { margin-top: 4px; }
+      .sc-row { display: flex; justify-content: space-between; align-items: center; gap: 16px; padding: 8px 2px; border-bottom: 1px dashed var(--line); font-size: 0.95rem; }
+      .sc-row:last-child { border-bottom: 0; }
+      .sc-row b { font-weight: 600; color: var(--ink); }
+      .sc-keys { display: flex; gap: 6px; flex: none; }
+      .modal-head h2 svg { vertical-align: -3px; margin-right: 6px; }
+      html[data-theme="dark"] .sc-cap { color: #d9bd4a; }
+      /* Sidebar keyboard-help button */
+      .kbd-help-btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; align-self: flex-start; min-height: 44px; min-width: 44px; padding: 0 13px; border: 1px solid var(--line-strong); border-radius: 10px; background: var(--card); color: var(--ink-soft); cursor: pointer; transition: border-color 0.15s ease, color 0.15s ease, transform 0.15s ease; }
+      .kbd-help-btn:hover { border-color: #b8941c; color: var(--ink); transform: translateY(-1px); }
+      .kbd-help-btn kbd { font-size: 0.78rem; }
+      html[data-theme="dark"] .kbd-help-btn { background: #23261c; border-color: #3a3f2e; color: #b6bca6; }
+      html[data-theme="dark"] .kbd-help-btn:hover { border-color: #d9bd4a; color: #efe9cf; }
+      /* Restore-backup summary facts */
+      .restore-facts { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin: 16px 0 18px; }
+      .restore-facts .fact { background: var(--soft); border: 1px solid var(--line); border-radius: 11px; padding: 11px 8px 9px; text-align: center; display: flex; flex-direction: column; gap: 2px; }
+      .restore-facts .fact b { font-size: 1.35rem; line-height: 1.1; color: var(--ink); }
+      .restore-facts .fact span { font-size: 0.74rem; color: var(--muted); letter-spacing: 0.02em; }
+      @media (max-width: 560px) { .restore-facts { grid-template-columns: repeat(2, 1fr); } }
+
       /* ============ PRINT STUDY PACK ============ */
       .print-only { display: none; }
       @media print {
@@ -895,8 +939,9 @@
         <nav class="study-nav" id="studyNav" aria-label="Study modes"></nav>
         <div class="sidebar-foot">
           <button type="button" class="theme-toggle" data-action="theme" aria-label="Switch color theme"></button>
+          <button type="button" class="kbd-help-btn" id="kbdHelpBtn" data-action="shortcuts" aria-label="Keyboard shortcuts" title="Keyboard shortcuts (press ?)"></button>
           <p class="offline-chip" id="offlineChip"></p>
-          <p class="sidebar-version">SceneStudy v2.3 — works offline, saves in this browser.</p>
+          <p class="sidebar-version">SceneStudy v2.4 — works offline, saves in this browser.</p>
         </div>
       </aside>
       <div class="sidebar-overlay" id="sidebarOverlay" aria-hidden="true"></div>
@@ -911,6 +956,7 @@
     </div>
 
     <div id="modalRoot"></div>
+    <input type="file" id="progressFile" accept=".json,application/json" hidden/>
     <div class="toast-root" id="toastRoot" role="status" aria-live="polite"></div>
     <script>
       'use strict';
@@ -968,6 +1014,7 @@
           flip: '<path d="M21 12a9 9 0 0 0-9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/><path d="M3 12a9 9 0 0 0 9 9 9.75 9.75 0 0 0 6.74-2.74L21 16"/><path d="M16 16h5v5"/>',
           link: '<path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/>',
           quote: '<path d="M16 3a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2 1 1 0 0 1 1 1v1a2 2 0 0 1-2 2 1 1 0 0 0-1 1v2a1 1 0 0 0 1 1 6 6 0 0 0 6-6V5a2 2 0 0 0-2-2z"/><path d="M5 3a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2 1 1 0 0 1 1 1v1a2 2 0 0 1-2 2 1 1 0 0 0-1 1v2a1 1 0 0 0 1 1 6 6 0 0 0 6-6V5a2 2 0 0 0-2-2z"/>',
+          keyboard: '<rect x="2" y="5" width="20" height="14" rx="2"/><path d="M6 9h.01"/><path d="M10 9h.01"/><path d="M14 9h.01"/><path d="M18 9h.01"/><path d="M6 13h.01"/><path d="M18 13h.01"/><path d="M9 13h6"/><path d="M8 17h8"/>',
           tag: '<path d="M12.586 2.586A2 2 0 0 0 11.172 2H4a2 2 0 0 0-2 2v7.172a2 2 0 0 0 .586 1.414l8.704 8.704a2.426 2.426 0 0 0 3.42 0l6.58-6.58a2.426 2.426 0 0 0 0-3.42z"/><circle cx="7.5" cy="7.5" r=".5" fill="currentColor"/>',
         };
         const icon = (n, s = 18) => `<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${P[n] || ''}</svg>`;
@@ -1218,6 +1265,14 @@
           const d = rating === 'easy' ? Math.min(30, Math.round(base * 2.5) + 1) : Math.min(30, Math.max(1, Math.round(base * 2)));
           return d === 1 ? '1 day' : `${d} days`;
         };
+        function masteryRing(id) {
+          const m = masteryOf(id);
+          const c = state.cards[id];
+          const frac = m === 'confident' ? 1 : m === 'learning' ? clamp(((c && c.interval) || 0) / 5, 0.12, 0.85) : 0;
+          const col = m === 'confident' ? '#8a9a6a' : m === 'learning' ? '#e8bd34' : 'var(--line)';
+          const label = m === 'confident' ? 'Confident' : m === 'learning' ? 'Learning' : 'Not studied yet';
+          return `<span class="tile-ring" data-mastery="${m}" role="img" aria-label="Mastery: ${label}" title="${label}"><svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="8" class="ring-track"/><circle cx="10" cy="10" r="8" class="ring-fill" style="stroke:${col};stroke-dasharray:${(frac * 50.27).toFixed(1)} 50.27"/></svg></span>`;
+        }
 
         /* ================= STUDY STREAK ================= */
         function markStudied() {
@@ -1472,12 +1527,12 @@
         const match = { category: 'technique', left: [], right: [], selL: null, selR: null, pairs: [], attempts: 0, wrong: false, done: false };
         const quiz = { qs: [], idx: 0, picked: null, answers: [], done: false, len: 10, focus: 'all', effFocus: 'all' };
         const recall = { sceneId: null, checked: false };
-        const library = { q: '', char: 'all', theme: 'all', tag: 'all', analysis: 'all' };
+        const library = { q: '', char: 'all', theme: 'all', tag: 'all', analysis: 'all', mastery: 'all' };
         function resetViewStates() {
           flash.deck = 'all'; flash.order = []; flash.idx = 0; flash.flipped = false; flash.session = []; flash.done = false; flash.focus = null;
           newMatchRound(); quiz.qs = []; quiz.idx = 0; quiz.picked = null; quiz.answers = []; quiz.done = false;
           recall.sceneId = getScenes()[0] ? getScenes()[0].id : null; recall.checked = false;
-          library.q = ''; library.char = 'all'; library.theme = 'all'; library.tag = 'all'; library.analysis = 'all';
+          library.q = ''; library.char = 'all'; library.theme = 'all'; library.tag = 'all'; library.analysis = 'all'; library.mastery = 'all';
         }
 
         /* ================= OVERVIEW ================= */
@@ -2133,6 +2188,7 @@
             if (library.analysis !== 'all' && s.analysisType !== library.analysis) return false;
             if (library.theme !== 'all' && !(s.themes || []).includes(library.theme)) return false;
             if (library.tag !== 'all' && !tagsOf(s).includes(library.tag)) return false;
+            if (library.mastery !== 'all' && masteryOf(s.id) !== library.mastery) return false;
             if (q) {
               const hay = `${s.title} ${s.fullTitle} ${s.description} ${s.character} ${(s.themes || []).join(' ')} ${tagsOf(s).map((t) => tagLabel(t)).join(' ')} ${s.cueText || ''} ${s.cue || ''} ${s.techniqueLabel || ''} ${s.meaningLabel || ''}`.toLowerCase();
               if (!hay.includes(q)) return false;
@@ -2167,6 +2223,12 @@
                 ${[...new Set(getScenes().map((s) => s.analysisType).filter(Boolean))].map((a) => `<button class="filter-chip ${library.analysis === a ? 'active' : ''}" data-action="libAnalysis" data-analysis="${esc(a)}">${icon('quote', 12)} ${esc(a)}</button>`).join('')}
               </div>` : ''}
             </div>
+            <div class="chip-row" role="group" aria-label="Filter by mastery">
+              <button class="filter-chip ${library.mastery === 'all' ? 'active' : ''}" data-action="libMastery" data-mastery="all">All mastery</button>
+              <button class="filter-chip ${library.mastery === 'new' ? 'active' : ''}" data-action="libMastery" data-mastery="new">Not started</button>
+              <button class="filter-chip ${library.mastery === 'learning' ? 'active' : ''}" data-action="libMastery" data-mastery="learning">Learning</button>
+              <button class="filter-chip ${library.mastery === 'confident' ? 'active' : ''}" data-action="libMastery" data-mastery="confident">Confident</button>
+            </div>
             <div class="chip-row" role="group" aria-label="Filter by essay tag" style="margin-bottom:18px">
               <button class="filter-chip ${library.tag === 'all' ? 'active' : ''}" data-action="libTag" data-tag="all">All essay tags</button>
               ${getTagUniverse().map((t) => `<button class="filter-chip ${library.tag === t ? 'active' : ''}" data-action="libTag" data-tag="${esc(t)}">${icon('tag', 12)} ${esc(tagLabel(t))}</button>`).join('')}
@@ -2181,7 +2243,7 @@
               ${scenes.map((s) => {
                 const saved = state.bookmarks.includes(s.id);
                 return `<button class="scene-tile" data-action="openScene" data-id="${s.id}" aria-label="Open details for ${esc(s.title)}">
-                  <span class="tile-top"><span class="tile-num">${pad2(s.id)}</span>
+                  <span class="tile-top"><span class="tile-num">${masteryRing(s.id)}${pad2(s.id)}</span>
                   <span class="icon-button tile-save ${saved ? 'saved' : ''}" data-action="toggleBookmarkStop" data-id="${s.id}" role="button" aria-label="${saved ? 'Remove bookmark' : 'Bookmark scene'}" tabindex="0">${icon('bookmark', 17)}</span></span>
                   ${cueArt(s.cue, s.cueText, 'art')}
                   <h3>${esc(s.title)}</h3>
@@ -2205,6 +2267,7 @@
                 <span class="fc-scene-tag">${icon('film', 13)} SCENE ${pad2(s.id)}</span>
                 <span class="theme-chip">${esc(s.character)}</span>
                 ${s.analysisType ? `<span class="theme-chip analysis-chip">${icon('quote', 12)} ${esc(s.analysisType)}</span>` : ''}
+                ${(() => { const m = masteryOf(s.id); return m === 'new' ? '' : `<span class="theme-chip mastery-chip mastery-${m}">${m === 'confident' ? 'Confident' : 'Learning'} · ${esc(dueLabel(s.id))}</span>`; })()}
                 ${(s.themes || []).map((t) => `<span class="theme-chip">${esc(t)}</span>`).join('')}
               </div>
               ${tagsOf(s).length ? `<div class="detail-tagrow"><span class="answer-label">ESSAY TAGS <span class="tagrow-hint">· tap a tag to filter the library</span></span><div class="detail-tags">${tagsOf(s).map((t) => `<button class="tag-chip tag-chip-btn" style="color:${tagColor(t)};border-color:${tagColor(t)}59;background:${tagColor(t)}14" data-action="modalTag" data-tag="${esc(t)}" aria-label="Show all ${esc(tagLabel(t))} scenes in the library">${icon('tag', 11)} ${esc(tagLabel(t))}</button>`).join('')}</div></div>` : ''}
@@ -2223,6 +2286,70 @@
           const payload = { exportedAt: new Date().toISOString(), sheet: getSheet().name, progress: { cards: state.cards, bookmarks: state.bookmarks, notes: state.notes, activity: state.activity } };
           downloadFile(JSON.stringify(payload, null, 2), 'scenestudy-progress-backup.json', 'application/json');
           toast('Progress backup downloaded.', 'download');
+        }
+        let pendingRestore = null;
+        function requestProgressRestore() { $('#progressFile').click(); }
+        function previewProgressRestore(file) {
+          const reader = new FileReader();
+          reader.onload = () => {
+            let payload;
+            try { payload = JSON.parse(String(reader.result)); } catch (e) { toast('That file is not valid JSON — restore cancelled.', 'alert'); return; }
+            const p = payload && payload.progress ? payload.progress : (payload && payload.cards ? payload : null);
+            if (!p || typeof p !== 'object' || !p.cards) { toast('No progress found in that file — restore cancelled.', 'alert'); return; }
+            const cardsN = Object.keys(p.cards || {}).length;
+            const marksN = (p.bookmarks || []).length;
+            const notesN = Object.keys(p.notes || {}).length;
+            const streakN = (p.activity && Number.isFinite(p.activity.streak)) ? p.activity.streak : 0;
+            const when = payload.exportedAt ? new Date(payload.exportedAt).toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric' }) : 'an unknown date';
+            pendingRestore = { cards: p.cards || {}, bookmarks: Array.isArray(p.bookmarks) ? p.bookmarks : [], notes: p.notes || {}, activity: Object.assign({ matches: 0, quizzes: 0, lastScore: null, explanations: [], streak: 0, lastStudyDay: null }, p.activity || {}) };
+            openModal(`
+              <div class="modal-head"><h2>Restore this backup?</h2><button class="icon-button" data-action="closeModal" aria-label="Close dialog">${icon('x', 20)}</button></div>
+              <div class="modal-body">
+                <p class="modal-intro">Exported ${esc(when)}${payload.sheet ? ` from “${esc(payload.sheet)}”` : ''}. This replaces the reviews, bookmarks, notes and streak currently in this browser — your scene sheet stays as it is.</p>
+                <div class="restore-facts">
+                  <div class="fact"><b>${cardsN}</b><span>${cardsN === 1 ? 'card review' : 'card reviews'}</span></div>
+                  <div class="fact"><b>${marksN}</b><span>${marksN === 1 ? 'bookmark' : 'bookmarks'}</span></div>
+                  <div class="fact"><b>${notesN}</b><span>${notesN === 1 ? 'recall note' : 'recall notes'}</span></div>
+                  <div class="fact"><b>${streakN}</b><span>day streak</span></div>
+                </div>
+                <div class="reset-actions">
+                  <button class="button secondary" data-action="closeModal">Cancel</button>
+                  <button class="button primary" data-action="applyProgressRestore">${icon('check', 16)} Restore ${plural(cardsN, 'review')}</button>
+                </div>
+              </div>`);
+          };
+          reader.onerror = () => toast('Could not read that file — restore cancelled.', 'alert');
+          reader.readAsText(file);
+        }
+        function applyProgressRestore() {
+          if (!pendingRestore) { closeModal(); return; }
+          state.cards = pendingRestore.cards;
+          state.bookmarks = pendingRestore.bookmarks;
+          state.notes = pendingRestore.notes;
+          state.activity = pendingRestore.activity;
+          pendingRestore = null;
+          save(); resetViewStates(); closeModal();
+          renderNav(); renderView();
+          toast('Backup restored — your progress is back.', 'check');
+        }
+        function openShortcuts() {
+          const row = (keys, what) => `<div class="sc-row"><b>${what}</b><span class="sc-keys">${keys.map((k) => `<kbd>${k}</kbd>`).join('')}</span></div>`;
+          openModal(`
+            <div class="modal-head"><h2>${icon('keyboard', 20)} Keyboard shortcuts</h2><button class="icon-button" data-action="closeModal" aria-label="Close dialog">${icon('x', 20)}</button></div>
+            <div class="modal-body">
+              <p class="sc-cap">FLASHCARDS</p>
+              ${row(['Space'], 'Flip the card')}
+              ${row(['←', '→'], 'Previous / next card')}
+              ${row(['1', '2', '3'], 'Rate: Again / Good / Easy')}
+              <p class="sc-cap">ESSAY QUIZ</p>
+              ${row(['1', '2', '3', '4'], 'Pick an option')}
+              ${row(['Enter', '→'], 'Next question')}
+              <p class="sc-cap">SCENE LIBRARY</p>
+              ${row(['/'], 'Jump to search')}
+              <p class="sc-cap">ANYWHERE</p>
+              ${row(['?'], 'This cheat sheet')}
+              ${row(['Esc'], 'Close a dialog')}
+            </div>`);
         }
         function confirmReset() {
           openModal(`
@@ -2273,6 +2400,7 @@
               <div style="display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end">
                 <button class="button secondary small-button" data-action="exportNotes">${icon('notes', 15)} Study notes</button>
                 <button class="button secondary small-button" data-action="exportProgress">${icon('download', 15)} Export backup</button>
+                <button class="button secondary small-button" data-action="restoreProgress">${icon('upload', 15)} Restore backup</button>
               </div>
             </div>
             <div class="progress-grid" role="list">
@@ -2393,6 +2521,10 @@
                       <span class="tool-icon ti-sage">${icon('notes', 18)}</span>
                       <span><b>Study notes (Markdown)</b><small>Every scene with tags, techniques and your own notes — ready for Notion, Docs or print.</small></span>
                     </button>
+                    <button class="tool-row" data-action="restoreProgress">
+                      <span class="tool-icon ti-sage">${icon('upload', 18)}</span>
+                      <span><b>Restore progress backup</b><small>Bring reviews, bookmarks, notes and your streak back from an exported backup JSON.</small></span>
+                    </button>
                     <button class="tool-row" data-action="downloadCSV">
                       <span class="tool-icon ti-yellow">${icon('download', 18)}</span>
                       <span><b>CSV template</b><small>Spreadsheet-friendly. Three example rows show every column.</small></span>
@@ -2474,7 +2606,11 @@
             case 'libTheme': library.theme = target.dataset.theme; renderView(); break;
             case 'libTag': library.tag = target.dataset.tag; renderView(); break;
             case 'libAnalysis': library.analysis = target.dataset.analysis; renderView(); break;
+            case 'libMastery': library.mastery = target.dataset.mastery; renderView(); break;
             case 'exportProgress': exportProgress(); break;
+            case 'restoreProgress': requestProgressRestore(); break;
+            case 'applyProgressRestore': applyProgressRestore(); break;
+            case 'shortcuts': openShortcuts(); break;
             case 'confirmReset': confirmReset(); break;
             case 'resetAll': applyReset(); break;
             case 'pickFile': $('#sheetFile').click(); break;
@@ -2511,6 +2647,11 @@
             e.target.value = '';
             handleSheetFile(f);
           }
+          if (e.target.id === 'progressFile' && e.target.files && e.target.files[0]) {
+            const f = e.target.files[0];
+            e.target.value = '';
+            previewProgressRestore(f);
+          }
         });
 
         document.addEventListener('input', (e) => {
@@ -2524,7 +2665,7 @@
               grid.innerHTML = scenes.length ? scenes.map((s) => {
                 const saved = state.bookmarks.includes(s.id);
                 return `<button class="scene-tile" data-action="openScene" data-id="${s.id}" aria-label="Open details for ${esc(s.title)}">
-                  <span class="tile-top"><span class="tile-num">${pad2(s.id)}</span>
+                  <span class="tile-top"><span class="tile-num">${masteryRing(s.id)}${pad2(s.id)}</span>
                   <span class="icon-button tile-save ${saved ? 'saved' : ''}" data-action="toggleBookmarkStop" data-id="${s.id}" role="button" aria-label="${saved ? 'Remove bookmark' : 'Bookmark scene'}" tabindex="0">${icon('bookmark', 17)}</span></span>
                   ${cueArt(s.cue, s.cueText, 'art')}
                   <h3>${esc(s.title)}</h3>
@@ -2606,7 +2747,15 @@
 
         // Escape closes modal; mobile nav toggle
         document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && modalRoot.childElementCount) closeModal(); });
+        // "?" opens the keyboard shortcut cheat sheet
+        document.addEventListener('keydown', (e) => {
+          if (e.key !== '?') return;
+          if (e.target.closest('input, textarea, select') || modalRoot.childElementCount) return;
+          e.preventDefault();
+          openShortcuts();
+        });
         $('#menuBtn').innerHTML = icon('menu', 22);
+        $('#kbdHelpBtn').innerHTML = icon('keyboard', 18);
         $('#menuBtn').addEventListener('click', () => {
           const open = document.body.classList.toggle('nav-open');
           $('#menuBtn').setAttribute('aria-expanded', String(open));
