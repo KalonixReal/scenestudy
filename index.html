@@ -1,0 +1,2259 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#efd46b" />
+    <meta name="description" content="Remember every important scene with flashcards, matching, quizzes, and recall practice. Bring your own film by uploading a custom scene sheet. Private, offline-ready study space." />
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Crect width='40' height='40' rx='10' fill='%23efd46b'/%3E%3Cpath d='m8 16 12-6 12 6-12 6Zm0 6 12 6 12-6m-24 6 12 6 12-6' fill='none' stroke='%2330352c' stroke-width='2' stroke-linejoin='round'/%3E%3C/svg%3E" />
+    <title>Hidden Figures | SceneStudy</title>
+    <style>
+      /* ============ DESIGN TOKENS ============ */
+      :root {
+        --ink: #30352c;
+        --ink-soft: #4a4f42;
+        --muted: #6e7463;
+        --line: #e3e7d8;
+        --line-strong: #d5dac7;
+        --yellow: #efd46b;
+        --yellow-deep: #e8bd34;
+        --yellow-soft: #f7e9b1;
+        --paper: #fcfcf9;
+        --card: #ffffff;
+        --sage: #a5b38e;
+        --sage-soft: #eef1e4;
+        --danger: #b3402e;
+        --danger-soft: #f9e9e4;
+        --ok: #4e7a3f;
+        --ok-soft: #eaf2e2;
+        --lav: #8d7fb0;
+        --lav-soft: #ede9f4;
+        --display: "Space Grotesk", "DM Sans", "Avenir Next", "Segoe UI", ui-sans-serif, system-ui, sans-serif;
+        --body: "DM Sans", "Avenir Next", "Segoe UI", ui-sans-serif, system-ui, sans-serif;
+        --mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+        --radius: 14px;
+        --radius-sm: 9px;
+        --shadow: 0 1px 2px rgba(48, 53, 44, 0.05), 0 8px 28px -12px rgba(48, 53, 44, 0.18);
+        --shadow-lift: 0 2px 4px rgba(48, 53, 44, 0.06), 0 16px 40px -14px rgba(48, 53, 44, 0.26);
+        --sidebar-w: 262px;
+      }
+
+      /* ============ BASE — BIGGER, FRIENDLIER TYPE ============ */
+      * { box-sizing: border-box; }
+      html { font-size: 17px; }
+      @media (min-width: 1000px) { html { font-size: 18px; } }
+      body {
+        margin: 0;
+        min-width: 320px;
+        background: var(--paper);
+        color: var(--ink);
+        font-family: var(--body);
+        line-height: 1.6;
+        font-synthesis: none;
+        text-rendering: optimizeLegibility;
+        -webkit-font-smoothing: antialiased;
+        -webkit-tap-highlight-color: transparent;
+      }
+      button, input, select, textarea { font: inherit; color: inherit; }
+      button { cursor: pointer; transition: background 0.17s, border-color 0.17s, color 0.17s, transform 0.17s, box-shadow 0.17s; }
+      button:disabled { cursor: default; }
+      a { color: inherit; text-decoration: none; }
+      svg { flex-shrink: 0; }
+      h1, h2, h3, p { margin: 0; }
+      h1, h2, h3 { font-family: var(--display); line-height: 1.22; letter-spacing: -0.015em; }
+      ::selection { color: #30352c; background: #f1d982; }
+      kbd { color: var(--ink-soft); }
+
+      :focus-visible { outline: 2px solid #a2892c; outline-offset: 3px; border-radius: 4px; }
+
+      /* Custom scrollbars */
+      * { scrollbar-width: thin; scrollbar-color: #c9cfba transparent; }
+      *::-webkit-scrollbar { width: 10px; height: 10px; }
+      *::-webkit-scrollbar-track { background: transparent; }
+      *::-webkit-scrollbar-thumb { background: #cdd3bf; border-radius: 8px; border: 3px solid transparent; background-clip: content-box; }
+      *::-webkit-scrollbar-thumb:hover { background: #b4bca4; border: 3px solid transparent; background-clip: content-box; }
+
+      .sr-only {
+        clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; width: 1px; height: 1px;
+        margin: -1px; padding: 0; position: absolute; overflow: hidden;
+      }
+      .mono { font-family: var(--mono); }
+
+      .skip-link {
+        z-index: 300; background: var(--yellow); color: var(--ink); font-weight: 650;
+        border-radius: 8px; padding: 12px 22px; position: fixed; top: -70px; left: 16px;
+        transition: top 0.2s;
+      }
+      .skip-link:focus { top: 12px; }
+
+      /* ============ APP SHELL ============ */
+      .app-shell { min-height: 100vh; }
+
+      .mobile-topbar {
+        display: none; position: sticky; top: 0; z-index: 60;
+        background: rgba(252, 252, 249, 0.92); backdrop-filter: blur(10px);
+        border-bottom: 1px solid var(--line);
+        align-items: center; justify-content: space-between; gap: 12px;
+        padding: 10px 16px;
+      }
+      .menu-btn {
+        display: grid; place-items: center; width: 44px; height: 44px;
+        background: transparent; border: 1px solid var(--line-strong); border-radius: 10px; color: var(--ink);
+      }
+      .menu-btn:hover { background: var(--sage-soft); }
+      .mobile-brand { display: flex; align-items: center; gap: 9px; font-family: var(--display); font-weight: 700; font-size: 1.1rem; letter-spacing: -0.02em; }
+      .topbar-due {
+        display: inline-flex; align-items: center; gap: 6px; font-size: 0.8rem; font-weight: 650;
+        background: var(--yellow-soft); border: 1px solid #ecd98a; color: #6d5a14;
+        padding: 6px 11px; border-radius: 999px; cursor: pointer;
+      }
+      .topbar-due:hover { background: #f3dd8d; }
+      #view:focus { outline: none; }
+
+      .sidebar {
+        z-index: 90; background: #f6f7f1; border-right: 1px solid var(--line);
+        flex-direction: column; width: var(--sidebar-w); padding: 26px 16px 18px;
+        display: flex; position: fixed; top: 0; bottom: 0; left: 0; overflow-y: auto;
+      }
+      .sidebar-brand { justify-content: space-between; align-items: center; margin-bottom: 34px; padding: 0 8px; display: flex; }
+      .brand {
+        font-family: var(--display); letter-spacing: -0.03em; white-space: nowrap;
+        align-items: center; gap: 10px; font-size: 1.35rem; font-weight: 700; display: flex;
+      }
+      .brand-mark { background: var(--yellow); border-radius: 11px; place-items: center; width: 40px; height: 40px; display: grid; box-shadow: inset 0 -2px 0 rgba(48,53,44,0.08); }
+      .brand-study { font-weight: 450; color: var(--muted); }
+      .brand-dot { color: #c5a130; }
+
+      .workspace-label {
+        color: #929986; letter-spacing: 0.16em; align-items: center; gap: 8px;
+        margin-bottom: 14px; padding: 0 13px; font-size: 0.66rem; font-weight: 700;
+        display: flex; text-transform: uppercase;
+      }
+      .workspace-dot { background: var(--sage); border-radius: 100%; width: 6px; height: 6px; }
+
+      .study-nav { flex-direction: column; gap: 4px; display: flex; }
+      .nav-item {
+        text-align: left; color: #6d7564; background: 0 0; border: 0; border-radius: 10px;
+        align-items: center; gap: 13px; width: 100%; min-height: 48px; padding: 10px 13px;
+        font-size: 0.94rem; font-weight: 500; display: flex; position: relative;
+      }
+      .nav-item:hover { color: var(--ink); background: #ecefe4; }
+      .nav-item.active { color: #393a26; background: var(--yellow); font-weight: 700; box-shadow: inset 0 -2px 0 rgba(48,53,44,0.06); }
+      .nav-count {
+        text-align: center; min-width: 22px; height: 22px; padding: 0 7px;
+        border-radius: 999px; background: #dde2d0; color: #5c6350;
+        font-size: 0.72rem; font-weight: 700; line-height: 22px; margin-left: auto;
+        font-family: var(--mono);
+      }
+      .nav-item.active .nav-count { background: rgba(255, 255, 255, 0.55); color: #4c4a1e; }
+      .nav-due-badge {
+        position: absolute; top: 7px; right: 9px; width: 10px; height: 10px; border-radius: 50%;
+        background: var(--danger); border: 2px solid #f6f7f1;
+      }
+      .nav-item.active .nav-due-badge { border-color: var(--yellow); }
+
+      .sidebar-foot { margin-top: auto; padding: 18px 10px 4px; display: flex; flex-direction: column; gap: 10px; }
+      .offline-chip {
+        display: flex; align-items: center; gap: 9px; font-size: 0.8rem; color: var(--muted);
+        background: #fdfef9; border: 1px dashed var(--line-strong); border-radius: 10px; padding: 10px 12px;
+      }
+      .offline-chip b { color: var(--ink-soft); font-weight: 650; }
+      .sidebar-version { font-size: 0.72rem; color: #828876; padding: 0 4px; }
+
+      .sidebar-overlay {
+        display: none; position: fixed; inset: 0; z-index: 80;
+        background: rgba(48, 53, 44, 0.4); backdrop-filter: blur(2px);
+      }
+      body.nav-open .sidebar-overlay { display: block; }
+
+      .main-area {
+        margin-left: var(--sidebar-w); min-height: 100vh; display: flex; flex-direction: column;
+      }
+      .view-wrap { flex: 1 0 auto; width: 100%; max-width: 1180px; margin: 0 auto; padding: 34px 36px 46px; }
+
+      .app-footer {
+        flex-shrink: 0; margin-top: auto; border-top: 1px solid var(--line);
+        padding: 18px 36px calc(18px + env(safe-area-inset-bottom, 0px));
+        display: flex; flex-wrap: wrap; gap: 8px 22px; align-items: center; justify-content: space-between;
+        color: #828876; font-size: 0.8rem; background: #fafbf5;
+      }
+      .app-footer .foot-brand { display: flex; align-items: center; gap: 7px; font-family: var(--display); font-weight: 700; color: #8d937f; }
+
+      @media (max-width: 900px) {
+        .mobile-topbar { display: flex; }
+        .sidebar {
+          transform: translateX(-104%); transition: transform 0.24s ease; width: min(86vw, 300px);
+          box-shadow: var(--shadow-lift);
+        }
+        body.nav-open .sidebar { transform: translateX(0); }
+        .main-area { margin-left: 0; }
+        .view-wrap { padding: 22px 16px 34px; }
+        .app-footer { padding: 14px 16px calc(14px + env(safe-area-inset-bottom, 0px)); }
+      }
+
+      /* ============ SHARED UI ============ */
+      .eyebrow {
+        display: inline-block; color: #8a7420; letter-spacing: 0.18em; text-transform: uppercase;
+        font-size: 0.72rem; font-weight: 800; margin-bottom: 8px;
+      }
+      .quiet-tag {
+        align-self: center; color: #8d937f; background: #f2f4ea; border: 1px solid var(--line);
+        border-radius: 999px; padding: 7px 14px; font-size: 0.76rem; font-weight: 700;
+        letter-spacing: 0.09em; text-transform: uppercase; white-space: nowrap;
+      }
+
+      .section-toolbar {
+        display: flex; gap: 16px; align-items: flex-start; justify-content: space-between;
+        margin-bottom: 20px; flex-wrap: wrap;
+      }
+      .section-toolbar h2 { font-size: 1.55rem; }
+      .section-toolbar .section-sub { color: var(--muted); margin-top: 3px; font-size: 0.98rem; }
+      .toolbar-actions { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+
+      .button {
+        display: inline-flex; align-items: center; justify-content: center; gap: 9px;
+        border-radius: 11px; border: 1px solid transparent; font-weight: 650; font-size: 0.95rem;
+        padding: 12px 20px; min-height: 47px; line-height: 1.2;
+      }
+      .button.primary { background: var(--ink); color: #fdfdf6; box-shadow: inset 0 -2px 0 rgba(0,0,0,0.25); }
+      .button.primary:hover:not(:disabled) { background: #454b3d; }
+      .button.yellow { background: var(--yellow); color: #3c3510; box-shadow: inset 0 -2px 0 rgba(48,53,44,0.1); }
+      .button.yellow:hover:not(:disabled) { background: #f3dc7e; }
+      .button.secondary { background: #fff; border-color: var(--line-strong); color: var(--ink-soft); }
+      .button.secondary:hover:not(:disabled) { border-color: #b9c1a6; background: #fbfcf6; }
+      .button.danger-button { background: #fff; border-color: #e5c4bb; color: var(--danger); }
+      .button.danger-button:hover:not(:disabled) { background: var(--danger-soft); }
+      .button:disabled { opacity: 0.45; }
+      .button.small-button { min-height: 40px; padding: 8px 14px; font-size: 0.86rem; border-radius: 9px; }
+      .text-button {
+        display: inline-flex; align-items: center; gap: 7px; background: none; border: 0;
+        color: var(--ink-soft); font-weight: 650; font-size: 0.9rem; padding: 9px 11px; border-radius: 8px;
+        min-height: 44px;
+      }
+      .text-button:hover { background: #f1f3e8; color: var(--ink); }
+
+      .select-wrap { position: relative; display: inline-flex; align-items: center; }
+      .select-wrap select {
+        appearance: none; -webkit-appearance: none; background: #fff; border: 1px solid var(--line-strong);
+        border-radius: 10px; padding: 11px 40px 11px 14px; font-weight: 600; font-size: 0.92rem;
+        color: var(--ink-soft); min-height: 47px; max-width: 100%; cursor: pointer;
+      }
+      .select-wrap select:hover { border-color: #b9c1a6; }
+      .select-wrap svg { position: absolute; right: 13px; pointer-events: none; color: var(--muted); }
+
+      input[type="text"], input[type="search"], textarea {
+        background: #fff; border: 1px solid var(--line-strong); border-radius: 11px;
+        padding: 12px 15px; font-size: 1rem; color: var(--ink); width: 100%;
+      }
+      input[type="text"]:focus, input[type="search"]:focus, textarea:focus, .select-wrap select:focus {
+        outline: 2px solid #a2892c; outline-offset: 1px; border-color: #cdb557;
+      }
+      textarea { resize: vertical; line-height: 1.6; }
+      label { font-size: 0.88rem; font-weight: 700; color: var(--ink-soft); }
+
+      .activity-instructions {
+        display: flex; align-items: center; gap: 12px; background: var(--sage-soft);
+        border: 1px solid #dfe5cf; border-radius: 12px; padding: 13px 17px; margin-bottom: 18px;
+        color: #55604a; font-size: 0.95rem;
+      }
+      .activity-instructions p { flex: 1; }
+      .activity-instructions span { font-weight: 800; font-family: var(--mono); font-size: 0.85rem; color: #43503a; white-space: nowrap; }
+
+      .match-progress { height: 9px; background: #edf0e2; border-radius: 999px; overflow: hidden; margin-bottom: 22px; border: 1px solid #e4e8d5; }
+      .match-progress i { display: block; height: 100%; background: linear-gradient(90deg, var(--yellow), var(--yellow-deep)); border-radius: 999px; transition: width 0.35s ease; }
+
+      .technique-footer {
+        display: flex; gap: 14px; margin-top: 26px; background: #fbfcf5; border: 1px solid var(--line);
+        border-radius: 13px; padding: 16px 18px; color: var(--muted); font-size: 0.92rem;
+      }
+      .technique-footer svg { color: #c5a130; margin-top: 2px; }
+      .technique-footer strong { color: var(--ink); display: block; margin-bottom: 2px; font-size: 0.95rem; }
+      .technique-footer p { line-height: 1.55; }
+
+      .empty-note {
+        text-align: center; color: var(--muted); background: #fbfcf5; border: 1.5px dashed var(--line-strong);
+        border-radius: 14px; padding: 34px 22px; font-size: 1rem;
+      }
+
+      /* ============ OVERVIEW ============ */
+      .hero { position: relative; overflow: hidden; background: linear-gradient(135deg, #fdfcf4 0%, #f7f3dd 58%, #f3ead0 100%); border: 1px solid #ece4c2; border-radius: 20px; padding: 34px 36px 30px; margin-bottom: 30px; }
+      .hero::after {
+        content: ""; position: absolute; right: -70px; top: -70px; width: 260px; height: 260px; border-radius: 50%;
+        background: radial-gradient(circle, rgba(239, 212, 107, 0.5), rgba(239, 212, 107, 0) 68%);
+      }
+      .hero h1 { font-size: clamp(1.75rem, 3.4vw, 2.5rem); letter-spacing: -0.025em; max-width: 21ch; }
+      .hero .hero-sub { color: var(--ink-soft); margin-top: 10px; max-width: 58ch; font-size: 1.05rem; line-height: 1.65; }
+      .hero-actions { display: flex; gap: 11px; margin-top: 22px; flex-wrap: wrap; }
+      .hero-chip {
+        display: inline-flex; align-items: center; gap: 8px; background: rgba(255,255,255,0.75);
+        border: 1px solid #e8dfb5; border-radius: 999px; padding: 7px 14px; font-size: 0.82rem; font-weight: 700; color: #6d6428;
+        margin-bottom: 16px;
+      }
+
+      .stat-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 13px; margin-bottom: 32px; }
+      .stat-tile { background: var(--card); border: 1px solid var(--line); border-radius: 15px; padding: 17px 18px; box-shadow: var(--shadow); }
+      .stat-tile .stat-num { font-family: var(--display); font-size: 1.9rem; font-weight: 700; letter-spacing: -0.03em; line-height: 1.1; }
+      .stat-tile .stat-label { color: var(--muted); font-size: 0.83rem; font-weight: 600; margin-top: 3px; }
+      .stat-tile.accent { background: linear-gradient(150deg, #fffdf2, #fdf4cd); border-color: #eedd9a; }
+      .stat-tile.accent .stat-num { color: #6d5a14; }
+
+      .strategy-heading { display: flex; align-items: baseline; gap: 14px; margin-bottom: 16px; flex-wrap: wrap; }
+      .strategy-heading h2 { font-size: 1.45rem; }
+      .strategy-heading span { color: var(--muted); font-size: 0.95rem; }
+      .strategy-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(255px, 1fr)); gap: 14px; }
+      .strategy-card {
+        text-align: left; background: var(--card); border: 1px solid var(--line); border-radius: 16px;
+        padding: 19px 20px; display: flex; flex-direction: column; gap: 8px; box-shadow: var(--shadow);
+        transition: transform 0.18s, box-shadow 0.18s, border-color 0.18s;
+      }
+      .strategy-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-lift); border-color: #d8ddb4; }
+      .strategy-card .sc-top { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+      .strategy-card h3 { font-size: 1.06rem; }
+      .strategy-card p { color: var(--muted); font-size: 0.92rem; line-height: 1.55; flex: 1; }
+      .strategy-card .sc-action { display: inline-flex; align-items: center; gap: 6px; color: #8a6d1d; font-weight: 700; font-size: 0.86rem; }
+      .activity-icon { border-radius: 10px; display: grid; place-items: center; width: 38px; height: 38px; }
+      .activity-icon.yellow { background: var(--yellow-soft); color: #8a6d1d; }
+      .activity-icon.sage { background: var(--sage-soft); color: #5c6b47; }
+      .activity-icon.lavender { background: var(--lav-soft); color: var(--lav); }
+
+      /* ============ FLASHCARDS ============ */
+      .study-layout { display: grid; grid-template-columns: minmax(0, 1fr) 300px; gap: 22px; align-items: start; }
+      @media (max-width: 1080px) { .study-layout { grid-template-columns: 1fr; } }
+
+      .flashcard-zone { position: relative; }
+      .flashcard {
+        position: relative; background: var(--card); border: 1px solid var(--line); border-radius: 20px;
+        min-height: 430px; padding: 30px 32px; display: flex; flex-direction: column;
+        box-shadow: var(--shadow); transform-origin: center;
+      }
+      .flashcard.flipping { animation: cardpulse 0.3s ease; }
+      @keyframes cardpulse { 0% { transform: scale(0.985); } 100% { transform: scale(1); } }
+      .flashcard .fc-top { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-bottom: 14px; }
+      .fc-scene-tag { display: inline-flex; align-items: center; gap: 8px; font-family: var(--mono); font-weight: 700; font-size: 0.82rem; color: #8a6d1d; background: var(--yellow-soft); border-radius: 8px; padding: 5px 10px; }
+      .fc-actions { display: flex; gap: 4px; }
+      .icon-button {
+        display: grid; place-items: center; width: 42px; height: 42px; border-radius: 10px;
+        border: 1px solid transparent; background: transparent; color: var(--muted);
+      }
+      .icon-button:hover { background: #f3f5ea; color: var(--ink); }
+      .icon-button.saved { color: #8a6d1d; background: var(--yellow-soft); }
+      .fc-art { align-self: center; color: #6f7562; margin: 4px 0 10px; }
+      .fc-art svg { width: min(300px, 60vw); height: auto; }
+      .fc-title { font-size: 1.5rem; text-align: center; letter-spacing: -0.02em; }
+      .fc-hint { text-align: center; color: var(--muted); margin-top: 8px; font-size: 0.95rem; }
+
+      .fc-back-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 13px; margin-top: 6px; }
+      .fc-block { background: #fbfcf5; border: 1px solid var(--line); border-radius: 12px; padding: 14px 16px; }
+      .fc-block h4 { margin: 0 0 6px; font-size: 0.72rem; letter-spacing: 0.14em; text-transform: uppercase; color: #8a7420; font-family: var(--body); }
+      .fc-block p { font-size: 0.95rem; line-height: 1.6; color: var(--ink-soft); }
+      .fc-fulltitle { font-size: 1.18rem; margin-bottom: 4px; }
+      .fc-desc { color: var(--ink-soft); line-height: 1.65; font-size: 1rem; }
+      .theme-chips { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 14px; }
+      .tag-chip { display:inline-flex; align-items:center; gap:5px; border:1px dashed #b3bb9f; color:#5d6352; background:transparent; border-radius:999px; padding:3px 10px; font-size:0.76rem; font-weight:600; letter-spacing:0.01em; }
+      .tile-tags { color:#757b69; font-size:0.76rem; font-weight:600; font-family:var(--mono); margin-top:2px; }
+      .quiz-tagrow { margin-bottom:10px; }
+      .quiz-setup { display:grid; grid-template-columns: 1.6fr 1fr; gap:18px; align-items:start; }
+      .setup-card { background:#fff; border:1px solid var(--line); border-radius:16px; padding:22px; }
+      .setup-grid { display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-top:12px; }
+      .setup-item { display:flex; gap:10px; align-items:flex-start; }
+      .setup-icn { flex:none; width:34px; height:34px; border-radius:10px; display:grid; place-items:center; background:#f4f6ec; color:#5d6352; border:1px solid var(--line); }
+      .setup-item b { font-size:0.92rem; display:block; }
+      .setup-item p { color:var(--muted); font-size:0.84rem; line-height:1.45; margin-top:2px; }
+      .setup-controls .setup-label { display:block; font-size:0.76rem; font-weight:700; text-transform:uppercase; letter-spacing:0.07em; color:var(--muted); margin:12px 0 6px; }
+      .setup-controls .select-wrap { width:100%; }
+      .setup-controls select { width:100%; }
+      .setup-note { color:var(--muted); font-size:0.8rem; margin-top:12px; line-height:1.5; }
+      .skill-breakdown { width:100%; max-width:420px; margin:18px auto 6px; text-align:left; border:1px solid var(--line); border-radius:12px; padding:10px 14px; background:#fff; }
+      .skill-row { display:flex; justify-content:space-between; align-items:center; padding:5px 0; font-size:0.86rem; border-bottom:1px dashed #eef0e6; }
+      .skill-row:last-child { border-bottom:0; }
+      .skill-row.perfect { color:#5c7046; font-weight:600; }
+      .skill-row.weak { color:#a3513b; font-weight:600; }
+      .skill-score { font-variant-numeric:tabular-nums; }
+      .detail-tagrow { margin-top:14px; }
+      .detail-tags { display:flex; flex-wrap:wrap; gap:7px; margin-top:8px; }
+      .essay-angle { display:flex; gap:8px; align-items:flex-start; background:#f7f8ef; border:1px dashed #d5dcc4; border-radius:10px; padding:10px 12px; margin:12px 0 2px; font-size:0.9rem; color:var(--ink-soft); line-height:1.5; }
+      .essay-angle b { color:var(--ink); }
+      .essay-angle svg { flex:none; margin-top:2px; color:#8a7420; }
+      @media (max-width: 880px) { .quiz-setup { grid-template-columns: 1fr; } .setup-grid { grid-template-columns: 1fr; } }
+      .theme-chip { background: var(--sage-soft); color: #55604a; border: 1px solid #dfe5cf; padding: 4px 12px; border-radius: 999px; font-size: 0.78rem; font-weight: 700; }
+      .flip-hint { text-align: center; color: var(--muted); font-size: 0.82rem; margin-top: 14px; }
+      .flip-hint kbd { font-family: var(--mono); background: #f1f3e8; border: 1px solid var(--line-strong); border-bottom-width: 2px; border-radius: 5px; padding: 1px 6px; font-size: 0.76rem; }
+
+      .rate-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: auto; padding-top: 22px; }
+      .rate-btn {
+        border-radius: 12px; border: 1px solid var(--line-strong); background: #fff;
+        display: flex; flex-direction: column; align-items: center; gap: 2px; padding: 11px 8px; min-height: 62px; font-weight: 700; font-size: 0.95rem;
+      }
+      .rate-btn small { display: block; font-size: 0.74rem; color: var(--muted); font-weight: 600; }
+      .rate-btn:hover { border-color: #b9c1a6; transform: translateY(-1px); box-shadow: var(--shadow); }
+      .rate-btn.again { color: var(--danger); } .rate-btn.again:hover { border-color: #dba391; background: #fdf5f2; }
+      .rate-btn.good { color: #6b6f2e; } .rate-btn.good:hover { border-color: #cdc98a; background: #fbfaef; }
+      .rate-btn.easy { color: var(--ok); } .rate-btn.easy:hover { border-color: #a9c495; background: #f4f9ee; }
+
+      .card-progress { display: flex; align-items: center; gap: 14px; margin-bottom: 14px; }
+      .card-progress .card-count { font-family: var(--mono); font-size: 0.85rem; color: var(--muted); font-weight: 700; white-space: nowrap; }
+      .card-progress .match-progress { flex: 1; margin-bottom: 0; }
+
+      .complete-card { align-items: center; justify-content: center; text-align: center; gap: 10px; min-height: 380px; }
+      .completion-icon {
+        width: 64px; height: 64px; border-radius: 50%; background: var(--yellow-soft); color: #8a6d1d;
+        display: grid; place-items: center; margin-bottom: 6px;
+      }
+      .complete-card h3 { font-size: 1.45rem; }
+      .complete-card p { color: var(--muted); max-width: 40ch; }
+
+      .flash-aside { display: flex; flex-direction: column; gap: 15px; position: sticky; top: 24px; }
+      .aside-card { background: var(--card); border: 1px solid var(--line); border-radius: 15px; padding: 17px 18px; box-shadow: var(--shadow); }
+      .aside-card h3 { font-size: 0.98rem; margin-bottom: 10px; }
+      .mastery-row { display: flex; align-items: center; gap: 10px; margin-bottom: 9px; font-size: 0.9rem; }
+      .mastery-row:last-child { margin-bottom: 0; }
+      .mastery-dot { width: 11px; height: 11px; border-radius: 4px; flex-shrink: 0; }
+      .mastery-row b { margin-left: auto; font-family: var(--mono); font-size: 0.88rem; }
+      .mastery-bar { height: 8px; border-radius: 999px; background: #eef0e4; overflow: hidden; display: flex; margin-top: 12px; }
+      .mastery-bar i { height: 100%; transition: width 0.3s; }
+      .kbd-row { display: flex; justify-content: space-between; align-items: center; padding: 7px 0; border-bottom: 1px dashed var(--line); font-size: 0.86rem; color: var(--muted); }
+      .kbd-row:last-child { border-bottom: 0; }
+      .kbd-row kbd { font-family: var(--mono); font-size: 0.76rem; background: #f1f3e8; border: 1px solid var(--line-strong); border-bottom-width: 2px; border-radius: 5px; padding: 2px 7px; color: var(--ink-soft); }
+
+      /* ============ MATCHING ============ */
+      .matching-grid { display: grid; grid-template-columns: 1fr 52px 1fr; gap: 8px; align-items: stretch; }
+      @media (max-width: 760px) { .matching-grid { grid-template-columns: 1fr; } .matching-link { display: none; } }
+      .column-label {
+        display: flex; justify-content: space-between; align-items: center; letter-spacing: 0.14em;
+        text-transform: uppercase; color: #7d8371; font-size: 0.72rem; font-weight: 800; margin: 2px 4px 9px;
+      }
+      .match-list { display: flex; flex-direction: column; gap: 9px; }
+      .match-item {
+        text-align: left; background: var(--card); border: 1.5px solid var(--line); border-radius: 13px;
+        padding: 13px 15px; display: flex; align-items: center; gap: 12px; min-height: 62px;
+        font-size: 0.98rem; line-height: 1.4; transition: border-color 0.15s, background 0.15s, transform 0.15s, opacity 0.2s;
+        box-shadow: var(--shadow);
+      }
+      .match-item strong { font-weight: 700; font-family: var(--display); letter-spacing: -0.01em; font-size: 1rem; }
+      .match-item:not(:disabled):hover { border-color: #c8cfb0; transform: translateY(-1px); }
+      .match-item.selected { border-color: #c5a130; background: #fffaea; box-shadow: 0 0 0 3px rgba(239, 212, 107, 0.35); }
+      .match-item.matched { border-color: #b9cfa4; background: var(--ok-soft); opacity: 0.82; }
+      .match-item.matched strong { color: #4e6a3c; }
+      .match-item.wrong { animation: shake 0.4s ease; border-color: #dba391; background: var(--danger-soft); }
+      @keyframes shake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-6px); } 75% { transform: translateX(6px); } }
+      .match-number { font-family: var(--mono); font-size: 0.78rem; font-weight: 700; color: #7d8371; background: #f1f3e8; border-radius: 7px; padding: 4px 8px; flex-shrink: 0; }
+      .match-check { margin-left: auto; color: var(--ok); display: grid; place-items: center; width: 22px; }
+      .matching-link { display: grid; place-items: center; color: #c2c8b2; }
+      .match-bottom { margin-top: 20px; min-height: 30px; color: var(--muted); font-size: 0.98rem; }
+      .match-success {
+        display: flex; align-items: center; gap: 15px; background: var(--ok-soft); border: 1px solid #cfe0bd;
+        border-radius: 14px; padding: 16px 19px; color: #3f5a30;
+      }
+      .match-success h3 { color: #33501f; font-size: 1.2rem; }
+      .match-success p { font-size: 0.95rem; }
+      .error-text { color: var(--danger); font-weight: 600; }
+
+      /* ============ QUIZ ============ */
+      .quiz-body h3 { font-size: 1.35rem; margin-bottom: 6px; }
+      .quiz-clue { color: var(--ink-soft); font-size: 1.02rem; line-height: 1.65; margin-bottom: 20px; max-width: 72ch; }
+      .quiz-clue.scene-name { font-family: var(--display); font-weight: 700; color: var(--ink); font-size: 1.15rem; }
+      .quiz-topline { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; gap: 12px; color: var(--muted); font-size: 0.92rem; font-weight: 600; }
+      .quiz-topline b { color: var(--ink); font-size: 1rem; }
+      .quiz-options { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 11px; }
+      .quiz-option {
+        text-align: left; background: var(--card); border: 1.5px solid var(--line); border-radius: 13px;
+        padding: 15px 16px; display: flex; align-items: center; gap: 13px; min-height: 64px; font-size: 0.98rem;
+        font-weight: 600; line-height: 1.45; box-shadow: var(--shadow);
+      }
+      .quiz-option:not(:disabled):hover { border-color: #c8cfb0; transform: translateY(-1px); }
+      .quiz-option:disabled { opacity: 0.88; }
+      .quiz-option.correct { border-color: #9fbf83; background: var(--ok-soft); box-shadow: 0 0 0 3px rgba(165, 179, 142, 0.3); }
+      .quiz-option.incorrect { border-color: #dba391; background: var(--danger-soft); }
+      .option-letter {
+        font-family: var(--mono); font-weight: 800; font-size: 0.85rem; color: #6d7564;
+        background: #f1f3e8; border-radius: 8px; width: 30px; height: 30px; display: grid; place-items: center; flex-shrink: 0;
+      }
+      .quiz-option.correct .option-letter { background: #d8e7c6; color: #3f5a30; }
+      .quiz-option.incorrect .option-letter { background: #f2d3c8; color: var(--danger); }
+      .quiz-option .opt-check { margin-left: auto; }
+      .quiz-option.correct .opt-check { color: var(--ok); }
+      .quiz-option.incorrect .opt-check { color: var(--danger); }
+      .quiz-feedback { border-radius: 13px; padding: 15px 18px; margin-top: 15px; font-size: 0.96rem; line-height: 1.6; animation: rise 0.25s ease; }
+      @keyframes rise { from { opacity: 0; transform: translateY(7px); } to { opacity: 1; transform: none; } }
+      .quiz-feedback.positive { background: var(--ok-soft); border: 1px solid #cfe0bd; color: #3c5730; }
+      .quiz-feedback.negative { background: var(--danger-soft); border: 1px solid #eed3c9; color: #7d4030; }
+      .quiz-feedback strong { display: block; margin-bottom: 3px; }
+      .quiz-actions { display: flex; justify-content: flex-end; margin-top: 18px; }
+      .quiz-results { text-align: center; background: var(--card); border: 1px solid var(--line); border-radius: 20px; padding: 34px 26px; box-shadow: var(--shadow); }
+      .result-top { display: flex; flex-direction: column; align-items: center; gap: 9px; margin-bottom: 20px; }
+      .result-top h3 { font-size: 1.5rem; }
+      .result-top p { color: var(--muted); max-width: 48ch; }
+      .quiz-score { display: flex; align-items: baseline; gap: 7px; font-family: var(--display); }
+      .quiz-score b { font-size: 2.9rem; letter-spacing: -0.04em; }
+      .quiz-score span { font-size: 1.3rem; color: var(--muted); font-weight: 600; }
+      .missed-scenes { text-align: left; display: flex; flex-direction: column; gap: 8px; margin-top: 8px; }
+      .revisit-row {
+        display: flex; align-items: center; gap: 13px; background: #fff; border: 1px solid var(--line);
+        border-radius: 11px; padding: 11px 15px; font-size: 0.95rem; text-align: left;
+      }
+      .revisit-row:hover { border-color: #c8cfb0; background: #fdfef8; }
+      .revisit-row strong { font-family: var(--display); }
+      .revisit-row span:last-child { margin-left: auto; display: inline-flex; align-items: center; gap: 6px; color: #8a6d1d; font-weight: 700; font-size: 0.86rem; white-space: nowrap; }
+
+      /* ============ RECALL ============ */
+      .recall-layout { display: grid; grid-template-columns: minmax(0, 1fr) 330px; gap: 22px; align-items: start; }
+      @media (max-width: 1000px) { .recall-layout { grid-template-columns: 1fr; } }
+      .writing-area { background: var(--card); border: 1px solid var(--line); border-radius: 18px; padding: 24px 26px; box-shadow: var(--shadow); }
+      .writing-area h3 { font-size: 1.3rem; margin-bottom: 6px; }
+      .writing-prompt { color: var(--muted); font-size: 0.95rem; margin-bottom: 18px; line-height: 1.6; }
+      .writing-area textarea { min-height: 220px; }
+      .writing-meta { display: flex; justify-content: space-between; color: var(--muted); font-size: 0.84rem; margin-top: 9px; }
+      .writing-meta span { display: inline-flex; align-items: center; gap: 6px; }
+      .writing-actions { display: flex; gap: 11px; margin-top: 16px; flex-wrap: wrap; }
+      .explanation-reference { position: sticky; top: 24px; }
+      .reference-panel { background: var(--card); border: 1px solid var(--line); border-radius: 16px; padding: 20px 22px; box-shadow: var(--shadow); }
+      .reference-panel h3 { font-size: 1.25rem; margin-bottom: 12px; }
+      .answer-block { background: #fbfcf5; border: 1px solid var(--line); border-radius: 11px; padding: 13px 15px; margin-bottom: 11px; }
+      .answer-label { display: block; font-size: 0.7rem; letter-spacing: 0.15em; text-transform: uppercase; color: #8a7420; font-weight: 800; margin-bottom: 5px; }
+      .answer-block p { font-size: 0.94rem; line-height: 1.6; color: var(--ink-soft); }
+      .self-check { margin-top: 14px; display: flex; flex-direction: column; gap: 9px; }
+      .self-check strong { font-size: 0.95rem; }
+      .self-check label { display: flex; gap: 10px; align-items: flex-start; font-size: 0.92rem; font-weight: 500; color: var(--ink-soft); cursor: pointer; }
+      .self-check input[type="checkbox"] { width: 19px; height: 19px; accent-color: #8a9a6a; margin-top: 2px; flex-shrink: 0; }
+      .self-check small { color: var(--muted); font-size: 0.8rem; }
+      .reference-art { display: grid; place-items: center; padding: 8px 0 14px; color: #6f7562; }
+      .reference-art svg { width: min(250px, 100%); height: auto; }
+      .reference-aside h3 { font-size: 1.2rem; margin-bottom: 6px; }
+      .reference-aside p { color: var(--muted); font-size: 0.93rem; line-height: 1.6; }
+      .reference-hint { display: flex; gap: 11px; background: var(--yellow-soft); border: 1px solid #ecd98a; border-radius: 11px; padding: 12px 14px; color: #6d5a14; font-size: 0.88rem; margin-top: 15px; }
+
+      /* ============ LIBRARY ============ */
+      .library-controls { display: flex; gap: 12px; margin-bottom: 20px; flex-wrap: wrap; align-items: center; }
+      .library-controls .search-box { position: relative; flex: 1; min-width: 220px; max-width: 380px; }
+      .library-controls .search-box svg { position: absolute; left: 13px; top: 50%; transform: translateY(-50%); color: var(--muted); }
+      .library-controls .search-box input { padding-left: 42px; min-height: 47px; }
+      .chip-row { display: flex; gap: 7px; flex-wrap: wrap; }
+      .filter-chip {
+        border: 1px solid var(--line-strong); background: #fff; border-radius: 999px; padding: 8px 15px;
+        font-size: 0.84rem; font-weight: 650; color: var(--muted); min-height: 40px;
+      }
+      .filter-chip:hover { border-color: #b9c1a6; color: var(--ink); }
+      .filter-chip.active { background: var(--ink); border-color: var(--ink); color: #fdfdf6; }
+      .library-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 14px; }
+      .scene-tile {
+        text-align: left; background: var(--card); border: 1px solid var(--line); border-radius: 16px;
+        padding: 17px 18px; display: flex; flex-direction: column; gap: 9px; box-shadow: var(--shadow);
+        transition: transform 0.16s, box-shadow 0.16s, border-color 0.16s;
+      }
+      .scene-tile:hover { transform: translateY(-3px); box-shadow: var(--shadow-lift); border-color: #d8ddb4; }
+      .scene-tile .tile-top { display: flex; align-items: center; justify-content: space-between; }
+      .scene-tile .tile-num { font-family: var(--mono); font-size: 0.8rem; font-weight: 700; color: #7d8371; }
+      .scene-tile .tile-save { width: 36px; height: 36px; }
+      .scene-tile svg.art { width: 100%; height: auto; color: #6f7562; }
+      .scene-tile h3 { font-size: 1.08rem; line-height: 1.3; }
+      .scene-tile .tile-char { color: var(--muted); font-size: 0.84rem; font-weight: 600; }
+      .library-count { color: var(--muted); font-size: 0.88rem; margin-bottom: 14px; }
+
+      /* ============ PROGRESS ============ */
+      .progress-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(165px, 1fr)); gap: 13px; margin-bottom: 28px; }
+      .scene-status-list { display: flex; flex-direction: column; gap: 8px; max-height: 480px; overflow-y: auto; padding: 3px; margin: -3px; }
+      .status-row {
+        display: flex; align-items: center; gap: 13px; background: var(--card); border: 1px solid var(--line);
+        border-radius: 11px; padding: 11px 15px; font-size: 0.95rem;
+      }
+      .status-row .mono { color: #7d8371; font-size: 0.8rem; font-weight: 700; }
+      .status-row .st-title { font-weight: 650; font-family: var(--display); flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+      .status-pill { border-radius: 999px; font-size: 0.76rem; font-weight: 700; padding: 4px 12px; white-space: nowrap; }
+      .status-pill.confident { background: var(--ok-soft); color: #44632f; }
+      .status-pill.learning { background: var(--yellow-soft); color: #6d5a14; }
+      .status-pill.new { background: #f1f3e8; color: #8d937f; }
+      .status-pill.due { background: var(--danger-soft); color: var(--danger); }
+      .progress-actions { display: flex; gap: 11px; margin-top: 24px; flex-wrap: wrap; }
+      .section-gap { height: 30px; }
+      .progress-h2 { font-size: 1.3rem; margin-bottom: 13px; }
+
+      /* ============ SCENE SHEET MANAGER ============ */
+      .sheet-layout { display: grid; grid-template-columns: minmax(0, 1fr) 340px; gap: 22px; align-items: start; }
+      @media (max-width: 1000px) { .sheet-layout { grid-template-columns: 1fr; } }
+      .sheet-card { background: var(--card); border: 1px solid var(--line); border-radius: 17px; padding: 22px 24px; box-shadow: var(--shadow); }
+      .sheet-card h3 { font-size: 1.2rem; margin-bottom: 5px; }
+      .sheet-card .sheet-sub { color: var(--muted); font-size: 0.93rem; margin-bottom: 17px; line-height: 1.6; }
+      .sheet-source-badge {
+        display: inline-flex; align-items: center; gap: 7px; border-radius: 999px; padding: 5px 13px;
+        font-size: 0.78rem; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 13px;
+      }
+      .sheet-source-badge.builtin { background: var(--sage-soft); color: #55604a; border: 1px solid #dfe5cf; }
+      .sheet-source-badge.custom { background: var(--yellow-soft); color: #6d5a14; border: 1px solid #ecd98a; }
+      .sheet-facts { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 11px; margin-bottom: 17px; }
+      .sheet-fact { background: #fbfcf5; border: 1px solid var(--line); border-radius: 11px; padding: 11px 14px; }
+      .sheet-fact b { display: block; font-family: var(--display); font-size: 1.35rem; letter-spacing: -0.02em; }
+      .sheet-fact span { color: var(--muted); font-size: 0.78rem; font-weight: 650; }
+      .sheet-theme-tags { display: flex; flex-wrap: wrap; gap: 7px; }
+      .dropzone {
+        border: 2px dashed var(--line-strong); border-radius: 15px; background: #fdfef9;
+        padding: 34px 24px; text-align: center; transition: border-color 0.18s, background 0.18s;
+        cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 9px;
+      }
+      .dropzone:hover, .dropzone.dragover { border-color: #c5a130; background: #fffaea; }
+      .dropzone .dz-icon { width: 52px; height: 52px; border-radius: 14px; background: var(--yellow-soft); color: #8a6d1d; display: grid; place-items: center; }
+      .dropzone b { font-size: 1.05rem; font-family: var(--display); }
+      .dropzone p { color: var(--muted); font-size: 0.88rem; max-width: 46ch; line-height: 1.55; }
+      .sheet-error {
+        background: var(--danger-soft); border: 1px solid #eed3c9; color: #7d4030; border-radius: 12px;
+        padding: 14px 17px; font-size: 0.93rem; line-height: 1.6; margin-top: 14px;
+      }
+      .sheet-error strong { display: flex; align-items: center; gap: 8px; margin-bottom: 4px; }
+      .sheet-error ul { margin: 8px 0 0; padding-left: 20px; }
+      .sheet-ok {
+        background: var(--ok-soft); border: 1px solid #cfe0bd; color: #3c5730; border-radius: 12px;
+        padding: 14px 17px; font-size: 0.94rem; line-height: 1.6; margin-top: 14px;
+        display: flex; gap: 11px; align-items: flex-start;
+      }
+      .sheet-tools { display: flex; flex-direction: column; gap: 15px; position: sticky; top: 24px; }
+      .tool-list { display: flex; flex-direction: column; gap: 8px; }
+      .tool-row {
+        display: flex; align-items: center; gap: 13px; text-align: left; background: #fff;
+        border: 1px solid var(--line); border-radius: 12px; padding: 13px 15px;
+      }
+      .tool-row:hover { border-color: #c8cfb0; background: #fdfef8; }
+      .tool-row .tool-icon { width: 38px; height: 38px; border-radius: 10px; display: grid; place-items: center; flex-shrink: 0; }
+      .tool-row b { display: block; font-size: 0.94rem; }
+      .tool-row small { color: var(--muted); font-size: 0.82rem; line-height: 1.4; display: block; }
+      .tool-row .ti-yellow { background: var(--yellow-soft); color: #8a6d1d; }
+      .tool-row .ti-sage { background: var(--sage-soft); color: #55604a; }
+      .tool-row .ti-lav { background: var(--lav-soft); color: var(--lav); }
+      .schema-note { background: #f6f7f1; border: 1px solid var(--line); border-radius: 12px; padding: 14px 16px; font-size: 0.85rem; color: var(--ink-soft); line-height: 1.6; }
+      .schema-note code { font-family: var(--mono); font-size: 0.8rem; background: #ecefe2; border-radius: 5px; padding: 1.5px 6px; }
+      .schema-note details { margin-top: 8px; }
+      .schema-note summary { cursor: pointer; font-weight: 700; color: var(--ink); font-size: 0.88rem; }
+      .schema-note pre { background: #30352c; color: #f3f4ea; border-radius: 9px; padding: 13px 15px; overflow-x: auto; font-size: 0.78rem; line-height: 1.55; margin: 10px 0 0; }
+
+      /* ============ MODAL & TOAST ============ */
+      .modal-backdrop {
+        position: fixed; inset: 0; z-index: 200; background: rgba(48, 53, 44, 0.45);
+        backdrop-filter: blur(3px); display: grid; place-items: center; padding: 20px; animation: fade 0.18s ease;
+      }
+      @keyframes fade { from { opacity: 0; } to { opacity: 1; } }
+      .modal {
+        background: var(--paper); border-radius: 20px; max-width: 680px; width: 100%;
+        max-height: min(86vh, 780px); display: flex; flex-direction: column; box-shadow: var(--shadow-lift);
+        animation: pop 0.22s cubic-bezier(0.2, 0.9, 0.3, 1.2);
+      }
+      @keyframes pop { from { opacity: 0; transform: scale(0.94) translateY(10px); } to { opacity: 1; transform: none; } }
+      .modal-head {
+        display: flex; align-items: flex-start; justify-content: space-between; gap: 14px;
+        padding: 22px 24px 14px; border-bottom: 1px solid var(--line);
+      }
+      .modal-head h2 { font-size: 1.35rem; letter-spacing: -0.02em; }
+      .modal-body { padding: 20px 24px; overflow-y: auto; }
+      .modal-intro { color: var(--ink-soft); font-size: 1rem; line-height: 1.65; margin-bottom: 18px; }
+      .modal .scene-art-lg { display: grid; place-items: center; color: #6f7562; margin-bottom: 14px; }
+      .modal .scene-art-lg svg { width: min(320px, 80%); }
+      .detail-block { background: #fbfcf5; border: 1px solid var(--line); border-radius: 12px; padding: 14px 17px; margin-bottom: 11px; }
+      .detail-block .answer-label { display: block; font-size: 0.7rem; letter-spacing: 0.15em; text-transform: uppercase; color: #8a7420; font-weight: 800; margin-bottom: 5px; }
+      .detail-block p { font-size: 0.97rem; line-height: 1.65; color: var(--ink-soft); }
+      .detail-meta { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 16px; align-items: center; }
+      .reset-actions { display: flex; gap: 11px; justify-content: flex-end; flex-wrap: wrap; margin-top: 20px; }
+
+      .toast-root { position: fixed; bottom: 22px; left: 50%; transform: translateX(-50%); z-index: 400; display: flex; flex-direction: column; gap: 9px; align-items: center; width: min(92vw, 480px); pointer-events: none; }
+      .toast {
+        background: var(--ink); color: #f5f6ec; border-radius: 12px; padding: 13px 19px;
+        font-size: 0.93rem; font-weight: 600; box-shadow: var(--shadow-lift); display: flex; gap: 10px; align-items: center;
+        animation: toastin 0.28s cubic-bezier(0.2, 0.9, 0.3, 1.15); max-width: 100%;
+      }
+      .toast svg { color: var(--yellow); flex-shrink: 0; }
+      .toast.leaving { opacity: 0; transform: translateY(8px); transition: opacity 0.25s, transform 0.25s; }
+      @keyframes toastin { from { opacity: 0; transform: translateY(12px) scale(0.97); } to { opacity: 1; transform: none; } }
+
+      @media (max-width: 560px) {
+        .hero { padding: 24px 20px; }
+        .flashcard { padding: 22px 18px; min-height: 400px; }
+        .fc-title { font-size: 1.28rem; }
+        .rate-row { grid-template-columns: 1fr; }
+        .rate-btn { flex-direction: row; justify-content: space-between; min-height: 52px; padding: 10px 16px; }
+        .quiz-options { grid-template-columns: 1fr; }
+        .section-toolbar h2 { font-size: 1.32rem; }
+        .view-wrap { padding: 18px 13px 30px; }
+      }
+
+      @media print { .sidebar, .mobile-topbar, .app-footer { display: none !important; } .main-area { margin: 0; } }
+
+      @media (prefers-reduced-motion: reduce) {
+        *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+      }
+    </style>
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <div class="app-shell">
+      <header class="mobile-topbar">
+        <button class="menu-btn" id="menuBtn" aria-label="Open navigation menu" aria-expanded="false" aria-controls="sidebar"></button>
+        <span class="mobile-brand"><span class="brand-mark" id="mobileBrandMark"></span>scene<span class="brand-dot">·</span><span class="brand-study">study</span></span>
+        <button type="button" class="topbar-due" id="topbarDue" data-action="studyDue" hidden></button>
+      </header>
+
+      <aside class="sidebar" id="sidebar" aria-label="Study navigation">
+        <div class="sidebar-brand">
+          <span class="brand">
+            <span class="brand-mark" id="brandMark"></span>
+            <span>scene<span class="brand-dot">·</span><span class="brand-study">study</span></span>
+          </span>
+        </div>
+        <p class="workspace-label"><span class="workspace-dot"></span><span id="workspaceName">HIDDEN FIGURES</span></p>
+        <nav class="study-nav" id="studyNav" aria-label="Study modes"></nav>
+        <div class="sidebar-foot">
+          <p class="offline-chip" id="offlineChip"></p>
+          <p class="sidebar-version">SceneStudy v2.0 — works offline, saves in this browser.</p>
+        </div>
+      </aside>
+      <div class="sidebar-overlay" id="sidebarOverlay" aria-hidden="true"></div>
+
+      <main class="main-area" id="main">
+        <div class="view-wrap" id="view" tabindex="-1"></div>
+        <footer class="app-footer">
+          <span class="foot-brand"><span class="brand-mark" style="width:24px;height:24px;border-radius:7px" id="footMark"></span>SceneStudy</span>
+          <span id="footNote">A private study space — your progress never leaves this browser.</span>
+        </footer>
+      </main>
+    </div>
+
+    <div id="modalRoot"></div>
+    <div class="toast-root" id="toastRoot" role="status" aria-live="polite"></div>
+    <script>
+      'use strict';
+      (() => {
+        /* ================= UTILITIES ================= */
+        const $ = (s, r) => (r || document).querySelector(s);
+        const MIN = 6e4, DAY = 864e5;
+        const esc = (v) => String(v == null ? '' : v).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+        const pad2 = (n) => String(n).padStart(2, '0');
+        const shuffle = (arr) => { const a = arr.slice(); for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
+        const clamp = (n, lo, hi) => Math.max(lo, Math.min(hi, n));
+        const plural = (n, w) => `${n} ${w.replace('{}', '')}${n === 1 ? '' : 's'}`;
+        const downloadFile = (text, name, type) => {
+          const blob = new Blob([text], { type });
+          const url = URL.createObjectURL(blob);
+          const a = document.createElement('a');
+          a.href = url; a.download = name;
+          document.body.appendChild(a); a.click(); a.remove();
+          setTimeout(() => URL.revokeObjectURL(url), 1200);
+        };
+
+        /* ================= ICONS ================= */
+        const P = {
+          layers: '<path d="m12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83Z"/><path d="m22 17.65-9.17 4.16a2 2 0 0 1-1.66 0L2 17.65"/><path d="m22 12.65-9.17 4.16a2 2 0 0 1-1.66 0L2 12.65"/>',
+          shuffle: '<path d="M2 18h1.4c1.3 0 2.5-.6 3.3-1.7l6.1-8.6c.8-1.1 2-1.7 3.3-1.7H22"/><path d="m18 2 4 4-4 4"/><path d="M2 6h1.9c1.5 0 2.9.9 3.6 2.2"/><path d="M22 18h-5.9c-1.3 0-2.6-.7-3.3-1.8l-.5-.8"/><path d="m18 14 4 4-4 4"/>',
+          check: '<path d="M20 6 9 17l-5-5"/>',
+          x: '<path d="M18 6 6 18"/><path d="m6 6 12 12"/>',
+          right: '<path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>',
+          left: '<path d="m12 19-7-7 7-7"/><path d="M19 12H5"/>',
+          bookmark: '<path d="m19 21-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16z"/>',
+          search: '<circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/>',
+          upload: '<path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" x2="12" y1="3" y2="15"/>',
+          download: '<path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/>',
+          rotate: '<path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"/><path d="M8 16H3v5"/>',
+          bulb: '<path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"/><path d="M9 18h6"/><path d="M10 22h4"/>',
+          zap: '<path d="M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z"/>',
+          grid: '<rect width="7" height="7" x="3" y="3" rx="1"/><rect width="7" height="7" x="14" y="3" rx="1"/><rect width="7" height="7" x="14" y="14" rx="1"/><rect width="7" height="7" x="3" y="14" rx="1"/>',
+          chart: '<path d="M3 3v16a2 2 0 0 0 2 2h16"/><path d="M18 17V9"/><path d="M13 17V5"/><path d="M8 17v-3"/>',
+          sliders: '<line x1="21" x2="14" y1="4" y2="4"/><line x1="10" x2="3" y1="4" y2="4"/><line x1="21" x2="12" y1="12" y2="12"/><line x1="8" x2="3" y1="12" y2="12"/><line x1="21" x2="16" y1="20" y2="20"/><line x1="12" x2="3" y1="20" y2="20"/><line x1="14" x2="14" y1="2" y2="6"/><line x1="8" x2="8" y1="10" y2="14"/><line x1="16" x2="16" y1="18" y2="22"/>',
+          book: '<path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>',
+          menu: '<line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="18" y2="18"/>',
+          offline: '<line x1="2" x2="22" y1="2" y2="22"/><path d="M8.5 16.5a5 5 0 0 1 7 0"/><path d="M2 8.82a15 15 0 0 1 4.17-2.65"/><path d="M10.66 5c4.01-.36 8.14.9 11.34 3.76"/><path d="M16.85 11.25a10 10 0 0 1 2.22 1.68"/><path d="M5 13a10 10 0 0 1 5.24-2.76"/><line x1="12" x2="12.01" y1="20" y2="20"/>',
+          alert: '<path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><path d="M12 9v4"/><path d="M12 17h.01"/>',
+          sparkles: '<path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z"/>',
+          braces: '<path d="M8 3H7a2 2 0 0 0-2 2v5a2 2 0 0 1-2 2 2 2 0 0 1 2 2v5c0 1.1.9 2 2 2h1"/><path d="M16 21h1a2 2 0 0 0 2-2v-5c0-1.1.9-2 2-2a2 2 0 0 1-2-2V5a2 2 0 0 0-2-2h-1"/>',
+          trash: '<path d="M3 6h18"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>',
+          checkCircle: '<circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/>',
+          eye: '<path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/>',
+          film: '<rect width="18" height="18" x="3" y="3" rx="2"/><path d="M7 3v18"/><path d="M3 7.5h4"/><path d="M3 12h18"/><path d="M3 16.5h4"/><path d="M17 3v18"/><path d="M17 7.5h4"/><path d="M17 16.5h4"/>',
+          home: '<path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/>',
+          flip: '<path d="M21 12a9 9 0 0 0-9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/><path d="M3 12a9 9 0 0 0 9 9 9.75 9.75 0 0 0 6.74-2.74L21 16"/><path d="M16 16h5v5"/>',
+          link: '<path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/>',
+          quote: '<path d="M16 3a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2 1 1 0 0 1 1 1v1a2 2 0 0 1-2 2 1 1 0 0 0-1 1v2a1 1 0 0 0 1 1 6 6 0 0 0 6-6V5a2 2 0 0 0-2-2z"/><path d="M5 3a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2 1 1 0 0 1 1 1v1a2 2 0 0 1-2 2 1 1 0 0 0-1 1v2a1 1 0 0 0 1 1 6 6 0 0 0 6-6V5a2 2 0 0 0-2-2z"/>',
+          tag: '<path d="M12.586 2.586A2 2 0 0 0 11.172 2H4a2 2 0 0 0-2 2v7.172a2 2 0 0 0 .586 1.414l8.704 8.704a2.426 2.426 0 0 0 3.42 0l6.58-6.58a2.426 2.426 0 0 0 0-3.42z"/><circle cx="7.5" cy="7.5" r=".5" fill="currentColor"/>',
+        };
+        const icon = (n, s = 18) => `<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${P[n] || ''}</svg>`;
+        const BRAND_MARK = '<svg width="22" height="22" viewBox="0 0 40 40" fill="none" stroke="#30352c" stroke-width="2.4" stroke-linejoin="round" aria-hidden="true"><path d="m8 16 12-6 12 6-12 6Z"/><path d="m8 22 12 6 12-6"/><path d="m8 28 12 6 12-6"/></svg>';
+
+        /* ================= SCENE ART (cue icons) ================= */
+        const CUES = {
+          geometry: '<path d="M42 114 77 54l35 60Z"/><path d="m119 47 38-16 37 20-37 18Z"/><path d="M119 47v43l38 22 37-18V51m-37 18v43"/><path d="m153 133 26-20 25 20-25 20Z"/><path d="M26 75h10m-5-5v10M107 29h8m-4-4v8"/>',
+          equations: '<path d="M47 123V39m0 84h136m-136 0 85-59"/><path d="m41 47 6-8 6 8m123 70 7 6-7 6"/><path d="M108 81v42h-17" stroke-dasharray="4 5"/><path d="m110 36 9 11 17-20"/><text x="143" y="100" font-size="21" stroke="none" fill="currentColor">x, y, z</text>',
+          turbine: '<circle cx="112" cy="78" r="50"/><circle cx="112" cy="78" r="12"/><path d="M66 139h91m-91-6v12m23-12v12m23-12v12m23-12v12m22-12v12"/>',
+          church: '<path d="M53 104V67l31-22 29 22v37m-48 0V78h17v26m11 0V78h10m-24-38V23m-8 8h16"/><path d="M89 122c0-11 21-11 21 0s-21 11-21 0Zm37 0c0-11 21-11 21 0s-21 11-21 0Zm-16-1h16m-43-6 6 6m58 0 6-6"/>',
+          book: '<path d="M113 51c-17-13-39-12-64-4v79c24-9 47-7 64 6 16-13 39-15 64-6V47c-24-8-47-9-64 4Zm0 0v81"/><path d="M61 64c15-4 27-3 38 2m-38 13c15-4 27-3 38 2m28-17c12-4 24-4 37-1m-37 15c12-4 24-4 37-1"/><text x="66" y="107" font-size="12" font-weight="700" stroke="none" fill="currentColor">FORTRAN</text>',
+          classroom: '<path d="M59 29h115v38H59Z"/><path d="M87 48h37m-30-7 12 14"/><path d="M109 84h32v18h-32Z" fill="#edc749" stroke="none"/><path d="M52 84h31v17H52Zm3 17v13m25-13v13M52 124h31v13H52Zm3 13v-13m25 0v13"/><path d="M110 84h31v17h-31Zm3 17v13m25-13v13M110 124h31v13h-31Zm3 13v-13m25 0v13"/><path d="M168 84h31v17h-31Zm3 17v13m25-13v13M168 124h31v13h-31Zm3 13v-13m25 0v13"/>',
+          car: '<path d="M40 103V86l17-6 14-24h73l19 25 26 8v14H40Z"/><circle cx="70" cy="105" r="13" fill="#faf7ec"/><circle cx="160" cy="105" r="13" fill="#faf7ec"/><path d="M89 59v23h59l-11-23m-94 27h29m112 7h-15M32 133h25m15 0h29m15 0h29m15 0h27"/><path d="M102 51v-8h13v8m-8-23v7m-17 0 5 5m31-5-5 5"/>',
+          satellite: '<rect x="46" y="31" width="135" height="99" rx="3"/><path d="M68 145h91m-46-15v15"/><circle cx="113" cy="79" r="19"/><path d="m101 65-21-21m19 43-27 18m56-39 25-20m-24 40 23 22"/><path d="M139 78c14-3 16-10 13-17m-76 19c-13 2-16 10-12 17"/>',
+          coffee: '<path d="M43 65h60v56H43Zm6-10h48m-35 0V41h22v14m19 21h15v26h-15"/><path d="M45 139h59m31-56h35v35h-35Zm35 6h13v16h-13m-40 31h44"/><path d="M128 55h51m-26 0v19m-27 0h53"/><path d="m149 32-3-6m11 6 3-6"/>',
+          sharedcoffee: '<path d="M43 65h60v56H43Zm6-10h48m-35 0V41h22v14m19 21h15v26h-15"/><path d="M45 139h59m31-56h35v35h-35Zm35 6h13v16h-13m-40 31h44"/><path d="M128 41h50m-50 10h33m-35 71h54"/><text x="137" y="71" font-size="10" stroke="none" fill="currentColor">2 names</text><path d="m149 32-3-6m11 6 3-6"/>',
+          running: '<path d="M38 113c15-46 41-62 71-25s67 27 83-19" stroke-dasharray="5 7"/><circle cx="38" cy="113" r="6" fill="#edc749" stroke="none"/><circle cx="191" cy="70" r="6"/><path d="M91 100h23l12 19 18 7-3 9h-36v-17H91Z"/><text x="62" y="47" font-size="16" stroke="none" fill="currentColor">1/2 mile</text>',
+          computer: '<rect x="56" y="34" width="118" height="109" rx="3"/><path d="M56 81h118m-79 0v62m40-62v62"/><circle cx="86" cy="57" r="13"/><circle cx="143" cy="57" r="13"/><circle cx="86" cy="57" r="4" fill="currentColor" stroke="none"/><circle cx="143" cy="57" r="4" fill="currentColor" stroke="none"/><path d="M66 97h17m-17 9h17m-17 9h17m21-17h22m-22 12h22m19-12h18m-18 10h18"/><path d="M37 146V24h155v122m-164 0h21m134 0h20"/>',
+          circuit: '<rect x="56" y="34" width="118" height="109" rx="3"/><path d="M56 81h118m-79 0v62m40-62v62"/><circle cx="86" cy="57" r="13"/><circle cx="143" cy="57" r="13"/><circle cx="86" cy="57" r="4" fill="currentColor" stroke="none"/><circle cx="143" cy="57" r="4" fill="currentColor" stroke="none"/><path d="M66 97h17m-17 9h17m-17 9h17m21-17h22m-22 12h22m19-12h18m-18 10h18"/><path d="m27 64 14 14-14 14m13-14h16"/><circle cx="156" cy="127" r="3" fill="#edc749" stroke="none"/>',
+          team: '<path d="M31 151h166"/>',
+          hallway: '<path d="M68 137V30h94v107M90 137V54h52v83m-44-27h9m47-67 33-17m-33 111 33 18M39 28l21 15m-21 112 21-18"/><rect x="96" y="68" width="41" height="24" rx="2"/><text x="102" y="84" font-size="10" stroke="none" fill="currentColor">WAIT</text>',
+          report: '<path d="M68 30h75l23 24v89H68Zm75 0v24h23"/><path d="M83 70h66m-66 18h56m-56 18h66m-66 19h41" stroke-width="8"/><path d="m42 97 11-8m-11 25 11-8"/>',
+          rain: '<path d="M66 52c-20-3-15-28 4-26 3-19 39-20 44 2 25-3 35 28 9 29H66"/><path d="m53 64-7 13"/><path d="m80 72-7 13"/><path d="m107 64-7 13"/><path d="m135 72-7 13"/><path d="m162 64-7 13"/><circle cx="110" cy="94" r="11"/><path d="M91 138v-18q19-18 38 0v18m-38-9-15-12m53 12 17-21m-14-3 18-3-1 17"/>',
+          sign: '<path d="M45 51h140v66H45Z"/><path d="m122 51-22 28 19 11-20 27"/><path d="m175 28-34 99m34-99 9 5-9 17m-37 70-13 15"/><path d="M58 73h24m-24 18h18m54-18h19m-9 18h21"/>',
+          court: '<path d="m91 36 15-13 38 41-15 14Zm20 31-40 38-8-9 39-39"/><rect x="47" y="119" width="137" height="19" rx="3"/><path d="M70 113h67m-1-16h42"/><text x="125" y="104" font-size="12" font-weight="700" stroke="none" fill="currentColor">FIRST</text>',
+          chalkboard: '<rect x="38" y="29" width="155" height="102" rx="2"/><path d="M54 115V49m0 66h104m-95-10c25 0 26-62 55-47 17 8 26 43 43 38"/><path d="M73 143h87m-43-12v12"/><text x="139" y="56" font-size="14" stroke="none" fill="currentColor">Euler</text>',
+          orbit: '<circle cx="111" cy="82" r="30"/><ellipse cx="112" cy="82" rx="87" ry="36" transform="rotate(-29 112 82)"/><path d="M91 65c12-1 11 13 19 14s7 11 19 10m-32 14 10-6"/><path d="m175 28 14-7-3 15-8 6-10-10Z"/><path d="m165 37-9 5m12 2-7 9"/><path d="m50 36 7 8 15-18"/>',
+          pearls: '<path d="M69 37c-32 74-15 106 47 106s77-31 47-106"/><path d="m92 27 23 12 24-12m-24 12v9"/>',
+        };
+        // Generated sub-shapes
+        for (let k = 0; k < 6; k++) CUES.turbine += `<path d="M113 64c5-20 23-29 29-25-3 11-8 20-21 30" transform="rotate(${k * 60} 112 78)"/>`;
+        [53, 90, 128, 165].forEach((x, i) => {
+          const lift = (i === 1 || i === 2) ? -10 : 0;
+          CUES.team += `<g transform="translate(0 ${lift})"><circle cx="${x}" cy="59" r="10"/><path d="M${x - 13} 79q13-10 26 0l5 32h-36Zm-6 32v24m12-24v24m-23-51-7 20m33-20 7 20"/></g>`;
+        });
+        for (let k = 0; k <= 10; k++) {
+          const t = (k / 10) * Math.PI;
+          CUES.pearls += `<circle cx="${(116 + 54 * Math.cos(t)).toFixed(1)}" cy="${(73 + 65 * Math.sin(t)).toFixed(1)}" r="7" fill="#fffdf7"/>`;
+        }
+        CUES._default = '<path d="M42 114 77 54l35 60Z"/><path d="m119 47 38-16 37 20-37 18Z"/><path d="M119 47v43l38 22 37-18V51m-37 18v43"/><circle cx="193" cy="40" r="9"/><path d="M26 140h178"/>';
+
+        const cueArt = (cue, label, cls = '') =>
+          `<svg class="scene-art ${cls}" viewBox="0 0 230 170" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ${label ? `role="img" aria-label="${esc(label)}"` : 'aria-hidden="true"'}><circle cx="118" cy="83" r="62" fill="#f0ce58" opacity=".45" stroke="none"/><circle cx="193" cy="124" r="4" fill="#e8bd34" stroke="none"/><circle cx="34" cy="43" r="3" fill="#e8bd34" stroke="none"/>${CUES[cue] || CUES._default}</svg>`;
+
+        /* ================= BUILT-IN SCENE SHEET ================= */
+        const BUILTIN_SCENES = [{"id":1,"title":"The childhood prologue","fullTitle":"The Childhood Prologue (1926 White Sulphur Springs)","character":"Katherine Johnson","themes":["Education & opportunity","Merit & recognition"],"description":"In 1926 at White Sulphur Springs, eight-year-old Katherine Coleman counts prime numbers along a gravel path and identifies geometric shapes (isosceles, rhombus, dodecahedron) in the window panes of her grammar school.","techniques":"Point-of-view (POV) visual overlays make geometric patterns light up in her mind's eye, paired with a gentle, inquisitive voiceover.","essay":"Establishes Katherine's natural intellectual gifts and her lifelong commitment to education. Her mathematical mastery is grounded in deep personal dedication rather than accidental luck.","techniqueLabel":"POV geometric overlays","meaningLabel":"Intellectual gifts nurtured by education","cue":"geometry","cueText":"Shapes in a school window: Katherine sees mathematics in the world around her.","tags":["education","opportunity","merit"]},{"id":2,"title":"Speaking geometry","fullTitle":"Katherine Defending Her Analytic Geometry Credentials","character":"Katherine Johnson","themes":["Merit & recognition","Education & opportunity","Gender & dignity"],"description":"When Director Al Harrison skeptically asks if she knows analytic geometry and \"speaks,\" Katherine interjects that she speaks both geometry and English. She completes Harrison's thought about the Gram-Schmidt orthogonalization algorithm, noting her preference for it over Euclidean coordinates.","techniques":"Rapid-fire dialogue editing, camera panning across the quiet Task Group floor, and sharp character blocking.","essay":"Shows how academic excellence functions as a defensive shield, or \"armor,\" against assumptions of inferiority, instantly earning her professional standing.","techniqueLabel":"Rapid-fire dialogue & sharp blocking","meaningLabel":"Academic excellence as armor","cue":"equations","cueText":"An orthogonal coordinate system: Katherine answers doubt with precise mathematical knowledge.","tags":["sexism","merit","dignity"]},{"id":3,"title":"The wind tunnel conversation","fullTitle":"Mary Jackson's Discussion with Karl Zielinski at the Wind Tunnel","character":"Mary Jackson","themes":["Education & opportunity","Gender & dignity","Racism & segregation"],"description":"After Mary's high heel gets stuck in the wind tunnel grate under the Mercury 7 prototype capsule, engineer Karl Zielinski encourages her to join the engineer training program. Asked if she would wish to be an engineer if she were a white male, Mary replies: \"I wouldn't have to. I'd already be one.\"","techniques":"Deep-focus framing under the massive metallic turbines of the wind tunnel, with industrial shadows emphasizing social barriers.","essay":"Reveals character awareness and privilege. In one sentence, Mary exposes the difference between innate talent and structural opportunity.","techniqueLabel":"Deep focus & industrial shadows","meaningLabel":"Talent is not the same as opportunity","cue":"turbine","cueText":"A turbine and a trapped heel: Mary's ability is real, but the structure holds her back.","tags":["racism","sexism","opportunity","intersectionality"]},{"id":4,"title":"Glasses, not skirts","fullTitle":"Church Community Gathering and Jim Johnson's Initial Misstep","character":"Katherine Johnson","themes":["Gender & dignity","Leadership & community"],"description":"At a Sunday church gathering, Colonel Jim Johnson expresses surprise that NASA allows women to perform taxing aeronautical calculations. Katherine lists her advanced degrees and daily workload: \"So, yes... they let women do some things over at NASA, Mr. Johnson. But it's not because we wear skirts... it's because we wear glasses.\"","techniques":"Warm amber lighting reflects community strength, contrasted with sharp, articulate dialogue framing.","essay":"Demonstrates Katherine's refusal to accept gender stereotypes in either her personal or professional life, illustrating self-respect and personal dignity.","techniqueLabel":"Warm light & articulate dialogue","meaningLabel":"Self-respect challenges gender stereotypes","cue":"church","cueText":"Glasses in front of a church: Katherine insists that expertise, not clothing, defines her.","tags":["sexism","dignity"]},{"id":5,"title":"The FORTRAN library book","fullTitle":"Dorothy Discovering FORTRAN in the Segregated Public Library","character":"Dorothy Vaughan","themes":["Technology & change","Education & opportunity","Racism & segregation"],"description":"Dorothy searches the library for a FORTRAN (Formula Translation) textbook to prepare for the IBM mainframe. A white librarian scolds her for being in the white section, but Dorothy quietly takes the book and reads it to her sons on the bus.","techniques":"Tense staging between library aisles, symbolic placement of the FORTRAN book, and Dorothy's calm demeanor contrasting with the librarian's hostility.","essay":"Models proactive leadership, lifelong learning, and adaptability. Dorothy treats learning as a continuous process rather than something that ends with formal schooling.","techniqueLabel":"Symbolic book & contrasting demeanor","meaningLabel":"Lifelong learning enables adaptation","cue":"book","cueText":"An open FORTRAN book: Dorothy learns tomorrow's skills before NASA asks her to.","tags":["racism","segregation","education","technology"]},{"id":6,"title":"A seat in the front row","fullTitle":"Mary Jackson Entering the All-White Classroom at Hampton High School","character":"Mary Jackson","themes":["Education & opportunity","Racism & segregation","Gender & dignity"],"description":"After winning her court petition, Mary enters the evening Quantum Mechanics class at Hampton High School. Faced with staring white male students and a confused professor, she steps to the front row and sits dead center.","techniques":"Spatial blocking through the front-row center seat, high-contrast lighting, and confident character movement.","essay":"Illustrates courage and active integration. Mary does not hide in the back row; she asserts her right to occupy elite educational spaces.","techniqueLabel":"Front-row center spatial blocking","meaningLabel":"Courage claims educational space","cue":"classroom","cueText":"One highlighted front-row desk: Mary claims a place rather than shrinking into the background.","tags":["racism","segregation","courage","education"]},{"id":7,"title":"An unexpected police escort","fullTitle":"The Stranded Car and Highway Police Escort","character":"NASA & the team","themes":["Cold War & progress","Racism & segregation","Merit & recognition"],"description":"Stranded beside Dorothy's broken-down 1955 Chevy Impala on a rural Virginia highway, the three women are approached by a suspicious white police officer. After showing their NASA badges and explaining their rocket-trajectory work against the Soviet Union, they receive a high-speed police escort.","techniques":"Low-angle shots establish initial power dynamics; fluid tracking shots and comedic irony accompany the high-speed escort.","essay":"Introduces the idea that Cold War national utility and professional competence can force white authority figures to set aside racial prejudice.","techniqueLabel":"Low angles, tracking & comic irony","meaningLabel":"National utility unsettles prejudice","cue":"car","cueText":"A car behind a flashing escort: suspicion turns into assistance when their work becomes visible.","tags":["racism","coldwar","merit"]},{"id":8,"title":"The Cold War crisis briefing","fullTitle":"Administrator Jim Webb's Cold War Crisis Briefing","character":"NASA & the team","themes":["Cold War & progress","Technology & change"],"description":"NASA Administrator Jim Webb watches newsreel footage of the Soviet Union launching Sputnik and detonating nuclear warheads. He berates NASA engineers for inaction, declaring that the nation is losing the Space Race and demanding immediate progress.","techniques":"Stark room lighting, harsh newsreel projection across Webb's back, and tense diegetic silence.","essay":"Establishes the geopolitical pressure driving the film. It highlights the irrationality of maintaining discrimination when national survival requires all available talent.","techniqueLabel":"Harsh projection & tense silence","meaningLabel":"Geopolitical pressure demands all talent","cue":"satellite","cueText":"Sputnik on a projection screen: external pressure exposes the cost of internal exclusion.","tags":["coldwar","technology","leadership"]},{"id":9,"title":"The separate coffee pot","fullTitle":"The \"Colored\" Coffee Pot Microaggression","character":"Katherine Johnson","themes":["Racism & segregation","Gender & dignity"],"description":"After Katherine pours coffee from the main Task Group coffee maker, her white male colleagues stare in uncomfortable silence. The next day, a separate, smaller pot labeled \"COLORED\" is placed on a side table for her.","techniques":"Mise-en-scene prop placement, multi-character reaction shots, and awkward diegetic silence.","essay":"Demonstrates that discrimination is not always violent; everyday, mundane microaggressions can alienate essential workers.","techniqueLabel":"Coffee-pot mise-en-scene & silence","meaningLabel":"Ordinary objects enforce exclusion","cue":"coffee","cueText":"Two unequal coffee pots: a mundane workplace object becomes a boundary of segregation.","tags":["racism","segregation","dignity","intersectionality"]},{"id":10,"title":"The half-mile bathroom sprint","fullTitle":"The Half-Mile Bathroom Sprint Sequence","character":"Katherine Johnson","themes":["Racism & segregation","Merit & recognition"],"description":"Because the East Campus lacks segregated facilities, Katherine repeatedly runs half a mile back to West Campus in high heels, clutching heavy data folders in the rain.","techniques":"Rhythmic montage editing set to Pharrell Williams' \"Runnin',\" continuous tracking shots, and repetitive cross-cutting.","essay":"Visually quantifies the physical and temporal tax of segregation. Discrimination is inefficient because it wastes the working hours of NASA's most talented personnel.","techniqueLabel":"Rhythmic montage & repeated tracking","meaningLabel":"Segregation taxes time and labor","cue":"running","cueText":"A dotted half-mile route: every trip makes the cost of discrimination measurable.","tags":["racism","segregation","perseverance","injustice"]},{"id":11,"title":"The IBM that would not fit","fullTitle":"The Arrival of the IBM 7090 Mainframe","character":"NASA & the team","themes":["Technology & change","Leadership & community"],"description":"NASA technicians try to move the massive IBM 7090 into the building, then discover that it is too large for the doorway. Carpenters must saw away the door header.","techniques":"Wide-angle contrast between human scale and massive industrial hardware, paired with humorous dialogue.","essay":"Represents technological disruption and institutional unpreparedness. NASA invests in hardware while overlooking the human labor needed to operate it.","techniqueLabel":"Wide-angle human-machine contrast","meaningLabel":"Hardware investment overlooks human skill","cue":"computer","cueText":"A mainframe wider than a doorway: technology arrives faster than the institution adapts.","tags":["technology","merit"]},{"id":12,"title":"The West Area corridor march","fullTitle":"Dorothy Marching the West Area Computers to the IBM Room","character":"Dorothy Vaughan","themes":["Leadership & community","Technology & change","Merit & recognition"],"description":"After learning FORTRAN and teaching her team, Dorothy leads thirty Black female mathematicians in formation down the corridor to operate the IBM computer room.","techniques":"A low-angle group tracking shot moves alongside the women, echoing the iconic astronaut corridor walk in historical space films.","essay":"Encapsulates collective leadership and community uplift. Dorothy refuses individual promotion unless her team comes along, turning technological obsolescence into institutional power.","techniqueLabel":"Astronaut-style group tracking shot","meaningLabel":"Collective uplift turns change into power","cue":"team","cueText":"A formation of women moving forward: Dorothy's progress includes her whole community.","tags":["leadership","solidarity","technology"]},{"id":13,"title":"Fast rockets, slow advancement","fullTitle":"Vivian Mitchell Rejecting Dorothy's Supervisor Promotion","character":"Dorothy Vaughan","themes":["Racism & segregation","Leadership & community"],"description":"Dorothy asks Vivian Mitchell about her permanent supervisor application. Vivian coldly says NASA is not assigning a permanent supervisor to the \"Colored Group\": \"That's NASA for ya. Fast with rocket ships. Slow with advancement.\"","techniques":"Restrained two-shot framing, neutral eye lines, and a passive tone of voice.","essay":"Shows how institutional gatekeeping uses bureaucratic rules to maintain inequality without needing open hostility.","techniqueLabel":"Restrained two-shot & passive tone","meaningLabel":"Bureaucratic rules maintain inequality","cue":"hallway","cueText":"A closed promotion door: apparently neutral procedures still keep people out.","tags":["racism","injustice"]},{"id":14,"title":"The blacked-out research report","fullTitle":"Paul Stafford Redacting Research Reports","character":"Katherine Johnson","themes":["Racism & segregation","Merit & recognition"],"description":"Paul Stafford drops a heavy research report on Katherine's desk, with large sections blacked out in thick marker. He tells her she cannot read classified data because she lacks security clearance.","techniques":"A close-up insert of marker bleeding through paper, with low-angle framing emphasizing Stafford's condescension.","essay":"Exposes the use of administrative rules and clearance levels as tools of information suppression, keeping marginalized workers from full participation.","techniqueLabel":"Redacted-page insert & low angle","meaningLabel":"Information control blocks participation","cue":"report","cueText":"A page covered in black bars: access to information becomes access to power.","tags":["racism","injustice","merit"]},{"id":15,"title":"The rain-soaked outburst","fullTitle":"Katherine's \"Timbuktu\" Space Task Group Outburst","character":"Katherine Johnson","themes":["Racism & segregation","Gender & dignity","Merit & recognition"],"description":"Returning soaked from the rain, Katherine is challenged about her forty-minute absences. She passionately explains the reality of segregated restrooms, dress codes, lower pay, and separate coffee pots in front of the silent room.","techniques":"Dramatic close-ups of Katherine's rain-soaked face, complete background diegetic silence, and wide reaction shots of shocked colleagues.","essay":"A major turning point: silent endurance becomes active resistance, forcing the institution to face its structural contradictions.","techniqueLabel":"Rain-soaked close-up & silent reactions","meaningLabel":"Silent endurance becomes active resistance","cue":"rain","cueText":"Rain above a speaking figure: Katherine makes the invisible burden impossible to ignore.","tags":["racism","sexism","courage","dignity"]},{"id":16,"title":"The restroom sign comes down","fullTitle":"Al Harrison Smashing the \"Colored Restroom\" Sign","character":"NASA & the team","themes":["Racism & segregation","Cold War & progress"],"description":"Angered by lost productivity, Al Harrison uses a crowbar to knock the metal \"Colored Restroom\" sign off the wall, declaring: \"At NASA we all... pee the same color!\"","techniques":"Action blocking, low-angle framing, and the physical destruction of a significant symbolic prop.","essay":"Represents top-down institutional adaptation driven by pragmatic necessity rather than pure altruism.","techniqueLabel":"Low-angle destruction of a symbolic prop","meaningLabel":"Pragmatic necessity drives institutional change","cue":"sign","cueText":"A broken sign: a physical barrier falls when its institutional cost is confronted.","tags":["racism","segregation","alliance"]},{"id":17,"title":"Mary makes her case","fullTitle":"Mary Jackson Petitioning the Virginia Court","character":"Mary Jackson","themes":["Education & opportunity","Racism & segregation","Gender & dignity"],"description":"Mary petitions a segregationist judge to attend graduate courses at all-white Hampton High School. She appeals to his historical legacy: \"Of all the cases you'll hear today, which one will matter in a hundred years? Which one will make you the 'first'?\"","techniques":"Shot-reverse-shot editing gradually raises the camera angle on Mary as she gains rhetorical command of the courtroom.","essay":"Demonstrates strategic problem-solving: Mary overcomes a legal barrier by aligning her ambitions with the judge's vanity and desire for historical legacy.","techniqueLabel":"Shot-reverse-shot & rising camera angle","meaningLabel":"Strategic persuasion opens legal barriers","cue":"court","cueText":"A gavel beside the word FIRST: Mary makes opportunity part of the judge's desired legacy.","tags":["racism","sexism","courage","education","intersectionality"]},{"id":18,"title":"Dorothy starts the IBM","fullTitle":"Dorothy Hot-Wiring the IBM Mainframe at Night","character":"Dorothy Vaughan","themes":["Technology & change","Merit & recognition"],"description":"Dorothy enters the empty IBM room late at night, opens the maintenance panel, and uses the manual to bypass error controls and start the machine.","techniques":"Mechanical sound design of whirring drives and clicking relays, dramatic key lighting, and solo character staging.","essay":"Symbolizes human intelligence mastering machine automation. Dorothy adapts to technological change before the institution understands how to manage it.","techniqueLabel":"Mechanical sound & solo key lighting","meaningLabel":"Human intelligence masters automation","cue":"circuit","cueText":"A circuit with one active connection: Dorothy supplies the knowledge that the hardware lacks.","tags":["technology","perseverance","merit"]},{"id":19,"title":"The blackboard breakthrough","fullTitle":"The Pentagon Briefing and Blackboard Trajectory Breakthrough","character":"Katherine Johnson","themes":["Merit & recognition","Gender & dignity","Cold War & progress"],"description":"Katherine demands access to high-level briefings to track changing rocket masses. At the floor-to-ceiling blackboard, she calculates the Go/No Go orbital re-entry point using Euler's Method before military brass and astronauts.","techniques":"Racking focus between rapid chalk scrawls and male engineers' reactions, accompanied by low-angle camera tilts.","essay":"The climax of intellectual authority: mathematical capability outweighs institutional prejudice.","techniqueLabel":"Racking focus on chalk & low-angle tilts","meaningLabel":"Mathematical ability establishes authority","cue":"chalkboard","cueText":"A blackboard with an orbital curve: knowledge puts Katherine at the center of the room.","tags":["merit","sexism","coldwar"]},{"id":20,"title":"Get the girl to check the numbers","fullTitle":"John Glenn's Pre-Flight Demand (\"Get the Girl to Check the Numbers\")","character":"Katherine Johnson","themes":["Merit & recognition","Technology & change","Cold War & progress"],"description":"Minutes before launching aboard Friendship 7, John Glenn distrusts the IBM calculations and asks Katherine to manually verify the trajectory coordinates.","techniques":"Fast-paced parallel cross-cutting between Glenn's capsule at Cape Canaveral and Katherine calculating at Langley, intensified by ticking audio cues.","essay":"The ultimate desegregation of trust: in life-or-death conditions, true merit and accuracy replace racial and gender prejudice.","techniqueLabel":"Parallel cross-cutting & ticking audio","meaningLabel":"Life-or-death trust recognizes true merit","cue":"orbit","cueText":"An orbit checked by hand: a life depends on Katherine's trusted calculations.","tags":["merit","alliance","coldwar"]},{"id":21,"title":"The gift of pearls","fullTitle":"The Gift of the Pearl Necklace","character":"Katherine Johnson","themes":["Merit & recognition","Gender & dignity","Leadership & community"],"description":"Before Katherine is reassigned to West Campus due to IBM automation, secretary Ruth presents her with a white pearl necklace paid for by the Task Group.","techniques":"A close-up insert of the necklace recalls the dress-code restrictions mentioned when she first arrived.","essay":"Symbolizes personal shifts and informal institutional acceptance, resolving Katherine's initial isolation.","techniqueLabel":"Pearl-necklace close-up & visual callback","meaningLabel":"A personal gift signals acceptance","cue":"pearls","cueText":"A string of pearls: an exclusionary dress rule is recalled through a gesture of belonging.","tags":["dignity","solidarity","merit"]},{"id":22,"title":"Coffee and shared credit","fullTitle":"Paul Stafford Bringing Coffee and Sharing Report Credit","character":"Katherine Johnson","themes":["Merit & recognition","Racism & segregation","Leadership & community"],"description":"In the film's final moments, Stafford places coffee on Katherine's desk and gives her a report titled \"Notes on Space Technology by Paul Stafford and Katherine Johnson.\"","techniques":"Quiet two-shot framing, soft lighting, and a subtle nod of mutual respect.","essay":"Resolves the workplace conflict, suggesting that sustained professional excellence and shared goals can overcome individual prejudice.","techniqueLabel":"Soft two-shot & a nod of respect","meaningLabel":"Shared goals lead to mutual recognition","cue":"sharedcoffee","cueText":"Coffee beside two names on a report: ordinary objects now express inclusion, not exclusion.","tags":["racism","solidarity","merit","dignity"]}];
+        const BUILTIN_SHEET = {
+          name: 'Hidden Figures',
+          description: 'Twenty-two key scenes from Hidden Figures (2016) — the true story of the Black women mathematicians at NASA who helped launch John Glenn into orbit.',
+          scenes: BUILTIN_SCENES,
+        };
+
+        /* ================= ESSAY TAGS (informed by published analyses of Hidden Figures) ================= */
+        const TAGS = {
+          racism: { label: 'Racism', def: 'racial prejudice built into rules, spaces and everyday habits' },
+          sexism: { label: 'Sexism', def: 'assumptions about what women can or cannot do' },
+          segregation: { label: 'Segregation', def: 'the physical separation of Black workers from white spaces' },
+          injustice: { label: 'Injustice', def: 'unfair systems — red tape, gatekeeping, information control' },
+          perseverance: { label: 'Perseverance', def: 'persistence in the face of repeated barriers' },
+          courage: { label: 'Courage', def: 'personal risk taken to claim a rightful place' },
+          dignity: { label: 'Dignity', def: 'self-respect and the refusal of demeaning assumptions' },
+          education: { label: 'Education', def: 'learning as the engine of advancement' },
+          opportunity: { label: 'Opportunity', def: 'access to the rooms where decisions are made' },
+          merit: { label: 'Merit & recognition', def: 'excellence finally being seen and credited' },
+          leadership: { label: 'Leadership', def: 'lifting others while advancing yourself' },
+          solidarity: { label: 'Solidarity', def: 'community strength and shared victories' },
+          alliance: { label: 'Alliance', def: 'unlikely allies who use their power to open doors' },
+          technology: { label: 'Technology & change', def: 'automation, adaptation and the future of work' },
+          coldwar: { label: 'Cold War pressure', def: 'geopolitical urgency that forces progress' },
+          intersectionality: { label: 'Intersectionality', def: 'racism and sexism compounding in one life' },
+        };
+        // Auto-derive tags from the broader theme names on custom sheets that ship no tags of their own
+        const THEME_TO_TAGS = {
+          'racism & segregation': ['racism', 'segregation'],
+          'gender & dignity': ['sexism', 'dignity'],
+          'education & opportunity': ['education', 'opportunity'],
+          'leadership & community': ['leadership', 'solidarity'],
+          'technology & change': ['technology'],
+          'merit & recognition': ['merit'],
+          'cold war & progress': ['coldwar'],
+        };
+        function tagsOf(scene) {
+          if (Array.isArray(scene.tags) && scene.tags.length) return scene.tags;
+          const derived = [];
+          (scene.themes || []).forEach((t) => (THEME_TO_TAGS[String(t).toLowerCase()] || []).forEach((x) => { if (!derived.includes(x)) derived.push(x); }));
+          return derived;
+        }
+        const tagLabel = (t) => (TAGS[t] && TAGS[t].label) || t;
+        const tagDef = (t) => (TAGS[t] && TAGS[t].def) || 'a key idea for your essay';
+        const getTagUniverse = () => {
+          const counts = {};
+          getScenes().forEach((s) => tagsOf(s).forEach((t) => { counts[t] = (counts[t] || 0) + 1; }));
+          return Object.keys(counts).sort((a, b) => (counts[b] - counts[a]) || a.localeCompare(b));
+        };
+
+        /* Curated essay content — theses, turning points and counter-claims used by the quiz engine */
+        const THESES = [
+          { text: 'Discrimination in Hidden Figures is not just personal prejudice — it is built into everyday rules and routines.', tags: ['racism', 'segregation'], scene: 9 },
+          { text: 'Excellence alone cannot beat structural barriers; opportunity must be actively claimed.', tags: ['racism', 'sexism', 'opportunity'], scene: 3 },
+          { text: 'Education is presented as the most powerful tool marginalised people possess.', tags: ['education', 'racism'], scene: 5 },
+          { text: 'Institutions only change when discrimination becomes visibly costly to them.', tags: ['racism', 'alliance'], scene: 16 },
+          { text: 'Racism and sexism compound each other in the lives of Black women.', tags: ['intersectionality', 'racism', 'sexism'], scene: 17 },
+          { text: 'Quiet perseverance can be as powerful as loud resistance.', tags: ['perseverance', 'technology'], scene: 18 },
+          { text: 'Collective progress matters more than individual promotion.', tags: ['leadership', 'solidarity'], scene: 12 },
+          { text: 'Trust across racial lines is earned through demonstrated competence, not granted through goodwill.', tags: ['merit', 'alliance'], scene: 20 },
+          { text: 'Self-respect is itself a form of resistance.', tags: ['dignity', 'sexism'], scene: 4 },
+          { text: 'Personal courage opens doors that policy leaves closed.', tags: ['courage', 'education'], scene: 6 },
+          { text: 'Technology can either entrench exclusion or break it open — the difference is who is prepared for it.', tags: ['technology', 'merit'], scene: 11 },
+          { text: 'National crisis forces societies to confront the waste of discrimination.', tags: ['coldwar', 'merit'], scene: 8 },
+          { text: 'Information control is a subtle but powerful tool of oppression.', tags: ['injustice', 'racism'], scene: 14 },
+          { text: 'Endurance has a measurable cost: the film quantifies the tax of segregation.', tags: ['racism', 'injustice', 'perseverance'], scene: 10 },
+          { text: 'Acceptance, when it finally comes, is expressed through small everyday gestures.', tags: ['solidarity', 'merit', 'dignity'], scene: 22 },
+          { text: 'A single moment of eloquence can move the people who hold power.', tags: ['courage', 'dignity', 'racism'], scene: 15 },
+        ];
+        const TURNING_POINTS = [
+          { text: 'silent endurance finally erupts into open resistance', scene: 15 },
+          { text: 'the institution physically tears down one of its own symbols of segregation', scene: 16 },
+          { text: 'a life is entrusted to Katherine’s calculations because accuracy matters more than prejudice', scene: 20 },
+          { text: 'individual skill becomes visible collective power', scene: 12 },
+          { text: 'mathematical authority is established in front of the military brass', scene: 19 },
+          { text: 'a legal wall is turned into a personal opportunity', scene: 17 },
+          { text: 'Dorothy decides to learn the machine that could replace her', scene: 5 },
+          { text: 'Mary realises that talent without opportunity is wasted', scene: 3 },
+        ];
+        const NUANCES = [
+          { claim: 'Racism at NASA was always loud and explicit.', scene: 9, why: 'The coffee pot is a quiet, almost polite act of exclusion — discrimination hiding in an everyday object.' },
+          { claim: 'Kindness from white colleagues is what solves discrimination in the film.', scene: 13, why: 'Vivian Mitchell is never hostile, yet her polite bureaucracy keeps Dorothy out — niceness is not the same as fairness.' },
+          { claim: 'Dorothy only looks after herself.', scene: 12, why: 'Dorothy refuses advancement that leaves her team behind; the corridor march is her whole team walking in together.' },
+          { claim: 'The women in the film wait to be rescued by sympathetic men.', scene: 17, why: 'Mary writes her own petition, studies the law, and makes her own case to the judge — nobody rescues her.' },
+          { claim: 'Technology simply made human mathematicians unnecessary.', scene: 20, why: 'When the IBM output is doubted, a human being is the final check — the machine never fully replaces judgment.' },
+          { claim: 'Once the restroom sign came down, segregation at NASA was over.', scene: 14, why: 'The redacted report appears after that moment — formal barriers fall one at a time, and new ones keep being found.' },
+          { claim: 'Katherine’s success is essentially a matter of luck.', scene: 1, why: 'The prologue shows a lifetime of disciplined study behind every ability the plot later uses.' },
+          { claim: 'Prejudice at NASA affected social life but never the actual work.', scene: 14, why: 'Blacked-out data directly blocks the trajectory work itself — discrimination reaches into the mathematics.' },
+        ];
+        const ESSAY_PROMPTS = {
+          racism: 'How does this scene show racism operating through systems rather than just individuals?',
+          sexism: 'What assumption about women does this scene set up — and how does the scene answer it?',
+          segregation: '“Separate” is the key word here. How do physical spaces in this scene create inequality?',
+          injustice: 'How do rules and paperwork become obstacles in this scene?',
+          perseverance: 'What does persistence cost in this scene — and what does it win?',
+          courage: 'What does courage look like in this scene, and what makes it risky?',
+          dignity: 'How does a character protect their dignity in this scene?',
+          education: 'Why is learning the turning point of this scene?',
+          opportunity: 'Who has access in this scene — and who is kept out?',
+          merit: 'How does this scene prove that ability eventually gets recognised?',
+          leadership: 'What does leading look like here — stepping ahead, or lifting others?',
+          solidarity: 'How does community strength appear in this scene?',
+          alliance: 'Who holds the power in this scene, and why do they choose to share it?',
+          technology: 'Is technology a threat or a tool in this scene? How does the film frame it?',
+          coldwar: 'How does national urgency change what becomes possible in this scene?',
+          intersectionality: 'How do race and gender combine in this scene to create a barrier neither would create alone?',
+        };
+        const essayPromptFor = (scene) => {
+          const tags = tagsOf(scene).filter((t) => ESSAY_PROMPTS[t]);
+          return tags.length ? ESSAY_PROMPTS[tags[0]] : 'How does the filmmaking in this scene reinforce its bigger idea?';
+        };
+        const lower1 = (str) => { if (!str) return str; if (/^[A-Z]{2,}\b/.test(str)) return str; return str.charAt(0).toLowerCase() + str.slice(1); };
+
+        /* ================= STATE ================= */
+        const STORE_KEY = 'scenestudy-v2';
+        const freshState = () => ({
+          v: 2,
+          cards: {},            // id -> { dueAt, interval(days), last, reviews }
+          bookmarks: [],
+          notes: {},            // id -> recall text
+          activity: { matches: 0, quizzes: 0, lastScore: null, explanations: [] },
+          customSheet: null,    // { name, description, scenes }
+        });
+        let state = freshState();
+        try {
+          const raw = localStorage.getItem(STORE_KEY);
+          if (raw) {
+            const parsed = JSON.parse(raw);
+            if (parsed && parsed.v === 2) state = Object.assign(freshState(), parsed);
+          }
+        } catch (e) { state = freshState(); }
+        let saveTimer = null;
+        const save = () => {
+          clearTimeout(saveTimer);
+          saveTimer = setTimeout(() => { try { localStorage.setItem(STORE_KEY, JSON.stringify(state)); } catch (e) {} }, 150);
+        };
+
+        /* ================= SHEET ACCESS ================= */
+        const getSheet = () => state.customSheet || BUILTIN_SHEET;
+        const getScenes = () => getSheet().scenes;
+        const isCustom = () => !!state.customSheet;
+        const getCharacters = () => [...new Set(getScenes().map((s) => s.character).filter(Boolean))];
+        const getThemes = () => [...new Set(getScenes().flatMap((s) => s.themes || []))];
+        const sceneById = (id) => getScenes().find((s) => s.id === id);
+
+        /* ================= SRS ================= */
+        const cardOf = (id) => state.cards[id];
+        function rateCard(id, rating) { // rating: again | good | easy
+          const now = Date.now();
+          const c = state.cards[id] || { interval: 0, reviews: 0 };
+          if (rating === 'again') { c.interval = 0; c.dueAt = now + 10 * MIN; }
+          else {
+            const base = c.interval || (rating === 'easy' ? 3 : 1);
+            c.interval = rating === 'easy' ? Math.min(30, Math.round(base * 2.5) + 1) : Math.min(30, Math.max(1, Math.round(base * 2)));
+            c.dueAt = now + c.interval * DAY;
+          }
+          c.last = now; c.reviews = (c.reviews || 0) + 1; c.lastRating = rating;
+          state.cards[id] = c; save();
+        }
+        const isDue = (id) => { const c = state.cards[id]; return !c || c.dueAt <= Date.now(); };
+        const dueCount = () => getScenes().filter((s) => isDue(s.id)).length;
+        function masteryOf(id) {
+          const c = state.cards[id];
+          if (!c || !c.reviews) return 'new';
+          return c.interval >= 5 ? 'confident' : 'learning';
+        }
+        function dueLabel(id) {
+          const c = state.cards[id];
+          if (!c || !c.reviews) return 'Not studied yet';
+          const ms = c.dueAt - Date.now();
+          if (ms <= 0) return 'Due now';
+          const m = Math.ceil(ms / MIN);
+          if (m < 60) return `In ${m} min`;
+          const d = Math.ceil(ms / DAY);
+          return d === 1 ? 'Tomorrow' : `In ${d} days`;
+        }
+        const nextIntervalText = (id, rating) => {
+          if (rating === 'again') return '10 minutes';
+          const c = state.cards[id];
+          const base = (c && c.interval) || (rating === 'easy' ? 3 : 1);
+          const d = rating === 'easy' ? Math.min(30, Math.round(base * 2.5) + 1) : Math.min(30, Math.max(1, Math.round(base * 2)));
+          return d === 1 ? '1 day' : `${d} days`;
+        };
+
+        /* ================= TOAST & MODAL ================= */
+        const toastRoot = $('#toastRoot');
+        function toast(msg, icn = 'sparkles') {
+          const el = document.createElement('div');
+          el.className = 'toast';
+          el.innerHTML = `${icon(icn, 17)}<span>${esc(msg)}</span>`;
+          toastRoot.appendChild(el);
+          setTimeout(() => { el.classList.add('leaving'); setTimeout(() => el.remove(), 300); }, 3400);
+        }
+        const modalRoot = $('#modalRoot');
+        let lastFocus = null;
+        function openModal(html) {
+          lastFocus = document.activeElement;
+          modalRoot.innerHTML = `<div class="modal-backdrop" data-action="closeModal"><div class="modal" role="dialog" aria-modal="true">${html}</div></div>`;
+          const dlg = $('.modal', modalRoot);
+          dlg.focus();
+          document.body.style.overflow = 'hidden';
+        }
+        function closeModal() {
+          modalRoot.innerHTML = '';
+          document.body.style.overflow = '';
+          if (lastFocus && lastFocus.focus) lastFocus.focus();
+        }
+
+        /* ================= NAV / SHELL ================= */
+        const NAV = [
+          { id: 'overview', label: 'Overview', icn: 'home' },
+          { id: 'flashcards', label: 'Flashcards', icn: 'layers' },
+          { id: 'matching', label: 'Match & mix', icn: 'link' },
+          { id: 'quiz', label: 'Essay quiz', icn: 'zap' },
+          { id: 'recall', label: 'Recall & explain', icn: 'quote' },
+          { id: 'library', label: 'Scene library', icn: 'grid' },
+          { id: 'progress', label: 'Progress', icn: 'chart' },
+          { id: 'sheet', label: 'Scene sheet', icn: 'upload' },
+        ];
+        let currentView = 'overview';
+        const viewEl = $('#view');
+
+        function renderNav() {
+          const due = dueCount();
+          $('#studyNav').innerHTML = NAV.map((n) => {
+            let count = '';
+            if (n.id === 'flashcards' && due > 0) count = `<span class="nav-count">${due}</span>`;
+            if (n.id === 'library') count = `<span class="nav-count">${getScenes().length}</span>`;
+            return `<button class="nav-item ${currentView === n.id ? 'active' : ''}" data-action="nav" data-view="${n.id}" ${currentView === n.id ? 'aria-current="page"' : ''}>${icon(n.icn, 20)}<span>${n.label}</span>${n.id === 'flashcards' && due > 0 ? '<span class="nav-due-badge" aria-hidden="true"></span>' : ''}${count}</button>`;
+          }).join('');
+          const chip = $('#topbarDue');
+          if (due > 0) { chip.hidden = false; chip.innerHTML = `${icon('zap', 14)} ${due} due`; } else chip.hidden = true;
+          $('#workspaceName').textContent = getSheet().name.toUpperCase();
+          $('#offlineChip').innerHTML = `${icon('offline', 18)}<span><b>Offline ready.</b> Everything is stored in this browser only.</span>`;
+        }
+
+        function setView(v) {
+          currentView = v;
+          document.body.classList.remove('nav-open');
+          $('#menuBtn').setAttribute('aria-expanded', 'false');
+          renderNav();
+          renderView();
+          $('#main').scrollIntoView({ block: 'start' });
+          window.scrollTo(0, 0);
+        }
+        const go = (v) => setView(v);
+
+        function renderView() {
+          const fn = VIEWS[currentView] || VIEWS.overview;
+          viewEl.innerHTML = '';
+          fn(viewEl);
+        }
+        /* ================= SHEET PARSING & VALIDATION ================= */
+        const SCENE_STR_FIELDS = ['title', 'fullTitle', 'character', 'description', 'techniques', 'essay', 'techniqueLabel', 'meaningLabel', 'cue', 'cueText'];
+        function normalizeScene(raw, idx) {
+          const s = {};
+          const num = Number(raw.id);
+          s.id = Number.isFinite(num) ? num : idx + 1;
+          s.title = String(raw.title ?? '').trim() || `Scene ${s.id}`;
+          s.fullTitle = String(raw.fullTitle ?? '').trim() || s.title;
+          s.character = String(raw.character ?? '').trim() || 'Uncategorized';
+          s.themes = Array.isArray(raw.themes) ? raw.themes.map((t) => String(t).trim()).filter(Boolean) : [];
+          s.tags = Array.isArray(raw.tags) ? raw.tags.map((t) => String(t).trim()).filter(Boolean) : [];
+          s.description = String(raw.description ?? '').trim() || 'No description provided for this scene yet.';
+          s.techniques = String(raw.techniques ?? '').trim() || 'No technique notes provided for this scene yet.';
+          s.essay = String(raw.essay ?? '').trim() || 'No meaning notes provided for this scene yet.';
+          s.techniqueLabel = String(raw.techniqueLabel ?? '').trim() || 'Cinematic technique';
+          s.meaningLabel = String(raw.meaningLabel ?? '').trim() || 'Core idea';
+          s.cue = String(raw.cue ?? '').trim() || 'auto';
+          s.cueText = String(raw.cueText ?? '').trim() || s.description.slice(0, 140);
+          return s;
+        }
+        function validateSheetObject(obj) {
+          const errors = [], warnings = [];
+          let scenesRaw = null, name = '', description = '';
+          if (Array.isArray(obj)) { scenesRaw = obj; }
+          else if (obj && typeof obj === 'object') {
+            scenesRaw = obj.scenes;
+            name = String(obj.name ?? '').trim();
+            description = String(obj.description ?? '').trim();
+          } else { return { ok: false, errors: ['The file must contain a JSON object with a "scenes" array, or a JSON array of scenes.'], warnings }; }
+          if (!Array.isArray(scenesRaw)) { errors.push('Could not find a "scenes" array. Expected format: { "name": "...", "scenes": [ ... ] }.'); return { ok: false, errors, warnings }; }
+          if (!scenesRaw.length) { errors.push('The sheet contains no scenes.'); return { ok: false, errors, warnings }; }
+          const seen = new Set();
+          scenesRaw.forEach((raw, i) => {
+            const label = `Scene ${i + 1}${raw && raw.title ? ` ("${raw.title}")` : ''}`;
+            if (!raw || typeof raw !== 'object' || Array.isArray(raw)) { errors.push(`${label}: each scene must be an object with at least a "title".`); return; }
+            if (raw.title == null || !String(raw.title).trim()) errors.push(`${label}: missing required field "title".`);
+            if (raw.id != null && Number.isFinite(Number(raw.id))) seen.add(Number(raw.id));
+          });
+          if (errors.length) return { ok: false, errors, warnings };
+          const scenes = scenesRaw.map(normalizeScene);
+          // de-duplicate ids deterministically; count scenes whose id was changed or filled in
+          const used = new Set();
+          let fixedIds = 0;
+          scenes.forEach((s, i) => {
+            const wanted = scenesRaw[i] ? Number(scenesRaw[i].id) : NaN;
+            const hadValidUnique = Number.isFinite(wanted) && !used.has(wanted) && wanted === s.id;
+            let id = s.id;
+            while (used.has(id)) { id = scenes.length + i + 1 + used.size; }
+            used.add(id); s.id = id;
+            if (!hadValidUnique || id !== s.id) fixedIds++;
+          });
+          if (scenes.length < 5) warnings.push(`Only ${scenes.length} scenes in this sheet. Match & mix needs at least 5 — add more for the full experience.`);
+          else if (scenes.length < 10) warnings.push(`${scenes.length} scenes loaded — quick quiz rounds will use all of them.`);
+          return { ok: true, scenes, name, description, warnings, fixedIds };
+        }
+        function parseCSV(text) {
+          const rows = []; let row = [], field = '', inQ = false;
+          for (let i = 0; i < text.length; i++) {
+            const c = text[i];
+            if (inQ) {
+              if (c === '"') { if (text[i + 1] === '"') { field += '"'; i++; } else inQ = false; }
+              else field += c;
+            } else if (c === '"') inQ = true;
+            else if (c === ',') { row.push(field); field = ''; }
+            else if (c === '\n' || c === '\r') {
+              if (c === '\r' && text[i + 1] === '\n') i++;
+              row.push(field); field = '';
+              if (row.some((f) => f.trim() !== '')) rows.push(row);
+              row = [];
+            } else field += c;
+          }
+          row.push(field);
+          if (row.some((f) => f.trim() !== '')) rows.push(row);
+          if (!rows.length) throw new Error('The CSV file appears to be empty.');
+          const headers = rows.shift().map((h) => h.trim().toLowerCase().replace(/^\ufeff/, ''));
+          const need = ['title'];
+          const missing = need.filter((h) => !headers.includes(h));
+          if (missing.length) throw new Error(`Missing required column(s): ${missing.join(', ')}. Download the CSV template to see the expected columns.`);
+          return rows.map((r) => {
+            const o = {};
+            headers.forEach((h, i) => { o[h] = (r[i] ?? '').trim(); });
+            const out = {};
+            out.id = o.id === '' ? undefined : Number(o.id);
+            out.title = o.title; out.fullTitle = o.fulltitle; out.character = o.character;
+            out.themes = o.themes ? o.themes.split(';').map((t) => t.trim()).filter(Boolean) : [];
+            out.tags = o.tags ? o.tags.split(';').map((t) => t.trim()).filter(Boolean) : [];
+            out.description = o.description; out.techniques = o.techniques; out.essay = o.essay;
+            out.techniqueLabel = o.techniquelabel; out.meaningLabel = o.meaninglabel;
+            out.cue = o.cue; out.cueText = o.cuetext;
+            return out;
+          });
+        }
+        async function handleSheetFile(file) {
+          let text;
+          try { text = await file.text(); } catch (e) { return toast('Could not read that file. Try again.', 'alert'); }
+          const isCSV = /\.csv$/i.test(file.name) || (file.type && file.type.includes('csv'));
+          let result, name = '';
+          try {
+            if (isCSV) {
+              const rows = parseCSV(text);
+              name = file.name.replace(/\.csv$/i, '');
+              result = validateSheetObject(rows);
+            } else {
+              let obj;
+              try { obj = JSON.parse(text); } catch (e) { throw new Error('That file is not valid JSON. Check for a trailing comma or a missing bracket.'); }
+              if (Array.isArray(obj) || (obj && typeof obj === 'object')) name = String((obj && obj.name) || file.name.replace(/\.json$/i, ''));
+              result = validateSheetObject(obj);
+            }
+          } catch (e) { showSheetError([e.message]); return; }
+          if (!result.ok) { showSheetError(result.errors); return; }
+          state.customSheet = { name: name || 'My scene sheet', description: result.description || '', scenes: result.scenes };
+          save();
+          resetViewStates();
+          renderNav(); renderView();
+          const notes = [];
+          notes.push(`Loaded ${plural(result.scenes.length, 'scene')}${result.fixedIds ? ` — ${result.fixedIds} missing or duplicate ID${result.fixedIds === 1 ? '' : 's'} fixed automatically` : ''}.`);
+          if (result.warnings.length) showSheetOk(notes[0], result.warnings);
+          else showSheetOk(notes[0], null);
+          toast(`Scene sheet applied: ${state.customSheet.name}`, 'checkCircle');
+        }
+        function showSheetError(errors) {
+          const box = $('#sheetFeedback');
+          if (!box) { toast(errors[0] || 'Could not load that sheet.', 'alert'); return; }
+          box.innerHTML = `<div class="sheet-error" role="alert"><strong>${icon('alert', 18)} That sheet could not be loaded</strong>
+            ${errors.length > 1 ? `<ul>${errors.slice(0, 8).map((e) => `<li>${esc(e)}</li>`).join('')}${errors.length > 8 ? `<li>…and ${errors.length - 8} more.</li>` : ''}</ul>` : `<span>${esc(errors[0])}</span>`}
+          </div>`;
+          box.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+        }
+        function showSheetOk(main, warnings) {
+          const box = $('#sheetFeedback');
+          if (!box) return;
+          box.innerHTML = `<div class="sheet-ok" role="status">${icon('checkCircle', 20)}<div><strong>${esc(main)}</strong>
+            ${warnings ? `<div style="margin-top:5px">${warnings.map((w) => esc(w)).join(' ')}</div>` : ''}</div></div>`;
+        }
+        function downloadSheetJSON() {
+          const sheet = getSheet();
+          downloadFile(JSON.stringify(sheet, null, 2), `${sheet.name.toLowerCase().replace(/[^a-z0-9]+/g, '-')}-scene-sheet.json`, 'application/json');
+          toast('Scene sheet downloaded as JSON.', 'download');
+        }
+        function downloadCSVTemplate() {
+          const heads = ['id', 'title', 'fullTitle', 'character', 'themes', 'tags', 'description', 'techniques', 'essay', 'techniqueLabel', 'meaningLabel', 'cue', 'cueText'];
+          const q = (v) => `"${String(v == null ? '' : v).replace(/"/g, '""')}"`;
+          const lines = [heads.join(',')];
+          BUILTIN_SCENES.slice(0, 3).forEach((s) => {
+            lines.push([s.id, s.title, s.fullTitle, s.character, s.themes.join('; '), (s.tags || []).join('; '), s.description, s.techniques, s.essay, s.techniqueLabel, s.meaningLabel, s.cue, s.cueText].map(q).join(','));
+          });
+          lines.push(['', 'Your next scene', 'A longer scene name', 'Who leads it', 'Theme one; theme two', 'racism; sexism', 'What happens in the scene', 'The film techniques used and how', 'Why the scene matters for an essay', 'Short technique label', 'Short meaning label', 'auto', 'A one-line visual reminder'].map(q).join(','));
+          downloadFile(lines.join('\r\n'), 'scene-sheet-template.csv', 'text/csv');
+          toast('CSV template downloaded — three example rows included.', 'download');
+        }
+        function confirmRestoreBuiltin() {
+          openModal(`
+            <div class="modal-head"><h2>Restore the built-in sheet?</h2><button class="icon-button" data-action="closeModal" aria-label="Close dialog">${icon('x', 20)}</button></div>
+            <div class="modal-body">
+              <p class="modal-intro">${isCustom() ? `Your custom sheet “${esc(state.customSheet.name)}” will be removed from this browser. Notes and review history are kept and will line up again if you re-upload the same scene IDs.` : 'The Hidden Figures sheet is already active.'}</p>
+              <div class="reset-actions">
+                <button class="button secondary" data-action="closeModal">Keep my current sheet</button>
+                <button class="button primary" data-action="restoreBuiltin">${icon('rotate', 16)} Restore built-in sheet</button>
+              </div>
+            </div>`);
+        }
+        function applyRestoreBuiltin() {
+          state.customSheet = null; save();
+          resetViewStates(); closeModal();
+          renderNav(); renderView();
+          toast('Built-in Hidden Figures sheet restored.', 'checkCircle');
+        }
+
+        /* ================= VIEW STATE ================= */
+        const flash = { deck: 'all', order: [], idx: 0, flipped: false, session: [], done: false, focus: null };
+        const match = { category: 'technique', left: [], right: [], selL: null, selR: null, pairs: [], attempts: 0, wrong: false, done: false };
+        const quiz = { qs: [], idx: 0, picked: null, answers: [], done: false, len: 10, focus: 'all', effFocus: 'all' };
+        const recall = { sceneId: null, checked: false };
+        const library = { q: '', char: 'all', theme: 'all', tag: 'all' };
+        function resetViewStates() {
+          flash.deck = 'all'; flash.order = []; flash.idx = 0; flash.flipped = false; flash.session = []; flash.done = false; flash.focus = null;
+          newMatchRound(); quiz.qs = []; quiz.idx = 0; quiz.picked = null; quiz.answers = []; quiz.done = false;
+          recall.sceneId = getScenes()[0] ? getScenes()[0].id : null; recall.checked = false;
+          library.q = ''; library.char = 'all'; library.theme = 'all'; library.tag = 'all';
+        }
+
+        /* ================= OVERVIEW ================= */
+        const STRATEGIES = [
+          { t: 'Retrieval practice', d: 'Try to recall a scene before flipping the card. The effort is what builds the memory — feedback comes after.', a: 'Try flashcards', v: 'flashcards', icn: 'layers', tone: 'yellow' },
+          { t: 'Spaced practice', d: 'Honest card ratings schedule your next review from 10 minutes to 30 days. Revisit right before you forget.', a: 'See your review schedule', v: 'progress', icn: 'chart', tone: 'sage' },
+          { t: 'Interleaving', d: 'Ten question skills — thesis matching, technique effects, analysis vs summary — mixed fresh every round, each tagged racism, sexism and more.', a: 'Take the essay quiz', v: 'quiz', icn: 'zap', tone: 'lavender' },
+          { t: 'Elaborative interrogation', d: 'Ask how and why a cinematic technique creates meaning — then check your explanation against the reference.', a: 'Explain a scene', v: 'recall', icn: 'quote', tone: 'yellow' },
+          { t: 'Concrete examples', d: 'Anchor each big idea in specific scenes. Browse every moment with its artwork, themes, and film language.', a: 'Browse the library', v: 'library', icn: 'grid', tone: 'sage' },
+          { t: 'Bring your own film', d: 'Studying something else? Upload a custom scene sheet as JSON or CSV and every mode adapts to it.', a: 'Upload a scene sheet', v: 'sheet', icn: 'upload', tone: 'lavender' },
+        ];
+        function vOverview(root) {
+          const scenes = getScenes();
+          const due = dueCount();
+          const confident = scenes.filter((s) => masteryOf(s.id) === 'confident').length;
+          const learning = scenes.filter((s) => masteryOf(s.id) === 'learning').length;
+          root.innerHTML = `
+            <section class="hero" aria-labelledby="heroTitle">
+              <span class="hero-chip">${icon('film', 15)} ${esc(getSheet().name)} · ${plural(scenes.length, 'scene')} · essay-ready</span>
+              <h1 id="heroTitle">Know every scene — and what it proves.</h1>
+              <p class="hero-sub">${esc(getSheet().description || 'A private, offline study space for film scenes — flashcards, matching, quizzes, and recall practice, built on how memory actually works.')}</p>
+              <div class="hero-actions">
+                <button class="button primary" data-action="nav" data-view="flashcards">${icon('layers', 17)} Study flashcards</button>
+                ${due > 0 ? `<button class="button yellow" data-action="studyDue">${icon('zap', 17)} Review ${due} due</button>` : ''}
+                <button class="button secondary" data-action="nav" data-view="sheet">${icon('upload', 16)} Custom sheet</button>
+              </div>
+            </section>
+            <div class="stat-row" role="list">
+              <div class="stat-tile ${due ? 'accent' : ''}" role="listitem"><div class="stat-num">${due}</div><div class="stat-label">due for review now</div></div>
+              <div class="stat-tile" role="listitem"><div class="stat-num">${confident}</div><div class="stat-label">confident scenes</div></div>
+              <div class="stat-tile" role="listitem"><div class="stat-num">${learning}</div><div class="stat-label">still learning</div></div>
+              <div class="stat-tile" role="listitem"><div class="stat-num">${state.activity.quizzes ? state.activity.lastScore + '%' : '—'}</div><div class="stat-label">latest quiz score</div></div>
+            </div>
+            <div class="strategy-heading"><h2>Learn it properly.</h2><span>Six ways in — each one is a proven study move.</span></div>
+            <div class="strategy-grid">
+              ${STRATEGIES.map((s) => `
+                <button class="strategy-card" data-action="nav" data-view="${s.v}">
+                  <span class="sc-top"><span class="activity-icon ${s.tone}">${icon(s.icn, 20)}</span></span>
+                  <h3>${s.t}</h3>
+                  <p>${s.d}</p>
+                  <span class="sc-action">${s.a} ${icon('right', 15)}</span>
+                </button>`).join('')}
+            </div>
+            <div class="technique-footer">${icon('sparkles', 18)}<div><strong>Everything runs in your browser.</strong><p>No account, no server, no tracking. Your notes and review schedule live in this browser's local storage — close the tab and pick up exactly where you left off.</p></div></div>`;
+        }
+
+        /* ================= FLASHCARDS ================= */
+        function flashPool() {
+          const scenes = getScenes();
+          if (flash.deck === 'due') return scenes.filter((s) => isDue(s.id));
+          if (flash.deck === 'saved') return scenes.filter((s) => state.bookmarks.includes(s.id));
+          if (flash.deck === 'all') return scenes;
+          return scenes.filter((s) => s.character === flash.deck);
+        }
+        function flashSetDeck(deck, doShuffle) {
+          flash.deck = deck;
+          const pool = flashPool();
+          flash.order = (doShuffle ? shuffle(pool) : pool).map((s) => s.id);
+          flash.idx = 0; flash.flipped = false; flash.session = []; flash.done = false; flash.focus = null;
+        }
+        function vFlashcards(root) {
+          if (!flash.order.length) flashSetDeck('all', false);
+          if (flash.focus) {
+            const i = flash.order.indexOf(flash.focus);
+            if (i >= 0) { flash.idx = i; } else { flashSetDeck('all', false); flash.idx = Math.max(0, flash.order.indexOf(flash.focus)); }
+            flash.focus = null; flash.flipped = false; flash.done = false;
+          }
+          const scene = sceneById(flash.order[flash.idx]);
+          const due = dueCount();
+          const confident = getScenes().filter((s) => masteryOf(s.id) === 'confident').length;
+          const learning = getScenes().filter((s) => masteryOf(s.id) === 'learning').length;
+          const saved = scene ? state.bookmarks.includes(scene.id) : false;
+          const charOpts = getCharacters();
+          root.innerHTML = `
+            <div class="section-toolbar">
+              <div><h2>Flashcards</h2><p class="section-sub">Think first. Flip second.</p></div>
+              <div class="toolbar-actions">
+                <button class="text-button" data-action="shuffleDeck" aria-label="Shuffle the deck">${icon('shuffle', 16)}<span>Shuffle</span></button>
+                <span class="select-wrap"><select aria-label="Flashcard deck" data-change="deck">
+                  <option value="all" ${flash.deck === 'all' ? 'selected' : ''}>All scenes (${getScenes().length})</option>
+                  <option value="due" ${flash.deck === 'due' ? 'selected' : ''}>Due for review (${due})</option>
+                  <option value="saved" ${flash.deck === 'saved' ? 'selected' : ''}>Bookmarked (${state.bookmarks.length})</option>
+                  ${charOpts.map((c) => `<option value="${esc(c)}" ${flash.deck === c ? 'selected' : ''}>${esc(c)}</option>`).join('')}
+                </select>${icon('sliders', 14)}</span>
+              </div>
+            </div>
+            ${scene ? `
+            <div class="study-layout">
+              <section aria-label="Flashcard study area">
+                <div class="card-progress"><span class="card-count">${pad2(flash.idx + 1)} / ${pad2(flash.order.length)}</span><div class="match-progress"><i style="width:${Math.round(((flash.idx + 1) / flash.order.length) * 100)}%"></i></div></div>
+                ${flash.done ? `
+                <div class="flashcard complete-card">
+                  <div class="completion-icon">${icon('check', 30)}</div>
+                  <span class="eyebrow">SESSION COMPLETE</span>
+                  <h3>A little practice.<br/>A stronger memory.</h3>
+                  <p>You reviewed ${plural(flash.session.length, 'scene')}. Your next reviews are scheduled — come back when they're due.</p>
+                  <div class="hero-actions" style="justify-content:center">
+                    <button class="button primary" data-action="restartDeck">${icon('rotate', 16)} Start this deck again</button>
+                    <button class="button secondary" data-action="nav" data-view="progress">See progress</button>
+                  </div>
+                </div>` : `
+                <article class="flashcard ${flash.flipped ? 'flipping' : ''}" aria-label="Flashcard for scene ${scene.id}">
+                  <div class="fc-top">
+                    <span class="fc-scene-tag">${icon('film', 13)} SCENE ${pad2(scene.id)}</span>
+                    <div class="fc-actions">
+                      <button class="icon-button ${saved ? 'saved' : ''}" data-action="toggleBookmark" data-id="${scene.id}" aria-pressed="${saved}" aria-label="${saved ? 'Remove bookmark' : 'Bookmark this scene'}">${icon('bookmark', 19)}</button>
+                      <button class="icon-button" data-action="flipCard" aria-label="${flash.flipped ? 'Show question side' : 'Reveal answer'}">${icon('flip', 19)}</button>
+                    </div>
+                  </div>
+                  ${!flash.flipped ? `
+                    <div class="fc-art">${cueArt(scene.cue, scene.cueText)}</div>
+                    <h3 class="fc-title">${esc(scene.title)}</h3>
+                    <p class="fc-hint">What happens in this scene — and why does it matter?</p>
+                    <p class="flip-hint">Press <kbd>Space</kbd> to flip</p>
+                    <div class="rate-row" hidden></div>
+                  ` : `
+                    <h3 class="fc-fulltitle">${esc(scene.fullTitle)}</h3>
+                    <p class="fc-desc">${esc(scene.description)}</p>
+                    <div class="fc-back-grid">
+                      <div class="fc-block"><h4>${esc(scene.techniqueLabel)}</h4><p>${esc(scene.techniques)}</p></div>
+                      <div class="fc-block"><h4>${esc(scene.meaningLabel)}</h4><p>${esc(scene.essay)}</p></div>
+                    </div>
+                    <div class="theme-chips">${(scene.themes || []).map((t) => `<span class="theme-chip">${esc(t)}</span>`).join('')}${tagsOf(scene).map((t) => `<span class="tag-chip">${icon('tag', 11)} ${esc(tagLabel(t))}</span>`).join('')}</div>
+                    <div class="rate-row">
+                      ${[['again', 'Again', 'ok-soft'], ['good', 'Good', ''], ['easy', 'Easy', '']].map(([r, lbl]) => `
+                        <button class="rate-btn ${r}" data-action="rate" data-rating="${r}" data-id="${scene.id}">
+                          <span>${lbl}</span><small>${esc(nextIntervalText(scene.id, r))}</small>
+                        </button>`).join('')}
+                    </div>
+                    <p class="flip-hint">Rate honestly — the schedule only works if you do. Keys: <kbd>1</kbd> <kbd>2</kbd> <kbd>3</kbd></p>
+                  `}
+                </article>`}
+              </section>
+              <aside class="flash-aside" aria-label="Study progress">
+                <div class="aside-card">
+                  <h3>Card mastery</h3>
+                  <div class="mastery-row"><span class="mastery-dot" style="background:#8a9a6a"></span>Confident<b>${confident}</b></div>
+                  <div class="mastery-row"><span class="mastery-dot" style="background:#e8bd34"></span>Learning<b>${learning}</b></div>
+                  <div class="mastery-row"><span class="mastery-dot" style="background:#d8dcd0"></span>Not started<b>${getScenes().length - confident - learning}</b></div>
+                  <div class="mastery-bar">
+                    <i style="width:${Math.round((confident / Math.max(1, getScenes().length)) * 100)}%;background:#8a9a6a"></i>
+                    <i style="width:${Math.round((learning / Math.max(1, getScenes().length)) * 100)}%;background:#e8bd34"></i>
+                  </div>
+                </div>
+                <div class="aside-card">
+                  <h3>Keyboard shortcuts</h3>
+                  <div class="kbd-row"><span>Flip the card</span><kbd>Space</kbd></div>
+                  <div class="kbd-row"><span>Previous / next</span><span><kbd>←</kbd> <kbd>→</kbd></span></div>
+                  <div class="kbd-row"><span>Rate the card</span><span><kbd>1</kbd> <kbd>2</kbd> <kbd>3</kbd></span></div>
+                </div>
+                <div class="aside-card">
+                  <h3>Why rate honestly?</h3>
+                  <p style="color:var(--muted);font-size:.9rem;line-height:1.6">“Again” brings a card back in 10 minutes. “Good” and “Easy” push it out up to 30 days — that spacing is what makes it stick.</p>
+                </div>
+              </aside>
+            </div>` : `
+            <div class="empty-note">${flash.deck === 'due' ? 'Nothing is due right now. Beautiful. Take a quiz to keep sharp, or come back later.' : flash.deck === 'saved' ? 'No bookmarks yet. Tap the bookmark on a flashcard or in the library to build your shortlist.' : 'This deck is empty.'}</div>`}`;
+        }
+        function flashRate(rating) {
+          const id = flash.order[flash.idx];
+          if (id == null || flash.done) return;
+          rateCard(id, rating);
+          if (!flash.session.includes(id)) flash.session.push(id);
+          flash.flipped = false;
+          if (flash.idx >= flash.order.length - 1) flash.done = true;
+          else flash.idx++;
+          renderNav(); renderView();
+        }
+        function flashNav(delta) {
+          const n = flash.idx + delta;
+          if (n < 0 || n >= flash.order.length) return;
+          flash.idx = n; flash.flipped = false; flash.done = false;
+          renderView();
+        }
+
+        /* ================= MATCHING ================= */
+        function newMatchRound() {
+          const scenes = getScenes();
+          if (scenes.length < 5) { match.left = []; match.right = []; return; }
+          match.left = shuffle(scenes).slice(0, 5);
+          match.right = shuffle(match.left);
+          match.selL = null; match.selR = null; match.pairs = []; match.attempts = 0; match.wrong = false; match.done = false;
+        }
+        function rightLabel(s) { return match.category === 'technique' ? s.techniqueLabel : s.meaningLabel; }
+        function vMatching(root) {
+          const scenes = getScenes();
+          const enough = scenes.length >= 5;
+          root.innerHTML = `
+            <div class="section-toolbar">
+              <div><h2>Match &amp; mix</h2><p class="section-sub">Connect a scene to the way it tells its story.</p></div>
+              <span class="select-wrap"><select aria-label="Matching category" data-change="matchCategory">
+                <option value="technique" ${match.category === 'technique' ? 'selected' : ''}>Scene + film technique</option>
+                <option value="meaning" ${match.category === 'meaning' ? 'selected' : ''}>Scene + big idea</option>
+              </select>${icon('sliders', 14)}</span>
+            </div>
+            ${enough ? `
+            <div class="activity-instructions">${icon('link', 18)}<p>Choose one item from each column. A correct pair stays connected.</p><span>${match.pairs.length} / 5 pairs</span></div>
+            <div class="match-progress"><i style="width:${match.pairs.length * 20}%"></i></div>
+            <div class="matching-grid">
+              <div>
+                <div class="column-label"><span>THE SCENE</span><span>5 MOMENTS</span></div>
+                <div class="match-list">
+                  ${match.left.map((s) => `
+                    <button class="match-item ${match.selL === s.id ? 'selected' : ''} ${match.pairs.includes(s.id) ? 'matched' : ''} ${match.wrong && match.selL === s.id ? 'wrong' : ''}"
+                      data-action="pickLeft" data-id="${s.id}" aria-pressed="${match.selL === s.id}" ${match.pairs.includes(s.id) || match.wrong ? 'disabled' : ''}>
+                      <span class="match-number">${pad2(s.id)}</span><strong>${esc(s.title)}</strong>
+                      <span class="match-check">${match.pairs.includes(s.id) ? icon('check', 17) : ''}</span>
+                    </button>`).join('')}
+                </div>
+              </div>
+              <div class="matching-link" aria-hidden="true">${icon('link', 22)}</div>
+              <div>
+                <div class="column-label"><span>${match.category === 'technique' ? 'THE TECHNIQUE' : 'THE BIG IDEA'}</span><span>5 CONNECTIONS</span></div>
+                <div class="match-list">
+                  ${match.right.map((s) => `
+                    <button class="match-item right-item ${match.selR === s.id ? 'selected' : ''} ${match.pairs.includes(s.id) ? 'matched' : ''} ${match.wrong && match.selR === s.id ? 'wrong' : ''}"
+                      data-action="pickRight" data-id="${s.id}" aria-pressed="${match.selR === s.id}"
+                      aria-label="${match.category === 'technique' ? 'Technique' : 'Idea'}: ${esc(rightLabel(s))}"
+                      ${match.pairs.includes(s.id) || match.wrong ? 'disabled' : ''}>
+                      <strong>${esc(rightLabel(s))}</strong>
+                      <span class="match-check">${match.pairs.includes(s.id) ? icon('check', 17) : ''}</span>
+                    </button>`).join('')}
+                </div>
+              </div>
+            </div>
+            <div class="match-bottom" aria-live="polite">
+              ${match.done ? `
+                <div class="match-success">${icon('checkCircle', 26)}<div><h3>Everything clicked.</h3><p>5 pairs in ${plural(match.attempts, 'attempt')}. Ready for a fresh mix?</p></div>
+                <button class="button yellow" style="margin-left:auto" data-action="newMatch">${icon('shuffle', 16)} New round</button></div>`
+              : match.wrong ? `<p class="error-text">Not quite. Think about the ${match.category === 'technique' ? 'technique' : 'idea'}, then try again.</p>`
+              : match.selL || match.selR ? `<p>Now pick the ${match.selL ? (match.category === 'technique' ? 'technique' : 'idea') : 'scene'} that connects.</p>`
+              : `<p>Pick any scene to start matching.</p>`}
+            </div>
+            <div class="technique-footer">${icon('bulb', 18)}<div><strong>Concrete examples</strong><p>Matching forces you to tell similar moments apart — the exact skill an essay question rewards.</p></div></div>`
+            : `<div class="empty-note">Match &amp; mix needs at least 5 scenes, and this sheet has ${scenes.length}. Add more scenes to your sheet and come back.</div>`}`;
+        }
+        function matchPick(side, id) {
+          if (match.wrong || match.done || match.pairs.includes(id)) return;
+          if (side === 'L') { match.selL = match.selL === id ? null : id; }
+          else { match.selR = match.selR === id ? null : id; }
+          if (match.selL != null && match.selR != null) {
+            match.attempts++;
+            if (match.selL === match.selR) {
+              match.pairs.push(match.selL);
+              match.selL = null; match.selR = null;
+              if (match.pairs.length === 5) { match.done = true; state.activity.matches++; save(); }
+            } else {
+              match.wrong = true;
+              setTimeout(() => { match.wrong = false; match.selL = null; match.selR = null; renderView(); }, 650);
+            }
+          }
+          renderView();
+        }
+
+        /* ================= QUIZ — essay-focused question engine ================= */
+        const BARRIERS = [
+          { tag: 'racism', text: 'Racism built into rules and spaces' },
+          { tag: 'sexism', text: 'Assumptions about what women can do' },
+          { tag: 'injustice', text: 'Bureaucratic gatekeeping and red tape' },
+          { tag: 'technology', text: 'The disruption of new technology' },
+          { tag: 'coldwar', text: 'Geopolitical pressure of the space race' },
+        ];
+        const sceneText = (s) => `${pad2(s.id)} — ${s.title}`;
+        function distractorPool(n, excludeIds, prefer) {
+          const scenes = getScenes();
+          let pool = scenes.filter((s) => !excludeIds.includes(s.id) && (!prefer || prefer(s)));
+          if (pool.length < n && prefer) pool = scenes.filter((s) => !excludeIds.includes(s.id));
+          return shuffle(pool).slice(0, n);
+        }
+        function optionSet(textFn, pairs) {
+          // pairs: [{ id, scene }] or [{ id, text }] -> options with unique text; null if fewer than 3 unique texts
+          const items = pairs.map((p) => ({ id: p.id, text: p.text != null ? p.text : textFn(p.scene) }));
+          const seen = new Set();
+          for (const it of items) { if (seen.has(it.text)) return null; seen.add(it.text); }
+          return items;
+        }
+        function buildBank() {
+          const scenes = getScenes();
+          const bank = [];
+          const push = (q) => { if (q && q.options && q.options.length >= 3) bank.push(q); };
+          const sceneQ = (scene, ds, textFn) => optionSet(textFn || sceneText, [{ id: scene.id, scene }, ...ds.map((s) => ({ id: s.id, scene: s }))]);
+
+          /* 1 · ARGUMENT → EVIDENCE — match a thesis to its strongest scene */
+          THESES.forEach((th) => {
+            const scene = sceneById(th.scene); if (!scene) return;
+            const ds = distractorPool(3, [scene.id], (s) => !tagsOf(s).includes(th.tags[0]));
+            const opts = sceneQ(scene, ds); if (!opts) return;
+            push({ kind: 'thesis', kindLabel: 'ARGUMENT → EVIDENCE', tag: th.tags[0], scene,
+              prompt: 'Which scene is your strongest evidence for this essay argument?',
+              clue: `“${th.text}”`, options: shuffle(opts), answer: scene.id,
+              explanation: `${scene.fullTitle} — ${scene.essay} That is why it anchors an argument about ${th.tags.map((t) => tagLabel(t).toLowerCase()).join(' and ')}.` });
+          });
+
+          /* 2 · THEME EVIDENCE — one question per (scene, tag) pair */
+          scenes.forEach((scene) => {
+            tagsOf(scene).forEach((tag) => {
+              const ds = distractorPool(3, [scene.id], (s) => !tagsOf(s).includes(tag));
+              const opts = sceneQ(scene, ds); if (!opts) return;
+              push({ kind: 'theme', kindLabel: 'THEME EVIDENCE', tag, scene,
+                prompt: `Which of these scenes develops the idea of ${tagLabel(tag).toLowerCase()}?`,
+                clue: `${tagLabel(tag)} — ${tagDef(tag)}.`, options: shuffle(opts), answer: scene.id,
+                explanation: `Scene ${pad2(scene.id)}, “${scene.title}”, carries this idea: ${scene.essay}` });
+            });
+          });
+
+          /* 3 · TECHNIQUE → EFFECT — link film language to meaning */
+          scenes.forEach((scene) => {
+            const ds = distractorPool(3, [scene.id], (s) => !tagsOf(s).some((t) => tagsOf(scene).includes(t)));
+            const opts = sceneQ(scene, ds, (s) => s.meaningLabel); if (!opts) return;
+            push({ kind: 'tech', kindLabel: 'TECHNIQUE → EFFECT', tag: tagsOf(scene)[0] || null, scene,
+              prompt: `In “${scene.title}”, the filmmakers rely on ${lower1(scene.techniqueLabel)}. What is the main effect of that choice?`,
+              clue: 'Pick the meaning the technique creates — not just what happens.',
+              options: shuffle(opts), answer: scene.id,
+              explanation: `${scene.techniques} This is what the technique achieves: ${scene.meaningLabel}. ${scene.essay}` });
+          });
+
+          /* 4 · TOPIC SENTENCE — state the argument of a paragraph */
+          scenes.forEach((scene) => {
+            const ds = distractorPool(3, [scene.id], (s) => !tagsOf(s).some((t) => tagsOf(scene).includes(t)));
+            const opts = sceneQ(scene, ds, (s) => s.meaningLabel); if (!opts) return;
+            push({ kind: 'topic', kindLabel: 'TOPIC SENTENCE', tag: tagsOf(scene)[0] || null, scene,
+              prompt: `Which topic sentence opens the strongest analytical paragraph on “${scene.title}”?`,
+              clue: scene.cueText || scene.description.slice(0, 140),
+              options: shuffle(opts), answer: scene.id,
+              explanation: `A topic sentence states the argument up front: “${scene.meaningLabel}.” ${scene.essay}` });
+          });
+
+          /* 5 · BARRIER ANALYSIS — name the force the scene dramatises */
+          scenes.forEach((scene) => {
+            const st = tagsOf(scene);
+            const hit = BARRIERS.find((b) => st.includes(b.tag)); if (!hit) return;
+            const ds = BARRIERS.filter((b) => b !== hit && !st.includes(b.tag)).slice(0, 3);
+            if (ds.length < 2) return;
+            push({ kind: 'barrier', kindLabel: 'BARRIER ANALYSIS', tag: hit.tag, scene,
+              prompt: `What kind of barrier does “${scene.title}” put on screen?`,
+              clue: 'Name the force the scene is really about.',
+              options: shuffle([{ id: scene.id, text: hit.text }, ...ds.map((b, i) => ({ id: -(i + 1), text: b.text }))]),
+              answer: scene.id,
+              explanation: `${scene.essay} The barrier dramatised here is ${lower1(hit.text)}.` });
+          });
+
+          /* 6 · ANALYSIS OR SUMMARY — the skill markers actually grade */
+          scenes.forEach((scene) => {
+            const first = (scene.description.match(/^[^.]+\./) || [scene.description])[0].trim();
+            const correct = `${scene.meaningLabel} — achieved through ${lower1(scene.techniqueLabel)}.`;
+            const opts = optionSet((p) => p.text, [
+              { id: scene.id, text: correct },
+              { id: -11, text: first },
+              { id: -12, text: `${scene.character} appears in this scene, which is part of the ${getSheet().name} storyline.` },
+              { id: -13, text: 'This scene is very powerful and emotional, which makes it important.' },
+            ]); if (!opts) return;
+            push({ kind: 'analysis', kindLabel: 'ANALYSIS OR SUMMARY?', tag: tagsOf(scene)[0] || null, scene,
+              prompt: `You are writing a paragraph on “${scene.title}”. Which sentence is real analysis?`,
+              clue: 'Analysis names a technique and its effect. Everything else is filler.',
+              options: shuffle(opts), answer: scene.id,
+              explanation: `The analytical sentence names the technique (${lower1(scene.techniqueLabel)}) and states its effect (${lower1(scene.meaningLabel)}). The others only summarise the plot, repeat a fact, or share an opinion.` });
+          });
+
+          /* 7 · BUILDING A PARAGRAPH — find a second, supporting example */
+          scenes.forEach((scene) => {
+            tagsOf(scene).forEach((tag) => {
+              const partners = scenes.filter((s) => s.id !== scene.id && tagsOf(s).includes(tag));
+              if (!partners.length) return;
+              const partner = shuffle(partners)[0];
+              const ds = distractorPool(3, [scene.id, partner.id], (s) => !tagsOf(s).includes(tag));
+              const opts = sceneQ(partner, ds); if (!opts) return;
+              push({ kind: 'pair', kindLabel: 'BUILDING A PARAGRAPH', tag, scene: partner,
+                prompt: `Your paragraph on ${tagLabel(tag).toLowerCase()} uses “${scene.title}”. Which scene adds a second example?`,
+                clue: `${tagDef(tag).charAt(0).toUpperCase() + tagDef(tag).slice(1)}. A second example from another story shows the pattern, not a one-off.`,
+                options: shuffle(opts), answer: partner.id,
+                explanation: `“${partner.title}” develops the same idea${partner.character && scene.character && partner.character !== scene.character ? ` through ${partner.character}` : ''}: ${partner.essay}` });
+            });
+          });
+
+          /* 8 · TURNING POINTS — structure of the film's argument */
+          TURNING_POINTS.forEach((tp) => {
+            const scene = sceneById(tp.scene); if (!scene) return;
+            const ds = distractorPool(3, [scene.id]);
+            const opts = sceneQ(scene, ds); if (!opts) return;
+            push({ kind: 'turning', kindLabel: 'TURNING POINTS', tag: tagsOf(scene)[0] || null, scene,
+              prompt: 'Which scene marks the moment when…',
+              clue: `…${tp.text}?`, options: shuffle(opts), answer: scene.id,
+              explanation: `Scene ${pad2(scene.id)}, “${scene.title}”: ${scene.essay}` });
+          });
+
+          /* 9 · COUNTER-CLAIMS — test a claim against the evidence */
+          NUANCES.forEach((n) => {
+            const scene = sceneById(n.scene); if (!scene) return;
+            const ds = distractorPool(3, [scene.id]);
+            const opts = sceneQ(scene, ds); if (!opts) return;
+            push({ kind: 'counter', kindLabel: 'COUNTER-CLAIMS', tag: tagsOf(scene)[0] || null, scene,
+              prompt: 'A classmate writes this in their essay draft. Which scene most complicates the claim?',
+              clue: `“${n.claim}”`, options: shuffle(opts), answer: scene.id,
+              explanation: `${n.why} That is exactly what “${scene.title}” shows: ${scene.essay}` });
+          });
+
+          /* 10 · SCOPE DISCIPLINE — keep every scene on-topic */
+          getTagUniverse().forEach((tag) => {
+            const tagged = scenes.filter((s) => tagsOf(s).includes(tag));
+            const untagged = scenes.filter((s) => !tagsOf(s).includes(tag));
+            if (tagged.length < 3 || untagged.length < 1) return;
+            shuffle(untagged).slice(0, 2).forEach((scene) => {
+              const ds = shuffle(tagged.filter((s) => s.id !== scene.id)).slice(0, 3);
+              if (ds.length < 3) return;
+              const opts = sceneQ(scene, ds); if (!opts) return;
+              push({ kind: 'scope', kindLabel: 'SCOPE DISCIPLINE', tag, scene,
+                prompt: `Your whole essay is about ${tagLabel(tag).toLowerCase()} — ${tagDef(tag)}. Which scene is LEAST useful as evidence?`,
+                clue: 'Every scene you quote must serve the argument. One of these does not belong.',
+                options: shuffle(opts), answer: scene.id,
+                explanation: `“${scene.title}” is about ${tagsOf(scene).length ? tagsOf(scene).map((t) => tagLabel(t).toLowerCase()).join(', ') : 'other ideas'} — not ${tagLabel(tag).toLowerCase()}. The other three scenes all develop it.` });
+              });
+          });
+          return bank;
+        }
+        function newQuiz() {
+          const bank = buildBank();
+          let pool = quiz.focus !== 'all' ? bank.filter((q) => q.tag === quiz.focus) : bank;
+          quiz.effFocus = pool.length >= 4 ? quiz.focus : 'all';
+          if (pool.length < 4) pool = bank;
+          const count = quiz.len === 'all' ? pool.length : Math.min(quiz.len, pool.length);
+          quiz.qs = shuffle(pool).slice(0, count);
+          quiz.idx = 0; quiz.picked = null; quiz.answers = []; quiz.done = false;
+        }
+        function vQuiz(root) {
+          const scenes = getScenes();
+          if (scenes.length < 4) { root.innerHTML = `<div class="empty-note">The essay quiz needs at least 4 scenes so it can offer real choices. This sheet has ${scenes.length}.</div>`; return; }
+          const bankSize = buildBank().length;
+          if (!quiz.qs.length) {
+            const tags = getTagUniverse();
+            root.innerHTML = `
+            <div class="section-toolbar">
+              <div><h2>Essay quiz</h2><p class="section-sub">Every question rehearses a skill your essay needs — evidence, analysis, and the links between them.</p></div>
+              <span class="quiet-tag">${bankSize}-QUESTION BANK</span>
+            </div>
+            <div class="quiz-setup">
+              <div class="setup-card">
+                <span class="eyebrow">WHAT YOU PRACTISE</span>
+                <div class="setup-grid">
+                  ${[['quote', 'Argument → evidence', 'Match a thesis statement to the scene that proves it.'],
+                     ['film', 'Technique → effect', 'Name what a camera or editing choice actually achieves.'],
+                     ['bulb', 'Analysis vs summary', 'Tell analytical sentences apart from plot recap.'],
+                     ['link', 'Scene pairing', 'Build a paragraph from two scenes that share an idea.'],
+                     ['eye', 'Barrier analysis', 'Classify the force a scene dramatises — racism, sexism, red tape…'],
+                     ['alert', 'Counter-claims', 'Test oversimplified claims against the best counter-evidence.']].map(([icn, t, d]) => `
+                  <div class="setup-item"><span class="setup-icn">${icon(icn, 18)}</span><div><b>${t}</b><p>${d}</p></div></div>`).join('')}
+                </div>
+                <div class="technique-footer" style="margin-top:4px">${icon('bulb', 18)}<div><strong>No trivia, no name-dropping.</strong><p>Questions never ask who said what — they ask what a scene <em>does</em> for an essay: prove a point, carry a theme, or resist an idea.</p></div></div>
+              </div>
+              <div class="aside-card setup-controls">
+                <h3>Set up your round</h3>
+                <label class="setup-label" for="quizLenSelect">Questions</label>
+                <span class="select-wrap"><select id="quizLenSelect" aria-label="Number of questions" data-change="quizLen">
+                  ${[10, 20, 30].map((n) => `<option value="${n}" ${quiz.len === n ? 'selected' : ''}>${n} questions</option>`).join('')}
+                  <option value="all" ${quiz.len === 'all' ? 'selected' : ''}>Everything (${bankSize})</option>
+                </select>${icon('sliders', 14)}</span>
+                <label class="setup-label" for="quizFocusSelect">Focus</label>
+                <span class="select-wrap"><select id="quizFocusSelect" aria-label="Question focus" data-change="quizFocus">
+                  <option value="all" ${quiz.focus === 'all' ? 'selected' : ''}>Mixed essay skills</option>
+                  ${tags.map((t) => `<option value="${t}" ${quiz.focus === t ? 'selected' : ''}>${esc(tagLabel(t))}</option>`).join('')}
+                </select>${icon('sliders', 14)}</span>
+                <button class="button primary" data-action="quizStart" style="margin-top:16px">${icon('zap', 16)} Start the round</button>
+                <p class="setup-note">Tags come from each scene's essay tags — set them in your scene sheet.</p>
+              </div>
+            </div>`;
+            return;
+          }
+          const q = quiz.qs[quiz.idx];
+          const score = quiz.answers.filter((a) => a.correct).length;
+          if (quiz.done) {
+            const skills = {};
+            quiz.qs.forEach((qq, i) => { const a = quiz.answers[i]; if (!a) return; const key = qq.kindLabel; (skills[key] = skills[key] || { ok: 0, n: 0 }); skills[key].n++; if (a.correct) skills[key].ok++; });
+            root.innerHTML = `
+            <div class="section-toolbar">
+              <div><h2>Essay quiz</h2><p class="section-sub">Round complete — here is what the results say about your essay readiness.</p></div>
+              <span class="quiet-tag">${quiz.qs.length} QUESTIONS</span>
+            </div>
+            <div class="quiz-results">
+              <div class="result-top">
+                <div class="completion-icon">${icon('zap', 30)}</div>
+                <span class="eyebrow">YOUR RECALL, IN FOCUS</span>
+                <h3>${score === quiz.qs.length ? 'Essay-ready.' : score >= quiz.qs.length * 0.7 ? 'The connections are holding.' : 'The links need another pass.'}</h3>
+                <div class="quiz-score"><b>${score}</b><span>/ ${quiz.qs.length}</span></div>
+                <p>${score === quiz.qs.length ? 'A perfect round. Come back later to make it last.' : 'The scenes below deserve another look. Getting feedback is part of learning.'}</p>
+                <div class="skill-breakdown" aria-label="Score by question skill">
+                  ${Object.entries(skills).map(([lbl, v]) => `
+                    <div class="skill-row ${v.ok === v.n ? 'perfect' : v.ok === 0 ? 'weak' : ''}"><span>${esc(lbl)}</span><span class="skill-score"><b>${v.ok}</b>/${v.n}</span></div>`).join('')}
+                </div>
+                <button class="button primary" data-action="newQuiz">${icon('shuffle', 16)} Set up a new round</button>
+              </div>
+              ${score < quiz.qs.length ? `
+              <div class="missed-scenes">
+                <span class="eyebrow">REVISIT THESE MOMENTS</span>
+                ${quiz.answers.filter((a) => !a.correct).map((a) => {
+                  const s = sceneById(a.id);
+                  return s ? `<button class="revisit-row" data-action="studyScene" data-id="${s.id}"><span class="mono">${pad2(s.id)}</span><strong>${esc(s.title)}</strong><span>Study scene ${icon('right', 15)}</span></button>` : '';
+                }).join('')}
+              </div>` : ''}
+            </div>`;
+            return;
+          }
+          root.innerHTML = `
+            <div class="section-toolbar">
+              <div><h2>Essay quiz</h2><p class="section-sub">${quiz.effFocus === 'all' ? 'Mixed essay skills.' : `Focused on ${esc(tagLabel(quiz.effFocus).toLowerCase())}.`}</p></div>
+              <button class="text-button" data-action="newQuiz" aria-label="Back to round setup">${icon('sliders', 15)} Setup</button>
+            </div>
+            <div class="quiz-topline"><span>Question <b>${quiz.idx + 1}</b> of ${quiz.qs.length}</span><span class="mono">${esc(q.kindLabel)}</span></div>
+            <div class="match-progress"><i style="width:${Math.round((quiz.idx / quiz.qs.length) * 100)}%"></i></div>
+            <section class="quiz-body" aria-label="Quiz question">
+              ${q.tag ? `<div class="quiz-tagrow"><span class="tag-chip">${icon('tag', 13)} ${esc(tagLabel(q.tag))}</span></div>` : ''}
+              <h3>${esc(q.prompt)}</h3>
+              <p class="quiz-clue ${q.kind !== 'tech' && q.kind !== 'topic' && q.kind !== 'barrier' && q.kind !== 'analysis' ? 'scene-name' : ''}">${esc(q.clue)}</p>
+              <div class="quiz-options">
+                ${q.options.map((o, i) => {
+                  const isAns = o.id === q.answer;
+                  const picked = quiz.picked === o.id;
+                  const cls = quiz.picked == null ? '' : isAns ? 'correct' : picked ? 'incorrect' : '';
+                  return `<button class="quiz-option ${cls}" data-action="quizPick" data-id="${o.id}" ${quiz.picked != null ? 'disabled' : ''}>
+                    <span class="option-letter">${String.fromCharCode(65 + i)}</span><span>${esc(o.text)}</span>
+                    ${quiz.picked != null && isAns ? `<span class="opt-check">${icon('check', 18)}</span>` : quiz.picked != null && picked ? `<span class="opt-check">${icon('x', 18)}</span>` : ''}
+                  </button>`;
+                }).join('')}
+              </div>
+              ${quiz.picked != null ? `
+              <div class="quiz-feedback ${quiz.picked === q.answer ? 'positive' : 'negative'}" role="status">
+                <strong>${quiz.picked === q.answer ? 'Exactly. Here is the connection.' : 'Not quite. Here is what to remember.'}</strong>
+                ${esc(q.explanation)}
+              </div>
+              <div class="quiz-actions"><button class="button primary" data-action="quizNext">${quiz.idx === quiz.qs.length - 1 ? 'See results' : 'Next question'} ${icon('right', 16)}</button></div>` : ''}
+            </section>`;
+        }
+        function quizPick(id) {
+          const q = quiz.qs[quiz.idx];
+          if (quiz.picked != null) return;
+          quiz.picked = id;
+          quiz.answers.push({ id: q.scene.id, correct: id === q.answer });
+          renderView();
+        }
+        function quizNext() {
+          if (quiz.idx >= quiz.qs.length - 1) {
+            quiz.done = true;
+            state.activity.quizzes++;
+            state.activity.lastScore = Math.round((quiz.answers.filter((a) => a.correct).length / quiz.qs.length) * 100);
+            save();
+          } else { quiz.idx++; quiz.picked = null; }
+          renderView();
+        }
+        /* ================= RECALL ================= */
+        function vRecall(root) {
+          const scenes = getScenes();
+          if (!scenes.length) { root.innerHTML = '<div class="empty-note">No scenes in this sheet yet.</div>'; return; }
+          if (recall.sceneId == null || !sceneById(recall.sceneId)) recall.sceneId = scenes[0].id;
+          const scene = sceneById(recall.sceneId);
+          const note = state.notes[scene.id] ?? '';
+          root.innerHTML = `
+            <div class="section-toolbar">
+              <div><h2>Recall &amp; explain</h2><p class="section-sub">Make the connection in your own words.</p></div>
+              <span class="select-wrap"><select aria-label="Choose a scene to explain" data-change="recallScene">
+                ${scenes.map((s) => `<option value="${s.id}" ${s.id === scene.id ? 'selected' : ''}>${pad2(s.id)} — ${esc(s.title)}</option>`).join('')}
+              </select>${icon('sliders', 14)}</span>
+            </div>
+            <div class="recall-layout">
+              <div class="writing-area">
+                <span class="eyebrow">THE WHY BEHIND THE MOMENT</span>
+                <h3>How does the filmmaking in this scene reinforce its bigger idea?</h3>
+                <p class="writing-prompt">Recall a specific moment, name a cinematic technique, and explain its effect. Don't peek at the reference just yet.</p>
+                <div class="essay-angle">${icon('tag', 15)}<span><b>Essay angle:</b> ${esc(essayPromptFor(scene))}</span></div>
+                <label for="recallAnswer">Your explanation</label>
+                <textarea id="recallAnswer" rows="9" placeholder="In this scene, the director uses… This helps the audience understand…" data-input="recallNote">${esc(note)}</textarea>
+                <div class="writing-meta">
+                  <span>${note.trim() ? note.trim().split(/\s+/).length : 0} words</span>
+                  <span>${icon('check', 13)} Draft saved automatically</span>
+                </div>
+                <div class="writing-actions">
+                  <button class="button primary" ${note.trim() ? '' : 'disabled'} data-action="checkRecall">${recall.checked ? 'Save explanation' : 'Check my explanation'} ${icon('right', 16)}</button>
+                  <button class="text-button" data-action="newRecallPrompt">${icon('shuffle', 15)} New prompt</button>
+                </div>
+              </div>
+              <aside class="explanation-reference">
+                ${recall.checked ? `
+                <div class="reference-panel">
+                  <span class="eyebrow">CHECK YOUR CONNECTION</span>
+                  <h3>${esc(scene.title)}</h3>
+                  <div class="answer-block"><span class="answer-label">${esc(scene.techniqueLabel)}</span><p>${esc(scene.techniques)}</p></div>
+                  <div class="answer-block"><span class="answer-label">${esc(scene.meaningLabel)}</span><p>${esc(scene.essay)}</p></div>
+                  <div class="self-check">
+                    <strong>A quick self-check</strong>
+                    ${['I used a specific scene detail.', 'I identified a cinematic technique.', 'I explained its effect and meaning.'].map((c) => `
+                      <label><input type="checkbox" data-check="selfCheck"/><span>${c}</span></label>`).join('')}
+                    <small>This is a self-check, not an automated grade.</small>
+                  </div>
+                </div>` : `
+                <div class="reference-aside">
+                  <div class="reference-art">${cueArt(scene.cue, scene.cueText)}</div>
+                  <h3>A thought, not a transcript.</h3>
+                  <p>Good analysis explains <em>how</em> a film technique creates meaning. Exact wording is not the goal.</p>
+                  <div class="reference-hint">${icon('bulb', 18)}<p>Try saying your explanation aloud before you write it.</p></div>
+                </div>`}
+              </aside>
+            </div>
+            <div class="technique-footer">${icon('quote', 18)}<div><strong>Elaborative interrogation</strong><p>Asking "how?" and "why?" links new information to ideas you already understand. Always check your explanation.</p></div></div>`;
+        }
+        function recallCheck() {
+          const ta = $('#recallAnswer');
+          const text = ta ? ta.value : (state.notes[recall.sceneId] || '');
+          if (!text.trim()) return;
+          state.notes[recall.sceneId] = text;
+          if (!state.activity.explanations.includes(recall.sceneId)) state.activity.explanations.push(recall.sceneId);
+          save();
+          recall.checked = true;
+          renderView();
+          toast('Explanation saved. Compare the ideas, not exact wording.', 'checkCircle');
+        }
+
+        /* ================= LIBRARY ================= */
+        function filteredScenes() {
+          const q = library.q.trim().toLowerCase();
+          return getScenes().filter((s) => {
+            if (library.char !== 'all' && s.character !== library.char) return false;
+            if (library.theme !== 'all' && !(s.themes || []).includes(library.theme)) return false;
+            if (library.tag !== 'all' && !tagsOf(s).includes(library.tag)) return false;
+            if (q) {
+              const hay = `${s.title} ${s.fullTitle} ${s.description} ${s.character} ${(s.themes || []).join(' ')} ${tagsOf(s).map((t) => tagLabel(t)).join(' ')}`.toLowerCase();
+              if (!hay.includes(q)) return false;
+            }
+            return true;
+          });
+        }
+        function vLibrary(root) {
+          const scenes = filteredScenes();
+          const chars = getCharacters();
+          const themes = getThemes();
+          root.innerHTML = `
+            <div class="section-toolbar">
+              <div><h2>Scene library</h2><p class="section-sub">Every moment from the sheet, ready to browse.</p></div>
+            </div>
+            <div class="library-controls">
+              <span class="search-box">${icon('search', 18)}<input type="search" placeholder="Search scenes, characters, themes…" aria-label="Search scenes" data-input="librarySearch" value="${esc(library.q)}"/></span>
+              <div class="chip-row" role="group" aria-label="Filter by character">
+                <button class="filter-chip ${library.char === 'all' ? 'active' : ''}" data-action="libChar" data-char="all">All characters</button>
+                ${chars.map((c) => `<button class="filter-chip ${library.char === c ? 'active' : ''}" data-action="libChar" data-char="${esc(c)}">${esc(c)}</button>`).join('')}
+              </div>
+            </div>
+            <div class="chip-row" role="group" aria-label="Filter by essay tag" style="margin-bottom:18px">
+              <button class="filter-chip ${library.tag === 'all' ? 'active' : ''}" data-action="libTag" data-tag="all">All essay tags</button>
+              ${getTagUniverse().map((t) => `<button class="filter-chip ${library.tag === t ? 'active' : ''}" data-action="libTag" data-tag="${esc(t)}">${icon('tag', 12)} ${esc(tagLabel(t))}</button>`).join('')}
+            </div>
+            <div class="chip-row" role="group" aria-label="Filter by theme" style="margin-bottom:18px">
+              <button class="filter-chip ${library.theme === 'all' ? 'active' : ''}" data-action="libTheme" data-theme="all">All themes</button>
+              ${themes.map((t) => `<button class="filter-chip ${library.theme === t ? 'active' : ''}" data-action="libTheme" data-theme="${esc(t)}">${esc(t)}</button>`).join('')}
+            </div>
+            <p class="library-count">${scenes.length === getScenes().length ? `Showing all ${plural(scenes.length, 'scene')}.` : `Showing ${scenes.length} of ${plural(getScenes().length, 'scene')}.`}</p>
+            ${scenes.length ? `
+            <div class="library-grid">
+              ${scenes.map((s) => {
+                const saved = state.bookmarks.includes(s.id);
+                return `<button class="scene-tile" data-action="openScene" data-id="${s.id}" aria-label="Open details for ${esc(s.title)}">
+                  <span class="tile-top"><span class="tile-num">${pad2(s.id)}</span>
+                  <span class="icon-button tile-save ${saved ? 'saved' : ''}" data-action="toggleBookmarkStop" data-id="${s.id}" role="button" aria-label="${saved ? 'Remove bookmark' : 'Bookmark scene'}" tabindex="0">${icon('bookmark', 17)}</span></span>
+                  ${cueArt(s.cue, s.cueText, 'art')}
+                  <h3>${esc(s.title)}</h3>
+                  <span class="tile-char">${esc(s.character)}</span>
+                  ${tagsOf(s).length ? `<span class="tile-tags">${tagsOf(s).slice(0, 3).map((t) => `#${esc(t)}`).join(' ')}${tagsOf(s).length > 3 ? ` <b>+${tagsOf(s).length - 3}</b>` : ''}</span>` : ''}
+                </button>`;
+              }).join('')}
+            </div>` : `<div class="empty-note">No scenes match. Try a different search or filter.</div>`}`;
+        }
+        function openSceneModal(id) {
+          const s = sceneById(id);
+          if (!s) return;
+          const saved = state.bookmarks.includes(s.id);
+          openModal(`
+            <div class="modal-head"><h2>${esc(s.title)}</h2><button class="icon-button" data-action="closeModal" aria-label="Close dialog">${icon('x', 20)}</button></div>
+            <div class="modal-body">
+              <div class="scene-art-lg">${cueArt(s.cue, s.cueText)}</div>
+              <div class="detail-meta">
+                <span class="fc-scene-tag">${icon('film', 13)} SCENE ${pad2(s.id)}</span>
+                <span class="theme-chip">${esc(s.character)}</span>
+                ${(s.themes || []).map((t) => `<span class="theme-chip">${esc(t)}</span>`).join('')}
+              </div>
+              ${tagsOf(s).length ? `<div class="detail-tagrow"><span class="answer-label">ESSAY TAGS</span><div class="detail-tags">${tagsOf(s).map((t) => `<span class="tag-chip">${icon('tag', 12)} ${esc(tagLabel(t))}</span>`).join('')}</div></div>` : ''}
+              <div class="detail-block"><span class="answer-label">THE MOMENT</span><p>${esc(s.description)}</p></div>
+              <div class="detail-block"><span class="answer-label">${esc(s.techniqueLabel)}</span><p>${esc(s.techniques)}</p></div>
+              <div class="detail-block"><span class="answer-label">${esc(s.meaningLabel)}</span><p>${esc(s.essay)}</p></div>
+              <div class="reset-actions">
+                <button class="button secondary" data-action="toggleBookmark" data-id="${s.id}">${icon('bookmark', 16)} ${saved ? 'Remove bookmark' : 'Bookmark'}</button>
+                <button class="button primary" data-action="studyScene" data-id="${s.id}">${icon('layers', 16)} Study this scene</button>
+              </div>
+            </div>`);
+        }
+
+        /* ================= PROGRESS ================= */
+        function exportProgress() {
+          const payload = { exportedAt: new Date().toISOString(), sheet: getSheet().name, progress: { cards: state.cards, bookmarks: state.bookmarks, notes: state.notes, activity: state.activity } };
+          downloadFile(JSON.stringify(payload, null, 2), 'scenestudy-progress-backup.json', 'application/json');
+          toast('Progress backup downloaded.', 'download');
+        }
+        function confirmReset() {
+          openModal(`
+            <div class="modal-head"><h2>A fresh start?</h2><button class="icon-button" data-action="closeModal" aria-label="Close dialog">${icon('x', 20)}</button></div>
+            <div class="modal-body">
+              <p class="modal-intro">This removes your reviews, bookmarks, notes, and quiz history from this browser. Export a backup first if you want to keep them. Your scene sheet is not affected.</p>
+              <div class="reset-actions">
+                <button class="button secondary" data-action="closeModal">Keep my progress</button>
+                <button class="button secondary" data-action="exportProgress">${icon('download', 15)} Export backup</button>
+                <button class="button danger-button" data-action="resetAll">${icon('trash', 15)} Yes, reset everything</button>
+              </div>
+            </div>`);
+        }
+        function applyReset() {
+          const keepSheet = state.customSheet;
+          state = freshState();
+          state.customSheet = keepSheet;
+          save();
+          resetViewStates(); closeModal();
+          renderNav(); renderView();
+          toast('Progress reset. A clean slate awaits.', 'checkCircle');
+        }
+        function vProgress(root) {
+          const scenes = getScenes();
+          const confident = scenes.filter((s) => masteryOf(s.id) === 'confident').length;
+          const learning = scenes.filter((s) => masteryOf(s.id) === 'learning').length;
+          const due = dueCount();
+          const a = state.activity;
+          root.innerHTML = `
+            <div class="section-toolbar">
+              <div><h2>Progress</h2><p class="section-sub">Your memory, measured honestly.</p></div>
+              <button class="button secondary small-button" data-action="exportProgress">${icon('download', 15)} Export backup</button>
+            </div>
+            <div class="progress-grid" role="list">
+              <div class="stat-tile ${due ? 'accent' : ''}" role="listitem"><div class="stat-num">${due}</div><div class="stat-label">due for review</div></div>
+              <div class="stat-tile" role="listitem"><div class="stat-num">${confident}</div><div class="stat-label">confident</div></div>
+              <div class="stat-tile" role="listitem"><div class="stat-num">${learning}</div><div class="stat-label">learning</div></div>
+              <div class="stat-tile" role="listitem"><div class="stat-num">${a.matches}</div><div class="stat-label">matching rounds</div></div>
+              <div class="stat-tile" role="listitem"><div class="stat-num">${a.quizzes ? a.lastScore + '%' : '—'}</div><div class="stat-label">latest quiz score</div></div>
+              <div class="stat-tile" role="listitem"><div class="stat-num">${a.explanations.length}</div><div class="stat-label">scenes explained</div></div>
+            </div>
+            <h2 class="progress-h2">Scene by scene</h2>
+            <div class="scene-status-list">
+              ${scenes.map((s) => {
+                const m = masteryOf(s.id);
+                const c = state.cards[s.id];
+                const dueNow = c && c.reviews && c.dueAt <= Date.now();
+                const pill = dueNow ? '<span class="status-pill due">Due now</span>' : m === 'confident' ? '<span class="status-pill confident">Confident</span>' : m === 'learning' ? `<span class="status-pill learning">${esc(dueLabel(s.id))}</span>` : '<span class="status-pill new">Not studied</span>';
+                return `<div class="status-row"><span class="mono">${pad2(s.id)}</span><span class="st-title">${esc(s.title)}</span>${c && c.reviews ? `<span style="color:var(--muted);font-size:.82rem">${esc(dueLabel(s.id))}</span>` : ''}${pill}</div>`;
+              }).join('')}
+            </div>
+            <div class="section-gap"></div>
+            <div class="technique-footer">${icon('chart', 18)}<div><strong>Small and often beats big and never.</strong><p>Ten focused minutes a day with spaced review beats a single three-hour cram. The schedule above is your plan.</p></div></div>
+            <div class="progress-actions">
+              <button class="button danger-button" data-action="confirmReset">${icon('trash', 16)} Reset all progress</button>
+            </div>`;
+        }
+
+        /* ================= SCENE SHEET VIEW ================= */
+        function vSheet(root) {
+          const sheet = getSheet();
+          const scenes = sheet.scenes;
+          const chars = [...new Set(scenes.map((s) => s.character).filter(Boolean))];
+          const themes = getThemes();
+          root.innerHTML = `
+            <div class="section-toolbar">
+              <div><h2>Scene sheet</h2><p class="section-sub">Study any film — bring your own scenes as JSON or CSV.</p></div>
+            </div>
+            <div class="sheet-layout">
+              <div style="display:flex;flex-direction:column;gap:18px">
+                <div class="sheet-card">
+                  <span class="sheet-source-badge ${isCustom() ? 'custom' : 'builtin'}">${icon(isCustom() ? 'sparkles' : 'book', 14)} ${isCustom() ? 'Custom sheet' : 'Built-in sheet'}</span>
+                  <h3>${esc(sheet.name)}</h3>
+                  <p class="sheet-sub">${esc(sheet.description || 'No description provided.')}</p>
+                  <div class="sheet-facts">
+                    <div class="sheet-fact"><b>${scenes.length}</b><span>scenes</span></div>
+                    ${chars.length ? `<div class="sheet-fact"><b>${chars.length}</b><span>characters</span></div>` : ''}
+                    ${themes.length ? `<div class="sheet-fact"><b>${themes.length}</b><span>themes</span></div>` : ''}
+                    ${getTagUniverse().length ? `<div class="sheet-fact"><b>${getTagUniverse().length}</b><span>essay tags</span></div>` : ''}
+                  </div>
+                  ${themes.length ? `<div class="sheet-theme-tags">${themes.slice(0, 12).map((t) => `<span class="theme-chip">${esc(t)}</span>`).join('')}</div>` : ''}
+                </div>
+                <div class="sheet-card">
+                  <h3>Upload a custom sheet</h3>
+                  <p class="sheet-sub">Drop a <strong>.json</strong> or <strong>.csv</strong> file below. Every mode — flashcards, matching, quiz, recall — instantly switches to your scenes. The file is stored in this browser only.</p>
+                  <div class="dropzone" id="dropzone" data-action="pickFile" role="button" tabindex="0" aria-label="Upload a scene sheet file">
+                    <span class="dz-icon">${icon('upload', 24)}</span>
+                    <b>Drop your scene sheet here</b>
+                    <p>or click to browse your files. JSON with a "scenes" array, or CSV with a header row — the template below shows the exact columns.</p>
+                    <input type="file" id="sheetFile" accept=".json,.csv,application/json,text/csv" hidden/>
+                  </div>
+                  <div id="sheetFeedback"></div>
+                </div>
+                <div class="sheet-card">
+                  <h3>What the app expects</h3>
+                  <p class="sheet-sub">A scene sheet is a list of scenes. Each scene needs a <code style="font-family:var(--mono);font-size:.85rem;background:#f1f3e8;border-radius:5px;padding:1px 6px">title</code>; everything else is optional but makes studying richer. IDs must be unique numbers (missing or duplicate ones are fixed automatically).</p>
+                  <div class="schema-note">
+                    <details>
+                      <summary>Show a minimal JSON example</summary>
+<pre>{
+  "name": "My Film",
+  "scenes": [
+    {
+      "id": 1,
+      "title": "The opening",
+      "character": "The Hero",
+      "themes": ["Courage"],
+      "tags": ["courage"],
+      "description": "What happens in the scene…",
+      "techniques": "Camera and editing choices…",
+      "essay": "Why the scene matters…",
+      "techniqueLabel": "Short technique label",
+      "meaningLabel": "Short meaning label",
+      "cue": "auto",
+      "cueText": "One-line visual reminder"
+    }
+  ]
+}</pre>
+                    </details>
+                  </div>
+                </div>
+              </div>
+              <div class="sheet-tools">
+                <div class="aside-card">
+                  <h3>Templates &amp; tools</h3>
+                  <div class="tool-list">
+                    <button class="tool-row" data-action="downloadCSV">
+                      <span class="tool-icon ti-yellow">${icon('download', 18)}</span>
+                      <span><b>CSV template</b><small>Spreadsheet-friendly. Three example rows show every column.</small></span>
+                    </button>
+                    <button class="tool-row" data-action="downloadBuiltinJSON">
+                      <span class="tool-icon ti-sage">${icon('braces', 18)}</span>
+                      <span><b>Built-in sheet (JSON)</b><small>All 22 Hidden Figures scenes — the perfect starting point to edit.</small></span>
+                    </button>
+                    <button class="tool-row" data-action="downloadSheetJSON">
+                      <span class="tool-icon ti-lav">${icon('film', 18)}</span>
+                      <span><b>Current sheet (JSON)</b><small>Download exactly what's active right now.</small></span>
+                    </button>
+                    ${isCustom() ? `
+                    <button class="tool-row" data-action="confirmRestoreBuiltin">
+                      <span class="tool-icon ti-yellow">${icon('rotate', 18)}</span>
+                      <span><b>Restore built-in sheet</b><small>Go back to the 22 Hidden Figures scenes.</small></span>
+                    </button>` : ''}
+                  </div>
+                </div>
+                <div class="aside-card">
+                  <h3>Good to know</h3>
+                  <p style="color:var(--muted);font-size:.9rem;line-height:1.65">Your review history, bookmarks, and notes are kept when you switch sheets — they line up again whenever the same scene IDs return. Match &amp; mix needs at least 5 scenes; the quiz needs 4.</p>
+                </div>
+              </div>
+            </div>`;
+        }
+
+        /* ================= EVENT WIRING ================= */
+        const VIEWS = { overview: vOverview, flashcards: vFlashcards, matching: vMatching, quiz: vQuiz, recall: vRecall, library: vLibrary, progress: vProgress, sheet: vSheet };
+
+        document.addEventListener('click', (e) => {
+          const target = e.target.closest('[data-action]');
+          if (!target) return;
+          const action = target.dataset.action;
+          const id = target.dataset.id != null ? Number(target.dataset.id) : null;
+          switch (action) {
+            case 'nav': go(target.dataset.view); break;
+            case 'closeModal': closeModal(); break;
+            case 'shuffleDeck': flashSetDeck(flash.deck, true); renderView(); toast('Deck mixed. A fresh perspective awaits.', 'shuffle'); break;
+            case 'restartDeck': flashSetDeck(flash.deck, false); renderView(); break;
+            case 'flipCard': flash.flipped = !flash.flipped; renderView(); break;
+            case 'rate': flashRate(target.dataset.rating); break;
+            case 'toggleBookmark': {
+              if (target.dataset.id == null) break;
+              const bid = Number(target.dataset.id);
+              if (state.bookmarks.includes(bid)) { state.bookmarks = state.bookmarks.filter((b) => b !== bid); toast('Bookmark removed.', 'bookmark'); }
+              else { state.bookmarks.push(bid); toast('Bookmarked. Find it in the saved deck.', 'bookmark'); }
+              save();
+              if (!modalRoot.childElementCount) renderView(); else { openSceneModal(bid); renderNav(); }
+              break;
+            }
+            case 'toggleBookmarkStop': {
+              e.stopPropagation();
+              const bid2 = Number(target.dataset.id);
+              if (state.bookmarks.includes(bid2)) state.bookmarks = state.bookmarks.filter((b) => b !== bid2);
+              else state.bookmarks.push(bid2);
+              save(); renderNav(); renderView();
+              break;
+            }
+            case 'pickLeft': matchPick('L', id); break;
+            case 'pickRight': matchPick('R', id); break;
+            case 'newMatch': newMatchRound(); renderView(); break;
+            case 'quizPick': quizPick(id); break;
+            case 'quizNext': quizNext(); break;
+            case 'quizStart': newQuiz(); renderView(); break;
+            case 'newQuiz': quiz.qs = []; quiz.idx = 0; quiz.picked = null; quiz.answers = []; quiz.done = false; renderView(); break;
+            case 'studyScene': closeModal(); flash.focus = id; go('flashcards'); break;
+            case 'studyDue': flashSetDeck('due', false); go('flashcards'); break;
+            case 'checkRecall': recallCheck(); break;
+            case 'newRecallPrompt': {
+              const others = getScenes().filter((s) => s.id !== recall.sceneId);
+              if (others.length) { recall.sceneId = shuffle(others)[0].id; recall.checked = false; renderView(); }
+              break;
+            }
+            case 'openScene': openSceneModal(id); break;
+            case 'libChar': library.char = target.dataset.char; renderView(); break;
+            case 'libTheme': library.theme = target.dataset.theme; renderView(); break;
+            case 'libTag': library.tag = target.dataset.tag; renderView(); break;
+            case 'exportProgress': exportProgress(); break;
+            case 'confirmReset': confirmReset(); break;
+            case 'resetAll': applyReset(); break;
+            case 'pickFile': $('#sheetFile').click(); break;
+            case 'downloadCSV': downloadCSVTemplate(); break;
+            case 'downloadBuiltinJSON': downloadFile(JSON.stringify(BUILTIN_SHEET, null, 2), 'hidden-figures-scene-sheet.json', 'application/json'); toast('Built-in sheet downloaded as JSON.', 'download'); break;
+            case 'downloadSheetJSON': downloadSheetJSON(); break;
+            case 'confirmRestoreBuiltin': confirmRestoreBuiltin(); break;
+            case 'restoreBuiltin': applyRestoreBuiltin(); break;
+          }
+        });
+
+        document.addEventListener('change', (e) => {
+          const el = e.target.closest('[data-change]');
+          if (el) {
+            const kind = el.dataset.change;
+            if (kind === 'deck') { flashSetDeck(el.value, false); renderView(); }
+            if (kind === 'matchCategory') { match.category = el.value; newMatchRound(); renderView(); }
+            if (kind === 'quizLen') { quiz.len = el.value === 'all' ? 'all' : Number(el.value); }
+            if (kind === 'quizFocus') { quiz.focus = el.value; }
+            if (kind === 'recallScene') { recall.sceneId = Number(el.value); recall.checked = false; renderView(); }
+          }
+          if (e.target.id === 'sheetFile' && e.target.files && e.target.files[0]) {
+            const f = e.target.files[0];
+            e.target.value = '';
+            handleSheetFile(f);
+          }
+        });
+
+        document.addEventListener('input', (e) => {
+          if (e.target.dataset.input === 'librarySearch') {
+            library.q = e.target.value;
+            const grid = $('.library-grid', viewEl);
+            const countEl = $('.library-count', viewEl);
+            const scenes = filteredScenes();
+            if (countEl) countEl.textContent = scenes.length === getScenes().length ? `Showing all ${plural(scenes.length, 'scene')}.` : `Showing ${scenes.length} of ${plural(getScenes().length, 'scene')}.`;
+            if (grid) {
+              grid.innerHTML = scenes.length ? scenes.map((s) => {
+                const saved = state.bookmarks.includes(s.id);
+                return `<button class="scene-tile" data-action="openScene" data-id="${s.id}" aria-label="Open details for ${esc(s.title)}">
+                  <span class="tile-top"><span class="tile-num">${pad2(s.id)}</span>
+                  <span class="icon-button tile-save ${saved ? 'saved' : ''}" data-action="toggleBookmarkStop" data-id="${s.id}" role="button" aria-label="${saved ? 'Remove bookmark' : 'Bookmark scene'}" tabindex="0">${icon('bookmark', 17)}</span></span>
+                  ${cueArt(s.cue, s.cueText, 'art')}
+                  <h3>${esc(s.title)}</h3>
+                  <span class="tile-char">${esc(s.character)}</span>
+                  ${tagsOf(s).length ? `<span class="tile-tags">${tagsOf(s).slice(0, 3).map((t) => `#${esc(t)}`).join(' ')}${tagsOf(s).length > 3 ? ` <b>+${tagsOf(s).length - 3}</b>` : ''}</span>` : ''}
+                </button>`;
+              }).join('') : `<div class="empty-note" style="grid-column:1/-1">No scenes match. Try a different search or filter.</div>`;
+            }
+          }
+          if (e.target.id === 'recallAnswer') {
+            const text = e.target.value;
+            state.notes[recall.sceneId] = text; save();
+            const wc = e.target.closest('.writing-area').querySelector('.writing-meta span');
+            if (wc) wc.textContent = `${text.trim() ? text.trim().split(/\s+/).length : 0} words`;
+            const btn = $('.writing-actions .button.primary', viewEl);
+            if (btn) btn.disabled = !text.trim();
+          }
+        });
+
+        // Dropzone events
+        document.addEventListener('dragover', (e) => {
+          const dz = e.target.closest && e.target.closest('#dropzone');
+          if (dz) { e.preventDefault(); dz.classList.add('dragover'); }
+        });
+        document.addEventListener('dragleave', (e) => {
+          const dz = e.target.closest && e.target.closest('#dropzone');
+          if (dz) dz.classList.remove('dragover');
+        });
+        document.addEventListener('drop', (e) => {
+          const dz = e.target.closest && e.target.closest('#dropzone');
+          if (dz) {
+            e.preventDefault();
+            dz.classList.remove('dragover');
+            const f = e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files[0];
+            if (f) handleSheetFile(f);
+          }
+        });
+        // Keyboard activation for dropzone
+        document.addEventListener('keydown', (e) => {
+          if ((e.key === 'Enter' || e.key === ' ') && e.target.id === 'dropzone') { e.preventDefault(); $('#sheetFile').click(); }
+        });
+
+        // Flashcard keyboard shortcuts
+        document.addEventListener('keydown', (e) => {
+          if (currentView !== 'flashcards') return;
+          if (e.target.closest('input, textarea, select') || modalRoot.childElementCount) return;
+          if (e.code === 'Space' && e.target.tagName !== 'BUTTON') { e.preventDefault(); flash.flipped = !flash.flipped; renderView(); }
+          else if (e.key === 'ArrowLeft') { e.preventDefault(); flashNav(-1); }
+          else if (e.key === 'ArrowRight') { e.preventDefault(); flashNav(1); }
+          else if (e.key === '1' && flash.flipped) { e.preventDefault(); flashRate('again'); }
+          else if (e.key === '2' && flash.flipped) { e.preventDefault(); flashRate('good'); }
+          else if (e.key === '3' && flash.flipped) { e.preventDefault(); flashRate('easy'); }
+        });
+
+        // Escape closes modal; mobile nav toggle
+        document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && modalRoot.childElementCount) closeModal(); });
+        $('#menuBtn').innerHTML = icon('menu', 22);
+        $('#menuBtn').addEventListener('click', () => {
+          const open = document.body.classList.toggle('nav-open');
+          $('#menuBtn').setAttribute('aria-expanded', String(open));
+        });
+        $('#sidebarOverlay').addEventListener('click', () => document.body.classList.remove('nav-open'));
+
+        /* ================= INIT ================= */
+        $('#brandMark').innerHTML = BRAND_MARK;
+        $('#mobileBrandMark').innerHTML = BRAND_MARK;
+        $('#footMark').innerHTML = BRAND_MARK;
+        resetViewStates();
+        renderNav();
+        renderView();
+      })();
+    </script>
+  </body>
+</html>
