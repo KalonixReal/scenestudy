@@ -1,6 +1,8 @@
 # User-owned movie files and credentials must never be published.
 *.mp4
 *.MP4
+/opencode-tools/audio16k.wav
+/opencode-tools/chunk_*.mp3
 .env
 .env.*
 *.pem

@@ -19,7 +19,7 @@
     ],
     "timestamps": {
       "start": 0,
-      "end": 70
+      "end": 37.12
     },
     "sourceSlugline": "EXT. White Sulphur Springs Grammar School — Day",
     "retrievalPrompts": [
@@ -72,8 +72,8 @@
     ],
     "sourceSlugline": "Principal’s Office, White Sulphur Springs Grammar School",
     "timestamps": {
-      "start": 45,
-      "end": 105
+      "start": 19.44,
+      "end": 68.4
     },
     "retrievalPrompts": [
       {
@@ -106,17 +106,17 @@
   },
   {
     "id": 3,
-    "title": "Katherine Sees Patterns In The Cattle",
-    "fullTitle": "Katherine Sees Patterns In The Cattle",
+    "title": "Katherine Watches The Passing Landscape",
+    "fullTitle": "Katherine Watches The Passing Landscape",
     "character": "Katherine Johnson",
     "analysisType": "Character and Theme Essay",
-    "description": "During the move, Katherine studies cows passing the family car and imagines geometric patterns in their markings, carrying her habit of mathematical observation into a new environment.",
-    "techniques": "A visual match carries the pattern-seeking gaze from roadside cattle to classroom learning, linking ordinary surroundings to abstract thought.",
-    "essay": "Katherine’s mathematics is presented as a way of seeing, not merely a subject confined to school.",
-    "techniqueLabel": "A visual match carries the pattern-seeking gaze from roadside cattle to classroom learning, linking ordinary surroundings to abstract thought",
-    "meaningLabel": "Katherine’s mathematics is presented as a way of seeing, not merely a subject confined to school",
-    "cue": "geometry",
-    "cueText": "Cows drifting past a car window, their markings resolving into geometric patterns in Katherine’s gaze.",
+    "description": "Young Katherine runs to the family car and travels with her parents. A close-up of her looking through the window leads into a wide view of cattle in the countryside, before the film moves toward the adult commute.",
+    "techniques": "A close-up of Katherine at the car window leads into a wide countryside view, connecting her gaze to the passing landscape and the transition between periods.",
+    "essay": "The family journey connects Katherine’s childhood education to the wider world beyond her classroom.",
+    "techniqueLabel": "Window close-up & landscape transition",
+    "meaningLabel": "Education opens a wider world",
+    "cue": "car",
+    "cueText": "Young Katherine at a car window followed by cattle in a wide rural landscape.",
     "tags": [
       "education",
       "sexism",
@@ -126,36 +126,36 @@
     ],
     "sourceSlugline": "Road to Institute; Coleman family car",
     "timestamps": {
-      "start": 70,
-      "end": 110
+      "start": 107.68,
+      "end": 131.4
     },
     "retrievalPrompts": [
       {
-        "prompt": "What does Katherine notice from the car?",
-        "answerCue": "The patterns on the cows’ hides."
+        "prompt": "What happens in “Katherine Watches The Passing Landscape”?",
+        "answerCue": "Young Katherine runs to the family car and travels with her parents. A close-up of her looking through the window leads into a wide view of cattle in the countryside, before the film moves toward the adult commute."
       },
       {
-        "prompt": "Which detail shows the scene’s central obstacle or opportunity?",
-        "answerCue": "During the move, Katherine studies cows passing the family car and imagines geometric patterns in their markings, carrying her habit of mathematical observation into a new environment."
+        "prompt": "Which film technique shapes the moment?",
+        "answerCue": "A close-up of Katherine at the car window leads into a wide countryside view, connecting her gaze to the passing landscape and the transition between periods."
       },
       {
-        "prompt": "How does the film make the scene’s meaning visible?",
-        "answerCue": "A visual match carries the pattern-seeking gaze from roadside cattle to classroom learning, linking ordinary surroundings to abstract thought."
+        "prompt": "Why does the scene matter?",
+        "answerCue": "The family journey connects Katherine’s childhood education to the wider world beyond her classroom."
       }
     ],
     "sequence": [
-      "Locate the scene at Road to Institute; Coleman family car.",
-      "During the move, Katherine studies cows passing the family car and imagines geometric patterns in their markings, carrying her habit of mathematical observation into a new environment.",
-      "Katherine’s mathematics is presented as a way of seeing, not merely a subject confined to school."
+      "Young Katherine runs to the family car and travels with her parents. A close-up of her looking through the window leads into a wide view of cattle in the countryside, before the film moves toward the adult commute.",
+      "A close-up of Katherine at the car window leads into a wide countryside view, connecting her gaze to the passing landscape and the transition between periods.",
+      "The family journey connects Katherine’s childhood education to the wider world beyond her classroom."
     ],
-    "essayPrompt": "How does “Katherine sees patterns in the cattle” develop education through character and film form? Use the concrete action and technique as evidence.",
-    "counterReading": "One limitation is that katherine’s mathematics is presented as a way of seeing, not merely a subject confined to school can make structural change appear dependent on individual recognition; consider what institutional barriers remain after this scene.",
-    "watchFor": "The film overlays faint shapes on the cattle hides — the same POV device as the classroom, now set in motion.",
+    "essayPrompt": "How does “Katherine Watches The Passing Landscape” develop education through character and film form? Use the concrete action and technique as evidence.",
+    "counterReading": "Consider how this moment supports your argument and which parts of that argument require comparison with another scene.",
+    "watchFor": "The cut from Katherine looking out of the car to the distant cattle and the countryside; the geometric overlays belong to the earlier school-window sequence.",
     "historyNote": "The Coleman family’s moves for Katherine’s schooling show how Black families engineered opportunity under segregation.",
-    "essayStarter": "Pattern-seeing as habit: the film claims mathematical vision is portable, not situational.",
+    "essayStarter": "The family journey connects Katherine’s childhood education to the wider world beyond her classroom.",
     "essayImportance": {
       "rating": 2,
-      "reason": "The visual patterns reinforce Katherine's mathematical way of seeing. Best used briefly alongside a stronger scene about her expertise."
+      "reason": "The car-window close-up and family journey connect Katherine's education to the wider world. Use this brief transition alongside a stronger scene about her expertise."
     }
   },
   {
@@ -180,8 +180,8 @@
     ],
     "sourceSlugline": "West Virginia Collegiate Institute classroom",
     "timestamps": {
-      "start": 95,
-      "end": 125
+      "start": 68.4,
+      "end": 107.68
     },
     "retrievalPrompts": [
       {
@@ -208,7 +208,7 @@
     "historyNote": "Katherine enrolled at West Virginia State College at 15 and graduated summa cum laude in mathematics.",
     "essayStarter": "Being the youngest in the room becomes the film’s first image of merit outpacing category.",
     "essayImportance": {
-      "rating": 2,
+      "rating": 3,
       "reason": "The school setting adds context to Katherine's educational journey, but offers a smaller argument than the scholarship or adult workplace scenes."
     }
   },
@@ -232,8 +232,8 @@
     ],
     "sourceSlugline": "Road; Dorothy’s car",
     "timestamps": {
-      "start": 125,
-      "end": 190
+      "start": 141.92,
+      "end": 212.72
     },
     "retrievalPrompts": [
       {
@@ -260,7 +260,7 @@
     "historyNote": "Dorothy Vaughan drove the West Computing carpools in real life; the film makes the commute a character study.",
     "essayStarter": "Solidarity is established before conflict: the film bonds its trio so every later barrier threatens something warm.",
     "essayImportance": {
-      "rating": 3,
+      "rating": 5,
       "reason": "The shared journey introduces the women's mutual support. Ensemble framing provides useful early evidence to compare with their later collective success."
     }
   },
@@ -284,8 +284,8 @@
       "segregation"
     ],
     "timestamps": {
-      "start": 190,
-      "end": 330
+      "start": 212.72,
+      "end": 363.84
     },
     "sourceSlugline": "EXT. Rural Virginia Highway — Day",
     "retrievalPrompts": [
@@ -313,7 +313,7 @@
     "historyNote": "In 1961 Virginia, segregation was state law, and Black motorists navigated it with formal caution — the film opens with that reality, not exposition.",
     "essayStarter": "The escort converts suspicion into service the moment the women’s expertise becomes legible to power.",
     "essayImportance": {
-      "rating": 4,
+      "rating": 7,
       "reason": "The reversal from police suspicion to an escort connects racism, demonstrated skill and national urgency. It supports an argument about conditional acceptance."
     }
   },
@@ -338,8 +338,8 @@
     ],
     "sourceSlugline": "NASA grounds; Langley Research Center",
     "timestamps": {
-      "start": 250,
-      "end": 330
+      "start": 231.48,
+      "end": 288.36
     },
     "retrievalPrompts": [
       {
@@ -389,8 +389,8 @@
     ],
     "sourceSlugline": "White House; US Central Command; Tracking Control Room",
     "timestamps": {
-      "start": 330,
-      "end": 470
+      "start": 374.08,
+      "end": 434.68
     },
     "retrievalPrompts": [
       {
@@ -417,7 +417,7 @@
     "historyNote": "Sputnik’s October 1957 launch panicked the United States into funding science education and NASA itself.",
     "essayStarter": "External threat does what conscience could not: it makes exclusion look like a strategic liability.",
     "essayImportance": {
-      "rating": 3,
+      "rating": 5,
       "reason": "Sputnik footage establishes the pressure driving institutional change. Use it as context for why NASA begins to value previously excluded expertise."
     }
   },
@@ -440,8 +440,8 @@
       "leadership"
     ],
     "timestamps": {
-      "start": 360,
-      "end": 480
+      "start": 434.68,
+      "end": 501.56
     },
     "sourceSlugline": "INT. NASA Headquarters Briefing Room — Day",
     "retrievalPrompts": [
@@ -469,7 +469,7 @@
     "historyNote": "The Soviet Union launched Sputnik on October 4, 1957, igniting the Space Race and American anxiety about technical education.",
     "essayStarter": "National humiliation, not moral awakening, is what forces the institution to confront its wasted talent.",
     "essayImportance": {
-      "rating": 3,
+      "rating": 7,
       "reason": "The briefing connects Cold War urgency to workplace decisions. It supports an argument about practical necessity as a driver of reform."
     }
   },
@@ -493,8 +493,8 @@
     ],
     "sourceSlugline": "NASA Tracking Control Room, Hampton",
     "timestamps": {
-      "start": 480,
-      "end": 555
+      "start": 378.56,
+      "end": 395.24
     },
     "retrievalPrompts": [
       {
@@ -521,7 +521,7 @@
     "historyNote": "NASA’s tracking and data network grew through the Mercury era into a global system of ground stations.",
     "essayStarter": "Establishing the room early lets the climax inherit its geography: we already know where every cheer will erupt.",
     "essayImportance": {
-      "rating": 1,
+      "rating": 4,
       "reason": "The control-room setting supplies background to the mission. More direct discrimination or recognition scenes usually provide stronger essay evidence."
     }
   },
@@ -546,8 +546,8 @@
       "solidarity"
     ],
     "timestamps": {
-      "start": 595,
-      "end": 715
+      "start": 653.52,
+      "end": 703.76
     },
     "sourceSlugline": "INT. Vivian Mitchell's Office — Day",
     "retrievalPrompts": [
@@ -576,7 +576,7 @@
     "essayStarter": "Vivian’s aphorism admits the institution’s two speeds while refusing responsibility for either.",
     "keyLine": "Fast with rocket ships. Slow with advancement.",
     "essayImportance": {
-      "rating": 4,
+      "rating": 8,
       "reason": "The contrast between rapid technological progress and stalled advancement exposes institutional unfairness. It provides a strong comparison for an argument about progress."
     }
   },
@@ -601,8 +601,8 @@
     ],
     "sourceSlugline": "Wind Tunnel; NASA compound",
     "timestamps": {
-      "start": 640,
-      "end": 700
+      "start": 703.76,
+      "end": 801.2
     },
     "retrievalPrompts": [
       {
@@ -629,7 +629,7 @@
     "historyNote": "Langley’s wind tunnels tested Mercury capsule shapes; Mary Jackson worked under engineers on such programs.",
     "essayStarter": "The tunnel is a threshold space: Mary enters carrying calculations and leaves carrying a vocation.",
     "essayImportance": {
-      "rating": 2,
+      "rating": 5,
       "reason": "Mary's assignment establishes her route toward engineering. Use it to introduce the stronger wind-tunnel or courtroom evidence."
     }
   },
@@ -655,8 +655,8 @@
       "segregation"
     ],
     "timestamps": {
-      "start": 650,
-      "end": 730
+      "start": 801.2,
+      "end": 869.56
     },
     "sourceSlugline": "INT. Wind Tunnel Building — Day",
     "retrievalPrompts": [
@@ -685,60 +685,60 @@
     "essayStarter": "Mary’s reply proves the barrier was never ability, only the categories the institution refused to see past.",
     "keyLine": "I wouldn’t have to. I’d already be one.",
     "essayImportance": {
-      "rating": 5,
+      "rating": 9,
       "reason": "The wind-tunnel exchange directly challenges the racial and gender rules limiting Mary's ambition. Industrial framing and dialogue support a focused argument about unequal opportunity."
     }
   },
   {
     "id": 14,
-    "title": "A Stuck Heel Starts A Conversation",
-    "fullTitle": "A Stuck Heel Starts A Conversation",
+    "title": "A Stuck Heel In The Wind Tunnel",
+    "fullTitle": "A Stuck Heel In The Wind Tunnel",
     "character": "Mary Jackson",
     "analysisType": "Character and Theme Essay",
-    "description": "Mary’s high heel catches in the wind-tunnel grate; as she frees it, Karl talks with her about engineering and recognizes the quality of her work.",
-    "techniques": "A small physical mishap opens a conversation beneath imposing machinery, shifting attention from appearance to capability.",
-    "essay": "The exchange exposes the narrow expectations placed on Mary while introducing a mentor who names the possibility of engineering.",
-    "techniqueLabel": "A small physical mishap opens a conversation beneath imposing machinery, shifting attention from appearance to capability",
-    "meaningLabel": "The exchange exposes the narrow expectations placed on Mary while introducing a mentor who names the possibility of engineering",
+    "description": "Mary’s high heel catches in the wind-tunnel grate as the engineers prepare to run the test. She struggles to free herself, removes the trapped shoe and hurries out of the chamber before the test proceeds. Karl’s encouragement about engineering comes later, after the prototype test.",
+    "techniques": "Wide views of the capsule and testing chamber alternate with close-ups of Mary’s trapped heel and the engineers watching from the control booth.",
+    "essay": "The machinery dwarfs Mary while the trapped shoe briefly makes her vulnerable; her quick response lets her clear the chamber and continue her technical work.",
+    "techniqueLabel": "Heel close-up & control-booth cross-cutting",
+    "meaningLabel": "Resourcefulness under pressure",
     "cue": "turbine",
-    "cueText": "A high heel wedged in a floor grate; an engineer kneeling to help, then looking up with a harder question.",
+    "cueText": "A heel wedged in the wind-tunnel grate while the warning light and waiting engineers urge Mary to move.",
     "tags": [
       "sexism",
       "dignity",
       "merit"
     ],
-    "sourceSlugline": "Wind Tunnel; hallway to the wind tunnel",
+    "sourceSlugline": "Langley wind tunnel - Day",
     "timestamps": {
-      "start": 700,
-      "end": 770
+      "start": 734.44,
+      "end": 752.88
     },
     "retrievalPrompts": [
       {
-        "prompt": "What does Mary’s heel catch in?",
-        "answerCue": "The wind-tunnel floor grate."
+        "prompt": "What happens in “A Stuck Heel In The Wind Tunnel”?",
+        "answerCue": "Mary’s high heel catches in the wind-tunnel grate as the engineers prepare to run the test. She struggles to free herself, removes the trapped shoe and hurries out of the chamber before the test proceeds. Karl’s encouragement about engineering comes later, after the prototype test."
       },
       {
-        "prompt": "Which detail shows the scene’s central obstacle or opportunity?",
-        "answerCue": "Mary’s high heel catches in the wind-tunnel grate."
+        "prompt": "Which film technique shapes the moment?",
+        "answerCue": "Wide views of the capsule and testing chamber alternate with close-ups of Mary’s trapped heel and the engineers watching from the control booth."
       },
       {
-        "prompt": "How does the film make the scene’s meaning visible?",
-        "answerCue": "A small physical mishap opens a conversation beneath imposing machinery, shifting attention from appearance to capability."
+        "prompt": "Why does the scene matter?",
+        "answerCue": "The machinery dwarfs Mary while the trapped shoe briefly makes her vulnerable; her quick response lets her clear the chamber and continue her technical work."
       }
     ],
     "sequence": [
-      "Locate the scene at Wind Tunnel; hallway to the wind tunnel.",
-      "Mary’s high heel catches in the wind-tunnel grate.",
-      "The exchange exposes the narrow expectations placed on Mary while introducing a mentor who names the possibility of engineering."
+      "Mary’s high heel catches in the wind-tunnel grate as the engineers prepare to run the test. She struggles to free herself, removes the trapped shoe and hurries out of the chamber before the test proceeds. Karl’s encouragement about engineering comes later, after the prototype test.",
+      "Wide views of the capsule and testing chamber alternate with close-ups of Mary’s trapped heel and the engineers watching from the control booth.",
+      "The machinery dwarfs Mary while the trapped shoe briefly makes her vulnerable; her quick response lets her clear the chamber and continue her technical work."
     ],
-    "essayPrompt": "How does “A stuck heel starts a conversation” develop sexism through character and film form? Use the concrete action and technique as evidence.",
-    "counterReading": "One limitation is that the exchange exposes the narrow expectations placed on mary while introducing a mentor who names the possibility of engineering can make structural change appear dependent on individual recognition; consider what institutional barriers remain after this scene.",
-    "watchFor": "The stuck heel is filmed as slapstick that curdles: Zielinski’s hypothetical reframes the whole accident.",
+    "essayPrompt": "How does “A Stuck Heel In The Wind Tunnel” develop sexism through character and film form? Use the concrete action and technique as evidence.",
+    "counterReading": "Consider how this moment supports your argument and which parts of that argument require comparison with another scene.",
+    "watchFor": "The cut from the testing chamber to the trapped heel, Mary removing the shoe, and her escape through the door before the test.",
     "historyNote": "Zielinski is fictional, standing in for mentors like Kazimierz Czarnecki, the Polish-born engineer who guided Mary Jackson.",
-    "essayStarter": "The hypothetical strips identity away to reveal the only variable that ever mattered: permission.",
-    "keyLine": "If you were a white male, would you wish to be an engineer?",
+    "essayStarter": "The machinery dwarfs Mary while the trapped shoe briefly makes her vulnerable; her quick response lets her clear the chamber and continue her technical work.",
+    "keyLine": null,
     "essayImportance": {
-      "rating": 3,
+      "rating": 4,
       "reason": "The stuck heel gives gender barriers a concrete visual detail. It is useful supporting analysis when linked to Mary's larger engineering ambition."
     }
   },
@@ -763,8 +763,8 @@
     ],
     "sourceSlugline": "NASA hallway; Space Task Group office",
     "timestamps": {
-      "start": 780,
-      "end": 860
+      "start": 895.72,
+      "end": 974.28
     },
     "retrievalPrompts": [
       {
@@ -791,7 +791,7 @@
     "historyNote": "Katherine Johnson joined the Space Task Group in 1958-era Langley as its first Black woman mathematician.",
     "essayStarter": "Entry without welcome: the scene separates physical access from belonging.",
     "essayImportance": {
-      "rating": 4,
+      "rating": 8,
       "reason": "Katherine's entry into the Space Task Group makes exclusion visible through the room's staging. Compare that isolation with her later intellectual authority."
     }
   },
@@ -816,8 +816,8 @@
       "opportunity"
     ],
     "timestamps": {
-      "start": 1140,
-      "end": 1260
+      "start": 1006,
+      "end": 1044.44
     },
     "sourceSlugline": "INT. Space Task Group — Day",
     "retrievalPrompts": [
@@ -845,7 +845,7 @@
     "historyNote": "Katherine Johnson’s command of analytic geometry made her indispensable to the Space Task Group’s trajectory work.",
     "essayStarter": "The film treats mathematical fluency as a language of power that lets Katherine speak over segregation.",
     "essayImportance": {
-      "rating": 5,
+      "rating": 9,
       "reason": "The mathematical demonstration places Katherine's expertise against prejudiced assumptions. Camera attention to her reasoning supports an argument about earned authority."
     }
   },
@@ -870,8 +870,8 @@
     ],
     "sourceSlugline": "NASA grounds; West Campus hallway",
     "timestamps": {
-      "start": 1260,
-      "end": 1340
+      "start": 1184.04,
+      "end": 1254.12
     },
     "retrievalPrompts": [
       {
@@ -898,7 +898,7 @@
     "historyNote": "East Campus had no facilities Black women could use; the designated restrooms sat far across Langley grounds.",
     "essayStarter": "Repetition is the argument: one walk is inconvenience, a daily walk is policy.",
     "essayImportance": {
-      "rating": 3,
+      "rating": 5,
       "reason": "The journey to the separate restroom establishes the physical cost of segregation. Pair it with the sprint or outburst rather than treating it as the full argument."
     }
   },
@@ -922,8 +922,8 @@
     ],
     "sourceSlugline": "Space Task Group office",
     "timestamps": {
-      "start": 1290,
-      "end": 1380
+      "start": 5714.6,
+      "end": 5740.04
     },
     "retrievalPrompts": [
       {
@@ -950,7 +950,7 @@
     "historyNote": "Trajectory inputs changed daily in briefings; missing them meant computing with stale numbers.",
     "essayStarter": "The scene makes ignorance structural: Katherine is set up to fail by people who then grade her work.",
     "essayImportance": {
-      "rating": 3,
+      "rating": 6,
       "reason": "Exclusion from briefings shows how access to information controls opportunity. It supports the stronger clearance and redacted-report evidence."
     }
   },
@@ -960,7 +960,7 @@
     "fullTitle": "The Half-Mile Bathroom Sprint Sequence",
     "character": "Katherine Johnson",
     "analysisType": "Theme Essay",
-    "description": "Because the East Campus lacks segregated facilities, Katherine repeatedly runs half a mile back to West Campus in high heels, clutching heavy data folders in the rain.",
+    "description": "Because the East Campus lacks a restroom she is permitted to use, Katherine runs across the grounds to the West Campus restroom in high heels, carrying data folders. The film cuts between her journey and the office waiting for her return.",
     "techniques": "Rhythmic montage editing set to Pharrell Williams' \"Runnin',\" continuous tracking shots, and repetitive cross-cutting.",
     "essay": "Visually quantifies the physical and temporal tax of segregation. Discrimination is inefficient because it wastes the working hours of NASA's most talented personnel.",
     "techniqueLabel": "Rhythmic montage & repeated tracking",
@@ -974,14 +974,14 @@
       "merit"
     ],
     "timestamps": {
-      "start": 1300,
-      "end": 1420
+      "start": 1209.08,
+      "end": 1323.24
     },
     "sourceSlugline": "EXT. Langley Campus, East to West — Day",
     "retrievalPrompts": [
       {
-        "prompt": "What changes in “The half-mile bathroom sprint”?",
-        "answerCue": "Because the East Campus lacks segregated facilities, Katherine repeatedly runs half a mile back to West Campus in high heels, clutching heavy data folders in the rain."
+        "prompt": "What happens in “The Half-Mile Bathroom Sprint”?",
+        "answerCue": "Because the East Campus lacks a restroom she is permitted to use, Katherine runs across the grounds to the West Campus restroom in high heels, carrying data folders. The film cuts between her journey and the office waiting for her return."
       },
       {
         "prompt": "Which film technique shapes the moment?",
@@ -993,7 +993,7 @@
       }
     ],
     "sequence": [
-      "Because the East Campus lacks segregated facilities, Katherine repeatedly runs half a mile back to West Campus in high heels, clutching heavy data folders in the rain.",
+      "Because the East Campus lacks a restroom she is permitted to use, Katherine runs across the grounds to the West Campus restroom in high heels, carrying data folders. The film cuts between her journey and the office waiting for her return.",
       "Rhythmic montage editing set to Pharrell Williams' \"Runnin',\" continuous tracking shots, and repetitive cross-cutting.",
       "Visually quantifies the physical and temporal tax of segregation. Discrimination is inefficient because it wastes the working hours of NASA's most talented personnel."
     ],
@@ -1003,7 +1003,7 @@
     "historyNote": "Langley’s West Area computers worked far from the white engineering buildings, and segregated bathrooms made that distance literal.",
     "essayStarter": "By measuring the run in miles and minutes, the film turns segregation into a quantity an engineer — and an audience — must reckon with.",
     "essayImportance": {
-      "rating": 5,
+      "rating": 9,
       "reason": "The long bathroom sprint makes segregation's daily cost visible through movement, distance and repeated action. It offers precise technique analysis and a clear structural argument."
     }
   },
@@ -1027,8 +1027,8 @@
     ],
     "sourceSlugline": "McClean Baptist Church",
     "timestamps": {
-      "start": 2040,
-      "end": 2220
+      "start": 2291.84,
+      "end": 2373.56
     },
     "retrievalPrompts": [
       {
@@ -1055,7 +1055,7 @@
     "historyNote": "Church communities anchored Black professional life in segregated Virginia — and Katherine’s own story.",
     "essayStarter": "The same exchange as scene 21, restaged as courtship: respect negotiated before romance.",
     "essayImportance": {
-      "rating": 4,
+      "rating": 7,
       "reason": "Jim's assumptions connect workplace gender bias to personal recognition. The exchange supports a comparison between respect at home and authority at work."
     }
   },
@@ -1079,8 +1079,8 @@
       "solidarity"
     ],
     "timestamps": {
-      "start": 2200,
-      "end": 2360
+      "start": 2332,
+      "end": 2373.56
     },
     "sourceSlugline": "EXT. McLean Baptist Church — Day",
     "retrievalPrompts": [
@@ -1109,7 +1109,7 @@
     "essayStarter": "Dignity in this scene is not granted by Jim’s approval; it is asserted through credentials he cannot dismiss.",
     "keyLine": "It’s because we wear glasses.",
     "essayImportance": {
-      "rating": 5,
+      "rating": 4,
       "reason": "The glasses-and-skirts contrast gives Katherine a direct challenge to gender assumptions. Dialogue and reactions support an argument about self-respect and resistance."
     }
   },
@@ -1133,8 +1133,8 @@
       "dignity"
     ],
     "timestamps": {
-      "start": 2580,
-      "end": 2680
+      "start": 5794.92,
+      "end": 5823.44
     },
     "sourceSlugline": "INT. Space Task Group — Day",
     "retrievalPrompts": [
@@ -1163,7 +1163,7 @@
     "essayStarter": "Stafford’s sentence reveals how institutions launder prejudice through procedure.",
     "keyLine": "There’s no protocol for women attending.",
     "essayImportance": {
-      "rating": 4,
+      "rating": 7,
       "reason": "The clearance hurdle shows exclusion operating through routine rules. It is strong evidence for an argument that discrimination is institutional, not only personal."
     }
   },
@@ -1173,7 +1173,7 @@
     "fullTitle": "The \"Colored\" Coffee Pot Microaggression",
     "character": "Katherine Johnson",
     "analysisType": "Theme Essay",
-    "description": "After Katherine pours coffee from the main Task Group coffee maker, her white male colleagues stare in uncomfortable silence. The next day, a separate, smaller pot labeled \"COLORED\" is placed on a side table for her.",
+    "description": "Katherine finds a small coffee pot labeled \"COLORED\" beside the main Task Group urn. She lifts it, sees that it is empty, looks around the room, then pours coffee from the main urn and carries her cup back to her desk.",
     "techniques": "Mise-en-scene prop placement, multi-character reaction shots, and awkward diegetic silence.",
     "essay": "Demonstrates that discrimination is not always violent; everyday, mundane microaggressions can alienate essential workers.",
     "techniqueLabel": "Coffee-pot mise-en-scene & silence",
@@ -1187,14 +1187,14 @@
       "sexism"
     ],
     "timestamps": {
-      "start": 2680,
-      "end": 2770
+      "start": 2718.68,
+      "end": 2744.28
     },
     "sourceSlugline": "INT. Space Task Group Break Area — Day",
     "retrievalPrompts": [
       {
-        "prompt": "What changes in “The separate coffee pot”?",
-        "answerCue": "After Katherine pours coffee from the main Task Group coffee maker, her white male colleagues stare in uncomfortable silence. The next day, a separate, smaller pot labeled \"COLORED\" is placed on a side table for her."
+        "prompt": "What happens in “The Separate Coffee Pot”?",
+        "answerCue": "Katherine finds a small coffee pot labeled \"COLORED\" beside the main Task Group urn. She lifts it, sees that it is empty, looks around the room, then pours coffee from the main urn and carries her cup back to her desk."
       },
       {
         "prompt": "Which film technique shapes the moment?",
@@ -1206,17 +1206,17 @@
       }
     ],
     "sequence": [
-      "After Katherine pours coffee from the main Task Group coffee maker, her white male colleagues stare in uncomfortable silence. The next day, a separate, smaller pot labeled \"COLORED\" is placed on a side table for her.",
+      "Katherine finds a small coffee pot labeled \"COLORED\" beside the main Task Group urn. She lifts it, sees that it is empty, looks around the room, then pours coffee from the main urn and carries her cup back to her desk.",
       "Mise-en-scene prop placement, multi-character reaction shots, and awkward diegetic silence.",
       "Demonstrates that discrimination is not always violent; everyday, mundane microaggressions can alienate essential workers."
     ],
     "essayPrompt": "Analyze how “The separate coffee pot” develops Racism & segregation through a specific film technique.",
     "counterReading": "Consider whether the scene’s resolution fully changes the conditions described: Demonstrates that discrimination is not always violent; everyday, mundane microaggressions can alienate essential workers.",
-    "watchFor": "A held wide shot does the work: Katherine pours, the room freezes, and the next day a smaller pot sits apart. Exclusion arrives without a single slur.",
+    "watchFor": "The labeled small pot, its empty contents, Katherine looking around the room, and her decision to pour from the main urn. The earlier first-use-and-stares moment occurs in a separate sequence.",
     "historyNote": "Segregated facilities — down to coffee — were ordinary workplace practice in the Jim Crow South, enforced by custom as much as by signs.",
     "essayStarter": "The coffee pot shows racism operating as routine: polite, silent, and built into objects.",
     "essayImportance": {
-      "rating": 5,
+      "rating": 9,
       "reason": "The separate coffee pot turns racial exclusion into a simple, analysable prop. Its later callback makes it especially useful for an essay tracking change."
     }
   },
@@ -1226,10 +1226,10 @@
     "fullTitle": "Paul Stafford Redacting Research Reports",
     "character": "Katherine Johnson",
     "analysisType": "Theme Essay",
-    "description": "Paul Stafford drops a heavy research report on Katherine's desk, with large sections blacked out in thick marker. He tells her she cannot read classified data because she lacks security clearance.",
-    "techniques": "A close-up insert of marker bleeding through paper, with low-angle framing emphasizing Stafford's condescension.",
+    "description": "Paul Stafford drops a heavy research report on Katherine's desk. Many of its numbers are blacked out, yet he expects her to check the calculations despite the withheld information.",
+    "techniques": "Low framing emphasizes the heavy folders landing on Katherine's desk; views of the censored pages make the missing information visible.",
     "essay": "Exposes the use of administrative rules and clearance levels as tools of information suppression, keeping marginalized workers from full participation.",
-    "techniqueLabel": "Redacted-page insert & low angle",
+    "techniqueLabel": "Heavy-folder framing and censored-page inserts",
     "meaningLabel": "Information control blocks participation",
     "cue": "report",
     "cueText": "A page covered in black bars: access to information becomes access to power.",
@@ -1240,18 +1240,18 @@
       "segregation"
     ],
     "timestamps": {
-      "start": 2770,
-      "end": 2870
+      "start": 2744.28,
+      "end": 2779.48
     },
     "sourceSlugline": "INT. Space Task Group — Katherine's Desk — Day",
     "retrievalPrompts": [
       {
-        "prompt": "What changes in “The blacked-out research report”?",
-        "answerCue": "Paul Stafford drops a heavy research report on Katherine's desk, with large sections blacked out in thick marker. He tells her she cannot read classified data because she lacks security clearance."
+        "prompt": "What happens in “The Blacked-Out Research Report”?",
+        "answerCue": "Paul Stafford drops a heavy research report on Katherine's desk. Many of its numbers are blacked out, yet he expects her to check the calculations despite the withheld information."
       },
       {
         "prompt": "Which film technique shapes the moment?",
-        "answerCue": "A close-up insert of marker bleeding through paper, with low-angle framing emphasizing Stafford's condescension."
+        "answerCue": "Low framing emphasizes the heavy folders landing on Katherine's desk; views of the censored pages make the missing information visible."
       },
       {
         "prompt": "Why does the scene matter?",
@@ -1259,17 +1259,17 @@
       }
     ],
     "sequence": [
-      "Paul Stafford drops a heavy research report on Katherine's desk, with large sections blacked out in thick marker. He tells her she cannot read classified data because she lacks security clearance.",
-      "A close-up insert of marker bleeding through paper, with low-angle framing emphasizing Stafford's condescension.",
+      "Paul Stafford drops a heavy research report on Katherine's desk. Many of its numbers are blacked out, yet he expects her to check the calculations despite the withheld information.",
+      "Low framing emphasizes the heavy folders landing on Katherine's desk; views of the censored pages make the missing information visible.",
       "Exposes the use of administrative rules and clearance levels as tools of information suppression, keeping marginalized workers from full participation."
     ],
     "essayPrompt": "Analyze how “The blacked-out research report” develops Racism & segregation through a specific film technique.",
     "counterReading": "Consider whether the scene’s resolution fully changes the conditions described: Exposes the use of administrative rules and clearance levels as tools of information suppression, keeping marginalized workers from full participation.",
-    "watchFor": "Stafford drops the report like a verdict; black bars swallow the math Katherine needs. The camera lingers on what she is forbidden to read.",
+    "watchFor": "Compare the weight of the folders Paul drops with the blacked-out numbers Katherine is expected to check.",
     "historyNote": "Trajectory work depended on classified flight data, and clearance rules kept even essential staff from the numbers they needed.",
     "essayStarter": "Redaction here is not about secrecy but hierarchy: information control as a tool of exclusion.",
     "essayImportance": {
-      "rating": 5,
+      "rating": 8,
       "reason": "The blacked-out report makes information control visible on the page. Insert shots provide specific film evidence for how administrative rules obstruct expertise."
     }
   },
@@ -1279,13 +1279,13 @@
     "fullTitle": "Dorothy Studies The Machine Manuals",
     "character": "Dorothy Vaughan",
     "analysisType": "Character and Theme Essay",
-    "description": "Dorothy seeks out manuals and studies how the IBM works while the West Computing women continue their calculating assignments.",
-    "techniques": "Insert views of technical pages and Dorothy’s focused reading turn self-directed study into visible action.",
+    "description": "Dorothy studies a large technical manual beside the IBM 7090, turns its pages and examines the computer's wiring and controls.",
+    "techniques": "Medium shots of Dorothy reading beside the IBM and closer views of the wiring connect technical study with practical investigation.",
     "essay": "Her preparation anticipates automation and shows leadership as the ability to learn ahead of change and bring others with you.",
-    "techniqueLabel": "Insert views of technical pages and Dorothy’s focused reading turn self-directed study into visible action",
+    "techniqueLabel": "Reading and wiring inserts",
     "meaningLabel": "Her preparation anticipates automation and shows leadership as the ability to learn ahead of change and bring others with you",
     "cue": "book",
-    "cueText": "Dorothy alone with borrowed manuals, tracing machine logic by lamplight while others sleep.",
+    "cueText": "Dorothy holds an open manual beside the IBM console, then studies its exposed wiring.",
     "tags": [
       "leadership",
       "sexism",
@@ -1293,37 +1293,37 @@
       "solidarity",
       "merit"
     ],
-    "sourceSlugline": "West Computing Room",
+    "sourceSlugline": "IBM computer room",
     "timestamps": {
-      "start": 2870,
-      "end": 2990
+      "start": 4130.24,
+      "end": 4152.08
     },
     "retrievalPrompts": [
       {
-        "prompt": "What does Dorothy study to prepare for the IBM?",
-        "answerCue": "Its technical manuals."
+        "prompt": "What happens in “Dorothy Studies The Machine Manuals”?",
+        "answerCue": "Dorothy studies a large technical manual beside the IBM 7090, turns its pages and examines the computer's wiring and controls."
       },
       {
-        "prompt": "Which detail shows the scene’s central obstacle or opportunity?",
-        "answerCue": "Dorothy seeks out manuals and studies how the IBM works while the West Computing women continue their calculating assignments."
+        "prompt": "Which film technique shapes the moment?",
+        "answerCue": "Medium shots of Dorothy reading beside the IBM and closer views of the wiring connect technical study with practical investigation."
       },
       {
-        "prompt": "How does the film make the scene’s meaning visible?",
-        "answerCue": "Insert views of technical pages and Dorothy’s focused reading turn self-directed study into visible action."
+        "prompt": "Why does the scene matter?",
+        "answerCue": "Her preparation anticipates automation and shows leadership as the ability to learn ahead of change and bring others with you."
       }
     ],
     "sequence": [
-      "Locate the scene at West Computing Room.",
-      "Dorothy seeks out manuals and studies how the IBM works while the West Computing women continue their calculating assignments.",
+      "Dorothy studies a large technical manual beside the IBM 7090, turns its pages and examines the computer's wiring and controls.",
+      "Medium shots of Dorothy reading beside the IBM and closer views of the wiring connect technical study with practical investigation.",
       "Her preparation anticipates automation and shows leadership as the ability to learn ahead of change and bring others with you."
     ],
     "essayPrompt": "How does “Dorothy studies the machine manuals” develop leadership through character and film form? Use the concrete action and technique as evidence.",
     "counterReading": "One limitation is that her preparation anticipates automation and shows leadership as the ability to learn ahead of change and bring others with you can make structural change appear dependent on individual recognition; consider what institutional barriers remain after this scene.",
-    "watchFor": "Close-ups of diagrams and Dorothy’s moving finger: self-education shot as detective work.",
+    "watchFor": "Follow the move from the open manual to the wiring cabinet and Dorothy's confident smile.",
     "historyNote": "Dorothy Vaughan taught herself Fortran from a library book and then taught the entire West Computing pool.",
     "essayStarter": "Preparation as resistance: Dorothy studies the machine that was meant to replace her people.",
     "essayImportance": {
-      "rating": 4,
+      "rating": 7,
       "reason": "Dorothy's focused reading shows self-directed preparation for technological change. It supports an argument about foresight when paired with her later teaching."
     }
   },
@@ -1333,13 +1333,13 @@
     "fullTitle": "Dorothy Advocates For The West Computers",
     "character": "Dorothy Vaughan",
     "analysisType": "Character and Theme Essay",
-    "description": "Dorothy asks Vivian Mitchell to transfer her and the West Computing women to the IBM operation; Vivian requires her to prove the women are needed.",
+    "description": "Vivian offers Dorothy a temporary assignment to the IBM operation. Dorothy refuses reassignment unless the West Computing women come too, explaining that they are trained and that she cannot program the machine alone.",
     "techniques": "The hallway conversation stages a negotiation between a supervisor’s authority and Dorothy’s prepared case.",
     "essay": "Dorothy seeks a future for a team, not an individual exception, and understands that access must include the women who have done the calculations.",
     "techniqueLabel": "The hallway conversation stages a negotiation between a supervisor’s authority and Dorothy’s prepared case",
     "meaningLabel": "Dorothy seeks a future for a team, not an individual exception, and understands that access must include the women who have done the calculations",
     "cue": "hallway",
-    "cueText": "A wood-paneled office: Dorothy facing managers, folder in hand, making the case for her whole group.",
+    "cueText": "In a NASA hallway, Dorothy holds the reassignment papers and insists that her whole team must join her.",
     "tags": [
       "leadership",
       "sexism",
@@ -1347,28 +1347,28 @@
       "solidarity",
       "merit"
     ],
-    "sourceSlugline": "IBM computer hallway; East Computing Group hallway",
+    "sourceSlugline": "West Computing hallway",
     "timestamps": {
-      "start": 2990,
-      "end": 3130
+      "start": 6433.96,
+      "end": 6478.72
     },
     "retrievalPrompts": [
       {
-        "prompt": "What does Dorothy ask Vivian to transfer?",
-        "answerCue": "The West Computing women to the IBM operation."
+        "prompt": "What happens in “Dorothy Advocates For The West Computers”?",
+        "answerCue": "Vivian offers Dorothy a temporary assignment to the IBM operation. Dorothy refuses reassignment unless the West Computing women come too, explaining that they are trained and that she cannot program the machine alone."
       },
       {
-        "prompt": "Which detail shows the scene’s central obstacle or opportunity?",
-        "answerCue": "Dorothy asks Vivian Mitchell to transfer her and the West Computing women to the IBM operation."
-      },
-      {
-        "prompt": "How does the film make the scene’s meaning visible?",
+        "prompt": "Which film technique shapes the moment?",
         "answerCue": "The hallway conversation stages a negotiation between a supervisor’s authority and Dorothy’s prepared case."
+      },
+      {
+        "prompt": "Why does the scene matter?",
+        "answerCue": "Dorothy seeks a future for a team, not an individual exception, and understands that access must include the women who have done the calculations."
       }
     ],
     "sequence": [
-      "Locate the scene at IBM computer hallway; East Computing Group hallway.",
-      "Dorothy asks Vivian Mitchell to transfer her and the West Computing women to the IBM operation.",
+      "Vivian offers Dorothy a temporary assignment to the IBM operation. Dorothy refuses reassignment unless the West Computing women come too, explaining that they are trained and that she cannot program the machine alone.",
+      "The hallway conversation stages a negotiation between a supervisor’s authority and Dorothy’s prepared case.",
       "Dorothy seeks a future for a team, not an individual exception, and understands that access must include the women who have done the calculations."
     ],
     "essayPrompt": "How does “Dorothy advocates for the West computers” develop leadership through character and film form? Use the concrete action and technique as evidence.",
@@ -1377,7 +1377,7 @@
     "historyNote": "Dorothy Vaughan eventually led the West Computing women into programming work on the IBM systems.",
     "essayStarter": "Advocacy here is collective bargaining avant la lettre: promotion negotiated for thirty, not one.",
     "essayImportance": {
-      "rating": 4,
+      "rating": 6,
       "reason": "Dorothy negotiates for the entire team, giving leadership a concrete action. The unequal conversation supports analysis of authority and collective opportunity."
     }
   },
@@ -1388,9 +1388,9 @@
     "character": "Dorothy Vaughan",
     "analysisType": "Character and Theme Essay",
     "description": "Dorothy enters the segregated public library to find a programming book that will help her understand the IBM; the librarian challenges her presence.",
-    "techniques": "Quiet library order contrasts with the confrontation at the desk, focusing the conflict on access to knowledge.",
+    "techniques": "The ordered library shelves and quiet reading room contrast with the librarian's challenge and the guard escorting Dorothy and her sons outside.",
     "essay": "The scene links technical advancement to unequal access: Dorothy must cross racial boundaries to obtain the resources her work demands.",
-    "techniqueLabel": "Quiet library order contrasts with the confrontation at the desk, focusing the conflict on access to knowledge",
+    "techniqueLabel": "Ordered library setting and forced departure",
     "meaningLabel": "The scene links technical advancement to unequal access: Dorothy must cross racial boundaries to obtain the resources her work demands",
     "cue": "book",
     "cueText": "A segregated public library’s quiet aisles; a librarian blocking Dorothy’s path to the technical shelves.",
@@ -1402,26 +1402,26 @@
     ],
     "sourceSlugline": "Hampton Public Library",
     "timestamps": {
-      "start": 3130,
-      "end": 3240
+      "start": 3545.84,
+      "end": 3587.6
     },
     "retrievalPrompts": [
       {
-        "prompt": "What resource is Dorothy seeking?",
-        "answerCue": "A programming book for the IBM."
+        "prompt": "What happens in “Dorothy Enters The Public Library”?",
+        "answerCue": "Dorothy enters the segregated public library to find a programming book that will help her understand the IBM; the librarian challenges her presence."
       },
       {
-        "prompt": "Which detail shows the scene’s central obstacle or opportunity?",
-        "answerCue": "Dorothy enters the segregated public library to find a programming book that will help her understand the IBM."
+        "prompt": "Which film technique shapes the moment?",
+        "answerCue": "The ordered library shelves and quiet reading room contrast with the librarian's challenge and the guard escorting Dorothy and her sons outside."
       },
       {
-        "prompt": "How does the film make the scene’s meaning visible?",
-        "answerCue": "Quiet library order contrasts with the confrontation at the desk, focusing the conflict on access to knowledge."
+        "prompt": "Why does the scene matter?",
+        "answerCue": "The scene links technical advancement to unequal access: Dorothy must cross racial boundaries to obtain the resources her work demands."
       }
     ],
     "sequence": [
-      "Locate the scene at Hampton Public Library.",
-      "Dorothy enters the segregated public library to find a programming book that will help her understand the IBM.",
+      "Dorothy enters the segregated public library to find a programming book that will help her understand the IBM; the librarian challenges her presence.",
+      "The ordered library shelves and quiet reading room contrast with the librarian's challenge and the guard escorting Dorothy and her sons outside.",
       "The scene links technical advancement to unequal access: Dorothy must cross racial boundaries to obtain the resources her work demands."
     ],
     "essayPrompt": "How does “Dorothy enters the public library” develop segregation through character and film form? Use the concrete action and technique as evidence.",
@@ -1430,7 +1430,7 @@
     "historyNote": "Hampton’s public library was segregated; the programming book Dorothy sought was genuinely hard to obtain.",
     "essayStarter": "The library — the temple of access — practices the very exclusion books exist to end.",
     "essayImportance": {
-      "rating": 5,
+      "rating": 8,
       "reason": "The library confrontation makes unequal access to education explicit. The orderly setting and restricted resources connect segregation to barriers at work."
     }
   },
@@ -1440,46 +1440,46 @@
     "fullTitle": "Dorothy Takes The Programming Book",
     "character": "Dorothy Vaughan",
     "analysisType": "Character and Theme Essay",
-    "description": "Dorothy takes the programming text despite the librarian’s resistance and carries it out to study and share with the West Computing women.",
+    "description": "After a guard removes Dorothy and her sons from the segregated library, she reveals the FORTRAN book on the bus and explains why she has taken it. She then begins reading it.",
     "techniques": "The book becomes a strong visual object, moving from restricted shelf to a tool for collective learning.",
     "essay": "Knowledge is not treated as private advancement; Dorothy’s purpose is to prepare the whole group for the machine.",
     "techniqueLabel": "The book becomes a strong visual object, moving from restricted shelf to a tool for collective learning",
     "meaningLabel": "Knowledge is not treated as private advancement; Dorothy’s purpose is to prepare the whole group for the machine",
     "cue": "book",
-    "cueText": "Dorothy sliding a Fortran manual off the shelf and walking out with it held like contraband.",
+    "cueText": "On the bus after the library expulsion, Dorothy reveals the FORTRAN book and opens it.",
     "tags": [
       "solidarity",
       "education",
       "sexism",
       "merit"
     ],
-    "sourceSlugline": "Hampton Public Library",
+    "sourceSlugline": "Hampton Public Library and bus",
     "timestamps": {
-      "start": 3490,
-      "end": 3590
+      "start": 3555,
+      "end": 3635.56
     },
     "retrievalPrompts": [
       {
-        "prompt": "Who will benefit from Dorothy’s programming study?",
-        "answerCue": "The West Computing women."
+        "prompt": "What happens in “Dorothy Takes The Programming Book”?",
+        "answerCue": "After a guard removes Dorothy and her sons from the segregated library, she reveals the FORTRAN book on the bus and explains why she has taken it. She then begins reading it."
       },
       {
-        "prompt": "Which detail shows the scene’s central obstacle or opportunity?",
-        "answerCue": "Dorothy takes the programming text despite the librarian’s resistance and carries it out to study and share with the West Computing women."
-      },
-      {
-        "prompt": "How does the film make the scene’s meaning visible?",
+        "prompt": "Which film technique shapes the moment?",
         "answerCue": "The book becomes a strong visual object, moving from restricted shelf to a tool for collective learning."
+      },
+      {
+        "prompt": "Why does the scene matter?",
+        "answerCue": "Knowledge is not treated as private advancement; Dorothy’s purpose is to prepare the whole group for the machine."
       }
     ],
     "sequence": [
-      "Locate the scene at Hampton Public Library.",
-      "Dorothy takes the programming text despite the librarian’s resistance and carries it out to study and share with the West Computing women.",
+      "After a guard removes Dorothy and her sons from the segregated library, she reveals the FORTRAN book on the bus and explains why she has taken it. She then begins reading it.",
+      "The book becomes a strong visual object, moving from restricted shelf to a tool for collective learning.",
       "Knowledge is not treated as private advancement; Dorothy’s purpose is to prepare the whole group for the machine."
     ],
     "essayPrompt": "How does “Dorothy takes the programming book” develop solidarity through character and film form? Use the concrete action and technique as evidence.",
     "counterReading": "One limitation is that knowledge is not treated as private advancement; dorothy’s purpose is to prepare the whole group for the machine can make structural change appear dependent on individual recognition; consider what institutional barriers remain after this scene.",
-    "watchFor": "The theft is filmed as liberation: no alarm, just a held gaze at the librarian on the way past.",
+    "watchFor": "The FORTRAN cover and Dorothy's open book connect the library's exclusion with her decision to teach herself.",
     "historyNote": "Dorothy’s self-education in computing genuinely began with a book others said was not for her.",
     "essayStarter": "Taking the book reframes theft as restitution: the knowledge was always collectively earned.",
     "essayImportance": {
@@ -1509,8 +1509,8 @@
     ],
     "sourceSlugline": "Hampton High School classroom",
     "timestamps": {
-      "start": 3600,
-      "end": 3700
+      "start": 6667.92,
+      "end": 6717.68
     },
     "retrievalPrompts": [
       {
@@ -1533,11 +1533,11 @@
     ],
     "essayPrompt": "How does “Mary studies after work” develop perseverance through character and film form? Use the concrete action and technique as evidence.",
     "counterReading": "One limitation is that her route into engineering is constructed from work, study and negotiation, countering any suggestion that advancement is effortless can make structural change appear dependent on individual recognition; consider what institutional barriers remain after this scene.",
-    "watchFor": "Fluorescent light, tired eyes, open notebooks: perseverance photographed without glamour.",
+    "watchFor": "Watch the men's reactions as Mary enters, the teacher at the blackboard, and her notebook as she takes her seat.",
     "historyNote": "Mary studied after full workdays while raising a family — the film’s image of education as endurance.",
     "essayStarter": "The night class argues that merit is a schedule as much as a gift: excellence kept after hours.",
     "essayImportance": {
-      "rating": 3,
+      "rating": 6,
       "reason": "The after-hours classroom shows the extra work behind Mary's advancement. It supports the stronger courtroom evidence about access to education."
     }
   },
@@ -1548,39 +1548,39 @@
     "character": "Katherine Johnson",
     "analysisType": "Character and Theme Essay",
     "description": "Jim Johnson comes to understand and support Katherine’s demanding work and mathematical ability as their relationship develops.",
-    "techniques": "Intimate domestic staging contrasts with NASA’s institutional rooms and allows personal trust to grow in quieter exchanges.",
+    "techniques": "Close views of Jim and Katherine dancing together and the warm party lighting give their exchange a quieter, more intimate setting than NASA's offices.",
     "essay": "Katherine’s life includes partnership and family alongside professional ambition; recognition at home is not a substitute for workplace equality.",
-    "techniqueLabel": "Intimate domestic staging contrasts with NASA’s institutional rooms and allows personal trust to grow in quieter exchanges",
+    "techniqueLabel": "Intimate dance-floor framing",
     "meaningLabel": "Katherine’s life includes partnership and family alongside professional ambition; recognition at home is not a substitute for workplace equality",
     "cue": "dinner",
-    "cueText": "Quiet domestic scenes: Jim learning the shape of Katherine’s demanding work and meeting it.",
+    "cueText": "Jim and Katherine talk about her work and his earlier assumption while dancing together.",
     "tags": [
       "family",
       "sexism",
       "merit"
     ],
-    "sourceSlugline": "Katherine’s house; living room",
+    "sourceSlugline": "Community party dance floor",
     "timestamps": {
-      "start": 3720,
-      "end": 3840
+      "start": 3720.92,
+      "end": 3777.6
     },
     "retrievalPrompts": [
       {
-        "prompt": "What grows between Katherine and Jim?",
-        "answerCue": "Mutual trust and support."
-      },
-      {
-        "prompt": "Which detail shows the scene’s central obstacle or opportunity?",
+        "prompt": "What happens in “Katherine And Jim Build Trust”?",
         "answerCue": "Jim Johnson comes to understand and support Katherine’s demanding work and mathematical ability as their relationship develops."
       },
       {
-        "prompt": "How does the film make the scene’s meaning visible?",
-        "answerCue": "Intimate domestic staging contrasts with NASA’s institutional rooms and allows personal trust to grow in quieter exchanges."
+        "prompt": "Which film technique shapes the moment?",
+        "answerCue": "Close views of Jim and Katherine dancing together and the warm party lighting give their exchange a quieter, more intimate setting than NASA's offices."
+      },
+      {
+        "prompt": "Why does the scene matter?",
+        "answerCue": "Katherine’s life includes partnership and family alongside professional ambition; recognition at home is not a substitute for workplace equality."
       }
     ],
     "sequence": [
-      "Locate the scene at Katherine’s house; living room.",
       "Jim Johnson comes to understand and support Katherine’s demanding work and mathematical ability as their relationship develops.",
+      "Close views of Jim and Katherine dancing together and the warm party lighting give their exchange a quieter, more intimate setting than NASA's offices.",
       "Katherine’s life includes partnership and family alongside professional ambition; recognition at home is not a substitute for workplace equality."
     ],
     "essayPrompt": "How does “Katherine and Jim build trust” develop family through character and film form? Use the concrete action and technique as evidence.",
@@ -1599,7 +1599,7 @@
     "fullTitle": "The Arrival Of The IBM 7090 Mainframe",
     "character": "NASA & The Team",
     "analysisType": "Theme Essay",
-    "description": "NASA technicians try to move the massive IBM 7090 into the building, then discover that it is too large for the doorway. Carpenters must saw away the door header.",
+    "description": "NASA engineers discover that the IBM 7090 is too large for the doorway. Harrison tells a worker to get a larger hammer, and the doorway is opened up while Dorothy watches.",
     "techniques": "Wide-angle contrast between human scale and massive industrial hardware, paired with humorous dialogue.",
     "essay": "Represents technological disruption and institutional unpreparedness. NASA invests in hardware while overlooking the human labor needed to operate it.",
     "techniqueLabel": "Wide-angle human-machine contrast",
@@ -1613,14 +1613,14 @@
       "solidarity"
     ],
     "timestamps": {
-      "start": 3890,
-      "end": 3995
+      "start": 2799.4,
+      "end": 2830.88
     },
     "sourceSlugline": "INT. Langley IBM Delivery Hallway — Day",
     "retrievalPrompts": [
       {
-        "prompt": "What changes in “The IBM that would not fit”?",
-        "answerCue": "NASA technicians try to move the massive IBM 7090 into the building, then discover that it is too large for the doorway. Carpenters must saw away the door header."
+        "prompt": "What happens in “The IBM That Would Not Fit”?",
+        "answerCue": "NASA engineers discover that the IBM 7090 is too large for the doorway. Harrison tells a worker to get a larger hammer, and the doorway is opened up while Dorothy watches."
       },
       {
         "prompt": "Which film technique shapes the moment?",
@@ -1632,17 +1632,17 @@
       }
     ],
     "sequence": [
-      "NASA technicians try to move the massive IBM 7090 into the building, then discover that it is too large for the doorway. Carpenters must saw away the door header.",
+      "NASA engineers discover that the IBM 7090 is too large for the doorway. Harrison tells a worker to get a larger hammer, and the doorway is opened up while Dorothy watches.",
       "Wide-angle contrast between human scale and massive industrial hardware, paired with humorous dialogue.",
       "Represents technological disruption and institutional unpreparedness. NASA invests in hardware while overlooking the human labor needed to operate it."
     ],
     "essayPrompt": "Analyze how “The IBM that would not fit” develops Technology & change through a specific film technique.",
     "counterReading": "Consider whether the scene’s resolution fully changes the conditions described: Represents technological disruption and institutional unpreparedness. NASA invests in hardware while overlooking the human labor needed to operate it.",
-    "watchFor": "The machine dwarfs the men pushing it, then the doorway: progress literally cannot fit through the institution’s old openings. Carpenters saw the frame.",
+    "watchFor": "The machine and doorway turn institutional adaptation into a physical problem. Watch the worker attack the header with a hammer.",
     "historyNote": "NASA installed an IBM 7090 mainframe at Langley in the early 1960s, threatening the human computers’ jobs.",
     "essayStarter": "The doorway gag makes the film’s thesis physical: the future arrives faster than the building prepared for it.",
     "essayImportance": {
-      "rating": 4,
+      "rating": 7,
       "reason": "The oversized IBM offers a clear human-machine contrast and exposes institutional unpreparedness. It supports an argument that progress still depends on human expertise."
     }
   },
@@ -1665,8 +1665,8 @@
     ],
     "sourceSlugline": "IBM computer hallway",
     "timestamps": {
-      "start": 3995,
-      "end": 4070
+      "start": 2799.4,
+      "end": 2830.88
     },
     "retrievalPrompts": [
       {
@@ -1689,27 +1689,27 @@
     ],
     "essayPrompt": "How does “The IBM blocks the hallway” develop technology through character and film form? Use the concrete action and technique as evidence.",
     "counterReading": "One limitation is that nasa adapts its physical environment for the machine, foreshadowing the need to adapt its assumptions about human expertise as well can make structural change appear dependent on individual recognition; consider what institutional barriers remain after this scene.",
-    "watchFor": "Scale comedy: the future is two inches too wide. The film milks the absurdity before the saws come out.",
+    "watchFor": "The oversized machine prompts a practical and comic response: Harrison calls for a larger hammer, and a worker breaks open the doorway.",
     "historyNote": "Early mainframes filled rooms and arrived in pieces; Langley really did rebuild spaces around its machines.",
     "essayStarter": "The stuck computer literalizes institutional inertia: the building must be altered to admit what it ordered.",
     "essayImportance": {
-      "rating": 2,
+      "rating": 3,
       "reason": "The hallway obstacle reinforces the IBM's disruption through comic staging. It is best used as a supporting detail rather than a separate main example."
     }
   },
   {
     "id": 33,
-    "title": "Dorothy Begins Teaching Fortran",
-    "fullTitle": "Dorothy Begins Teaching Fortran",
+    "title": "Dorothy Prepares The Team For Programming",
+    "fullTitle": "Dorothy Prepares The Team For Programming",
     "character": "Dorothy Vaughan",
     "analysisType": "Character and Theme Essay",
-    "description": "Dorothy explains FORTRAN concepts to the West Computing women as they prepare for the IBM’s arrival and the changing nature of their work.",
+    "description": "At the blackboard, Dorothy explains the IBM 7090's speed and warns the West Computing women that they must learn to program it to keep up with the changing work.",
     "techniques": "Group arrangements and shared attention emphasize teaching as practical leadership rather than a solitary breakthrough.",
     "essay": "Dorothy converts self-study into collective resilience, ensuring that automation can expand the group’s skills instead of simply displacing them.",
     "techniqueLabel": "Group arrangements and shared attention emphasize teaching as practical leadership rather than a solitary breakthrough",
     "meaningLabel": "Dorothy converts self-study into collective resilience, ensuring that automation can expand the group’s skills instead of simply displacing them",
     "cue": "chalkboard",
-    "cueText": "A chalkboard headed IBM 7090 DPS: Dorothy diagramming Fortran for rows of West Computing women.",
+    "cueText": "A chalkboard headed IBM 7090 DPS: Dorothy explains the machine's capacity to the West Computing women.",
     "tags": [
       "education",
       "sexism",
@@ -1719,36 +1719,36 @@
     ],
     "sourceSlugline": "Dorothy’s house; West Computing Room",
     "timestamps": {
-      "start": 4020,
-      "end": 4140
+      "start": 4096.16,
+      "end": 4117.12
     },
     "retrievalPrompts": [
       {
-        "prompt": "What language does Dorothy teach her colleagues?",
-        "answerCue": "FORTRAN."
+        "prompt": "What happens in “Dorothy Prepares The Team For Programming”?",
+        "answerCue": "At the blackboard, Dorothy explains the IBM 7090's speed and warns the West Computing women that they must learn to program it to keep up with the changing work."
       },
       {
-        "prompt": "Which detail shows the scene’s central obstacle or opportunity?",
-        "answerCue": "Dorothy explains FORTRAN concepts to the West Computing women as they prepare for the IBM’s arrival and the changing nature of their work."
-      },
-      {
-        "prompt": "How does the film make the scene’s meaning visible?",
+        "prompt": "Which film technique shapes the moment?",
         "answerCue": "Group arrangements and shared attention emphasize teaching as practical leadership rather than a solitary breakthrough."
+      },
+      {
+        "prompt": "Why does the scene matter?",
+        "answerCue": "Dorothy converts self-study into collective resilience, ensuring that automation can expand the group’s skills instead of simply displacing them."
       }
     ],
     "sequence": [
-      "Locate the scene at Dorothy’s house; West Computing Room.",
-      "Dorothy explains FORTRAN concepts to the West Computing women as they prepare for the IBM’s arrival and the changing nature of their work.",
+      "At the blackboard, Dorothy explains the IBM 7090's speed and warns the West Computing women that they must learn to program it to keep up with the changing work.",
+      "Group arrangements and shared attention emphasize teaching as practical leadership rather than a solitary breakthrough.",
       "Dorothy converts self-study into collective resilience, ensuring that automation can expand the group’s skills instead of simply displacing them."
     ],
-    "essayPrompt": "How does “Dorothy begins teaching FORTRAN” develop education through character and film form? Use the concrete action and technique as evidence.",
+    "essayPrompt": "How does “Dorothy Prepares The Team For Programming” develop education through character and film form? Use the concrete action and technique as evidence.",
     "counterReading": "One limitation is that dorothy converts self-study into collective resilience, ensuring that automation can expand the group’s skills instead of simply displacing them can make structural change appear dependent on individual recognition; consider what institutional barriers remain after this scene.",
-    "watchFor": "The camera pans the students’ faces as comprehension dawns in sequence — a montage of minds catching up.",
+    "watchFor": "The IBM heading, Dorothy's explanation and the women's shared attention turn preparation into a collective activity.",
     "historyNote": "Fortran, released by IBM in 1957, was the first widely used high-level language — and Dorothy mastered it first.",
     "essayStarter": "Teaching is Dorothy’s leadership made visible: she multiplies herself instead of merely advancing.",
     "essayImportance": {
-      "rating": 5,
-      "reason": "Dorothy turns individual learning into collective resilience by teaching Fortran. Group framing supports a strong argument about leadership, teamwork and technological change."
+      "rating": 7,
+      "reason": "Dorothy prepares the group for programming work as automation changes their jobs. Their shared attention supports an argument about leadership, teamwork and technological change."
     }
   },
   {
@@ -1763,7 +1763,7 @@
     "techniqueLabel": "Rain, hurried movement and the burden of papers compress the physical cost into a single image",
     "meaningLabel": "Her supervisor sees an unexplained absence until she names the segregated facilities, making institutional harm impossible to ignore",
     "cue": "rain",
-    "cueText": "Rain hammering a parking lot as Katherine runs between 1950s sedans, umbrella losing to the storm.",
+    "cueText": "Rain falls across the parking lot as Katherine hurries between parked cars with her papers.",
     "tags": [
       "injustice",
       "sexism",
@@ -1773,8 +1773,8 @@
     ],
     "sourceSlugline": "NASA grounds; West Campus hallway",
     "timestamps": {
-      "start": 4080,
-      "end": 4200
+      "start": 4164.92,
+      "end": 4222.12
     },
     "retrievalPrompts": [
       {
@@ -1801,7 +1801,7 @@
     "historyNote": "The film compresses many such runs into one emblematic storm before the confrontation.",
     "essayStarter": "Weather becomes witness: the sky testifies to what the building pretends not to see.",
     "essayImportance": {
-      "rating": 4,
+      "rating": 5,
       "reason": "Rain, movement and carried papers give discrimination a visible physical cost. This provides technique evidence leading into the stronger confrontation."
     }
   },
@@ -1826,8 +1826,8 @@
       "merit"
     ],
     "timestamps": {
-      "start": 4200,
-      "end": 4340
+      "start": 4218.04,
+      "end": 4329.76
     },
     "sourceSlugline": "INT. Space Task Group Briefing Room — Day",
     "retrievalPrompts": [
@@ -1851,11 +1851,11 @@
     ],
     "essayPrompt": "Analyze how “The rain-soaked outburst” develops Racism & segregation through a specific film technique.",
     "counterReading": "Consider whether the scene’s resolution fully changes the conditions described: A major turning point: silent endurance becomes active resistance, forcing the institution to face its structural contradictions.",
-    "watchFor": "Rain on her face, then a slow push-in as the room goes silent. The speech is one unbroken take of inventory: bathrooms, coffee, pay, dress codes.",
+    "watchFor": "The close views of Katherine's soaked face are interrupted by coworkers' reactions as her account moves from bathrooms to dress rules, pay and the separate coffee pot.",
     "historyNote": "The outburst compresses months of indignity into a single confrontation — the film’s most famous condensation of Katherine’s real working conditions.",
     "essayStarter": "Katherine’s eloquence works because it is accounting, not anger: she itemizes the cost until silence becomes agreement.",
     "essayImportance": {
-      "rating": 5,
+      "rating": 10,
       "reason": "The rain-soaked outburst turns endurance into open resistance. Close-ups and silent reactions connect a major turning point to the daily harm of segregation."
     }
   },
@@ -1871,7 +1871,7 @@
     "techniqueLabel": "A held reaction shot gives Katherine’s account room to land; the office’s routine is interrupted by the truth of its arrangements",
     "meaningLabel": "The confrontation converts an invisible policy into lost labor and lets Katherine speak as an expert describing a measurable problem",
     "cue": "rain",
-    "cueText": "Harrison’s office: Katherine dripping on the carpet, explaining the half-mile in plain numbers.",
+    "cueText": "On the Space Task Group work floor, Katherine returns soaked and explains the half-mile trip to the restroom.",
     "tags": [
       "dignity",
       "sexism",
@@ -1879,8 +1879,8 @@
     ],
     "sourceSlugline": "Space Task Group office",
     "timestamps": {
-      "start": 4280,
-      "end": 4380
+      "start": 4218.04,
+      "end": 4271.4
     },
     "retrievalPrompts": [
       {
@@ -1903,7 +1903,7 @@
     ],
     "essayPrompt": "How does “Katherine explains the restroom distance” develop dignity through character and film form? Use the concrete action and technique as evidence.",
     "counterReading": "One limitation is that the confrontation converts an invisible policy into lost labor and lets katherine speak as an expert describing a measurable problem can make structural change appear dependent on individual recognition; consider what institutional barriers remain after this scene.",
-    "watchFor": "Two-shot, no score: Harrison’s bluster drains as the logistics land. Anger converts to arithmetic.",
+    "watchFor": "Harrison's question and the coworkers' reaction shots give the distance and wasted time a visible audience.",
     "historyNote": "The confrontation distills real friction over Katherine’s absences into a single exchange.",
     "essayStarter": "Harrison’s question is the film’s hinge: the moment management is forced to hear its own building.",
     "keyLine": "Where the hell do you go every day?",
@@ -1932,8 +1932,8 @@
       "coldwar"
     ],
     "timestamps": {
-      "start": 4380,
-      "end": 4475
+      "start": 4349.04,
+      "end": 4410.64
     },
     "sourceSlugline": "EXT. Langley Segregated Restroom — Day",
     "retrievalPrompts": [
@@ -1957,12 +1957,12 @@
     ],
     "essayPrompt": "Analyze how “The restroom sign comes down” develops Racism & segregation through a specific film technique.",
     "counterReading": "Consider whether the scene’s resolution fully changes the conditions described: Represents top-down institutional adaptation driven by pragmatic necessity rather than pure altruism.",
-    "watchFor": "Harrison grabs a crowbar mid-stride; the sign clangs off the brick in a single swing. Destruction played as management: one decisive prop, no speech.",
+    "watchFor": "Harrison strikes the sign repeatedly with a crowbar, pulls it free, and then declares the restrooms open while the West Computing women watch.",
     "historyNote": "Al Harrison is a composite character standing in for several NASA managers; the film concentrates real institutional change into his actions.",
     "essayStarter": "The scene’s satisfaction is real but double-edged: justice arrives as one man’s efficiency drive, not as reckoning.",
     "keyLine": "At NASA, we all pee the same color!",
     "essayImportance": {
-      "rating": 5,
+      "rating": 10,
       "reason": "Destroying the restroom sign is a clear turning point built around a symbolic prop. It also invites a counter-argument about reform depending on powerful decision-makers."
     }
   },
@@ -1986,8 +1986,8 @@
     ],
     "sourceSlugline": "Colored restroom; NASA grounds",
     "timestamps": {
-      "start": 4390,
-      "end": 4485
+      "start": 4349.04,
+      "end": 4410.64
     },
     "retrievalPrompts": [
       {
@@ -2010,27 +2010,27 @@
     ],
     "essayPrompt": "How does “Harrison removes the sign” develop leadership through character and film form? Use the concrete action and technique as evidence.",
     "counterReading": "One limitation is that the gesture changes access immediately, while inviting discussion of how reform can depend on a powerful person deciding to act can make structural change appear dependent on individual recognition; consider what institutional barriers remain after this scene.",
-    "watchFor": "One wide shot, one swing, no slow motion. The film refuses to mythologize what it presents as maintenance.",
+    "watchFor": "Watch the repeated crowbar blows, the sign being pulled down, and the shift from the prop action to Harrison's declaration and the women's reactions.",
     "historyNote": "The film concentrates gradual desegregation into this single cathartic demolition.",
     "essayStarter": "Read against scene 37’s twin: the film needs the gesture twice because one swing cannot finish history.",
     "essayImportance": {
-      "rating": 3,
+      "rating": 4,
       "reason": "Harrison's action supports analysis of who holds the power to change access. It is narrower evidence from the same event as the sign's removal."
     }
   },
   {
     "id": 39,
-    "title": "Family Dinner Trajectory Talk",
-    "fullTitle": "Katherine Discussing Math With Her Daughters At Dinner",
+    "title": "Family Dinner With Jim",
+    "fullTitle": "Family Dinner With Jim",
     "character": "Katherine Johnson",
     "analysisType": "Character Essay",
-    "description": "At the dinner table, Katherine turns plates and household objects into orbital diagrams, explaining rocket trajectories to her young daughters — then tucks them in with the same patience she brings to a blackboard.",
-    "techniques": "Warm family lighting and intimate medium close-ups contrast with the sterile fluorescent offices at NASA, making the home the film's friendliest classroom.",
-    "essay": "Shows Katherine passing her passion for education and mathematical curiosity to the next generation, grounding her professional brilliance in family life.",
-    "techniqueLabel": "Warm family lighting & medium close-ups",
-    "meaningLabel": "Passing intellectual passion to new generations",
+    "description": "Jim joins Katherine and her daughters for dinner. Katherine invites the girls to say grace, and the family joins hands around the table before eating.",
+    "techniques": "Warm lighting, close views of joined hands and a wider view of the whole table emphasize family intimacy.",
+    "essay": "The shared meal places Katherine's family relationships alongside her demanding NASA work and shows Jim becoming part of that family.",
+    "techniqueLabel": "Warm lighting and family framing",
+    "meaningLabel": "Family support alongside professional responsibility",
     "cue": "dinner",
-    "cueText": "Plates converted into orbital paths: education begins at home.",
+    "cueText": "Katherine, Jim and the girls join hands around the dinner table.",
     "tags": [
       "education",
       "family",
@@ -2039,37 +2039,37 @@
       "solidarity"
     ],
     "timestamps": {
-      "start": 4620,
-      "end": 4760
+      "start": 4690.6,
+      "end": 4715.72
     },
     "sourceSlugline": "INT. Katherine's House, Dining Room — Night",
     "retrievalPrompts": [
       {
-        "prompt": "What changes in “Family dinner trajectory talk”?",
-        "answerCue": "At the dinner table, Katherine turns plates and household objects into orbital diagrams, explaining rocket trajectories to her young daughters — then tucks them in with the same patience she brings to a blackboard."
+        "prompt": "What happens in “Family Dinner With Jim”?",
+        "answerCue": "Jim joins Katherine and her daughters for dinner. Katherine invites the girls to say grace, and the family joins hands around the table before eating."
       },
       {
         "prompt": "Which film technique shapes the moment?",
-        "answerCue": "Warm family lighting and intimate medium close-ups contrast with the sterile fluorescent offices at NASA, making the home the film's friendliest classroom."
+        "answerCue": "Warm lighting, close views of joined hands and a wider view of the whole table emphasize family intimacy."
       },
       {
         "prompt": "Why does the scene matter?",
-        "answerCue": "Shows Katherine passing her passion for education and mathematical curiosity to the next generation, grounding her professional brilliance in family life."
+        "answerCue": "The shared meal places Katherine's family relationships alongside her demanding NASA work and shows Jim becoming part of that family."
       }
     ],
     "sequence": [
-      "At the dinner table, Katherine turns plates and household objects into orbital diagrams, explaining rocket trajectories to her young daughters — then tucks them in with the same patience she brings to a blackboard.",
-      "Warm family lighting and intimate medium close-ups contrast with the sterile fluorescent offices at NASA, making the home the film's friendliest classroom.",
-      "Shows Katherine passing her passion for education and mathematical curiosity to the next generation, grounding her professional brilliance in family life."
+      "Jim joins Katherine and her daughters for dinner. Katherine invites the girls to say grace, and the family joins hands around the table before eating.",
+      "Warm lighting, close views of joined hands and a wider view of the whole table emphasize family intimacy.",
+      "The shared meal places Katherine's family relationships alongside her demanding NASA work and shows Jim becoming part of that family."
     ],
-    "essayPrompt": "Analyze how “Family dinner trajectory talk” develops Education & opportunity through a specific film technique.",
-    "counterReading": "Consider whether the scene’s resolution fully changes the conditions described: Shows Katherine passing her passion for education and mathematical curiosity to the next generation, grounding her professional brilliance in family life.",
-    "watchFor": "Plates become orbits on a crowded dinner table; daughters lean in as trajectories turn edible. Domestic warmth is lit like a classroom.",
-    "historyNote": "Katherine raised three daughters while computing trajectories — the film insists the household was part of the laboratory.",
-    "essayStarter": "Teaching at home proves education is inheritance, not just institution: what the school gates kept out, the dinner table lets in.",
+    "essayPrompt": "Analyze how “Family Dinner With Jim” develops Education & opportunity through a specific film technique.",
+    "counterReading": "Consider how this moment supports your argument and which parts of that argument require comparison with another scene.",
+    "watchFor": "The joined hands and final wide view bring Jim and Katherine's daughters into one family group.",
+    "historyNote": "The scene presents the family relationships that support Katherine alongside her professional work.",
+    "essayStarter": "The family table makes support visible through shared space and joined hands.",
     "essayImportance": {
       "rating": 4,
-      "reason": "Warm family framing shows Katherine passing mathematical curiosity to her children. It supports a clear comparison with her own childhood education."
+      "reason": "Warm lighting and joined hands make family support visible alongside Katherine's NASA responsibilities."
     }
   },
   {
@@ -2096,8 +2096,8 @@
     ],
     "sourceSlugline": "Hampton County Courthouse",
     "timestamps": {
-      "start": 4920,
-      "end": 5040
+      "start": 5007.84,
+      "end": 5053.84
     },
     "retrievalPrompts": [
       {
@@ -2124,7 +2124,7 @@
     "historyNote": "Mary Jackson petitioned a Hampton court for permission to attend night classes at the all-white Hampton High School.",
     "essayStarter": "The courthouse stages the film’s bluntest equation: education gated by law, unlocked by argument.",
     "essayImportance": {
-      "rating": 4,
+      "rating": 7,
       "reason": "The courtroom setting reveals that Mary's career barriers extend beyond NASA. It provides context for her stronger persuasive exchange with the judge."
     }
   },
@@ -2149,8 +2149,8 @@
     ],
     "sourceSlugline": "Hampton County Courthouse",
     "timestamps": {
-      "start": 5040,
-      "end": 5120
+      "start": 5053.84,
+      "end": 5140.56
     },
     "retrievalPrompts": [
       {
@@ -2178,7 +2178,7 @@
     "essayStarter": "Mary sells the judge his own legacy: progress reframed as the ruling’s self-interest.",
     "keyLine": "Which one is going to make you the first?",
     "essayImportance": {
-      "rating": 5,
+      "rating": 9,
       "reason": "Mary's direct appeal turns an individual request into a persuasive argument about precedent. Controlled dialogue and courtroom staging provide strong evidence of agency."
     }
   },
@@ -2194,7 +2194,7 @@
     "techniqueLabel": "The decision resolves the courtroom scene with a small procedural act carrying large consequences",
     "meaningLabel": "Progress arrives through persistence and a narrow opening in a segregated system, rather than through talent alone",
     "cue": "classroom",
-    "cueText": "The judge’s gavel pausing, then permission granted: night classes, and a path into engineering.",
+    "cueText": "The judge grants permission for night classes; Mary receives the ruling and celebrates outside the courthouse.",
     "tags": [
       "opportunity",
       "education",
@@ -2204,8 +2204,8 @@
     ],
     "sourceSlugline": "Hampton County Courthouse",
     "timestamps": {
-      "start": 5120,
-      "end": 5200
+      "start": 5148.48,
+      "end": 5170.04
     },
     "retrievalPrompts": [
       {
@@ -2228,11 +2228,11 @@
     ],
     "essayPrompt": "How does “Mary wins permission to study” develop opportunity through character and film form? Use the concrete action and technique as evidence.",
     "counterReading": "One limitation is that progress arrives through persistence and a narrow opening in a segregated system, rather than through talent alone can make structural change appear dependent on individual recognition; consider what institutional barriers remain after this scene.",
-    "watchFor": "Relief is underplayed — a nod, papers gathered. The film saves its cheers for splashdowns.",
+    "watchFor": "Compare Mary's controlled response inside the court with her joyful reaction after she leaves the building.",
     "historyNote": "The ruling cleared Mary’s way into the engineering courses that made her NASA’s first Black woman engineer.",
     "essayStarter": "A quiet verdict with loud consequences: the scene measures justice in semesters, not speeches.",
     "essayImportance": {
-      "rating": 4,
+      "rating": 5,
       "reason": "Permission to study pays off Mary's persistence while exposing the narrowness of institutional reform. It works well as the outcome of the courtroom argument."
     }
   },
@@ -2243,30 +2243,30 @@
     "character": "Katherine Johnson",
     "analysisType": "Character Essay",
     "description": "When the familiar formulas fail for an elliptical orbit, Katherine proposes Euler's Method — a numerical technique centuries old — as the way to calculate the capsule's path. The room doubts it; she insists that what matters is that it works.",
-    "techniques": "Tight close-ups on handwritten equations, combined with a slow camera push-in on Katherine as she speaks with quiet certainty.",
+    "techniques": "Shot and reverse-shot views of Katherine and the engineers hold their doubt and her proposal in the same discussion; the blackboard remains the visible problem they must solve.",
     "essay": "Highlights Katherine's deep knowledge of classical mathematics, showing how foundational theory — patiently learned — solves cutting-edge engineering problems.",
-    "techniqueLabel": "Equation close-ups & slow push-in",
+    "techniqueLabel": "Discussion reactions and blackboard setting",
     "meaningLabel": "Foundational knowledge solves novel challenges",
     "cue": "euler",
-    "cueText": "Old formulas on paper: classic mathematics enables modern spaceflight.",
+    "cueText": "Katherine proposes an older numerical method while the engineers debate the unsolved re-entry problem.",
     "tags": [
       "merit",
       "technology",
       "education"
     ],
     "timestamps": {
-      "start": 5840,
-      "end": 5940
+      "start": 6717.68,
+      "end": 6773.84
     },
     "sourceSlugline": "INT. Space Task Group — Day",
     "retrievalPrompts": [
       {
-        "prompt": "What changes in “Euler's method proposal”?",
+        "prompt": "What happens in “Euler's Method Proposal”?",
         "answerCue": "When the familiar formulas fail for an elliptical orbit, Katherine proposes Euler's Method — a numerical technique centuries old — as the way to calculate the capsule's path. The room doubts it; she insists that what matters is that it works."
       },
       {
         "prompt": "Which film technique shapes the moment?",
-        "answerCue": "Tight close-ups on handwritten equations, combined with a slow camera push-in on Katherine as she speaks with quiet certainty."
+        "answerCue": "Shot and reverse-shot views of Katherine and the engineers hold their doubt and her proposal in the same discussion; the blackboard remains the visible problem they must solve."
       },
       {
         "prompt": "Why does the scene matter?",
@@ -2275,17 +2275,17 @@
     ],
     "sequence": [
       "When the familiar formulas fail for an elliptical orbit, Katherine proposes Euler's Method — a numerical technique centuries old — as the way to calculate the capsule's path. The room doubts it; she insists that what matters is that it works.",
-      "Tight close-ups on handwritten equations, combined with a slow camera push-in on Katherine as she speaks with quiet certainty.",
+      "Shot and reverse-shot views of Katherine and the engineers hold their doubt and her proposal in the same discussion; the blackboard remains the visible problem they must solve.",
       "Highlights Katherine's deep knowledge of classical mathematics, showing how foundational theory — patiently learned — solves cutting-edge engineering problems."
     ],
     "essayPrompt": "Analyze how “Euler's method proposal” develops Merit & recognition through a specific film technique.",
     "counterReading": "Consider whether the scene’s resolution fully changes the conditions described: Highlights Katherine's deep knowledge of classical mathematics, showing how foundational theory — patiently learned — solves cutting-edge engineering problems.",
-    "watchFor": "A quieter boardroom moment: Katherine names a centuries-old method while younger men reach for newer formulas. The room’s doubt is the point.",
+    "watchFor": "Watch how Katherine's proposal redirects the seated discussion toward the blackboard and another attempt.",
     "historyNote": "Numerical methods like Euler’s remain standard tools for problems — like elliptical orbits — that resist closed-form solutions.",
     "essayStarter": "The proposal argues for intellectual humility: the newest tool is not always the right one.",
     "essayImportance": {
-      "rating": 4,
-      "reason": "Equation close-ups link Katherine's education to practical innovation. The scene supports an argument about foundational knowledge enabling progress."
+      "rating": 8,
+      "reason": "Katherine's proposal connects classical mathematics with a practical engineering problem. The engineers' reactions support an argument about education, innovation and the authority of expertise."
     }
   },
   {
@@ -2294,7 +2294,7 @@
     "fullTitle": "The Pentagon Briefing And Blackboard Trajectory Breakthrough",
     "character": "Katherine Johnson",
     "analysisType": "Character Essay",
-    "description": "Katherine demands access to high-level briefings to track changing rocket masses. At the floor-to-ceiling blackboard, she calculates the Go/No Go orbital re-entry point using Euler's Method before military brass and astronauts.",
+    "description": "In the high-level briefing, Katherine is invited to calculate the Go/No Go re-entry point. She takes the blackboard, works through the trajectory and gives the landing coordinates before officials, engineers and John Glenn.",
     "techniques": "Racking focus between rapid chalk scrawls and male engineers' reactions, accompanied by low-angle camera tilts.",
     "essay": "The climax of intellectual authority: mathematical capability outweighs institutional prejudice.",
     "techniqueLabel": "Racking focus on chalk & low-angle tilts",
@@ -2308,14 +2308,14 @@
       "dignity"
     ],
     "timestamps": {
-      "start": 6060,
-      "end": 6180
+      "start": 5989.6,
+      "end": 6154.32
     },
     "sourceSlugline": "INT. Space Task Group Briefing Room — Day",
     "retrievalPrompts": [
       {
-        "prompt": "What changes in “The blackboard breakthrough”?",
-        "answerCue": "Katherine demands access to high-level briefings to track changing rocket masses. At the floor-to-ceiling blackboard, she calculates the Go/No Go orbital re-entry point using Euler's Method before military brass and astronauts."
+        "prompt": "What happens in “The Blackboard Breakthrough”?",
+        "answerCue": "In the high-level briefing, Katherine is invited to calculate the Go/No Go re-entry point. She takes the blackboard, works through the trajectory and gives the landing coordinates before officials, engineers and John Glenn."
       },
       {
         "prompt": "Which film technique shapes the moment?",
@@ -2327,17 +2327,17 @@
       }
     ],
     "sequence": [
-      "Katherine demands access to high-level briefings to track changing rocket masses. At the floor-to-ceiling blackboard, she calculates the Go/No Go orbital re-entry point using Euler's Method before military brass and astronauts.",
+      "In the high-level briefing, Katherine is invited to calculate the Go/No Go re-entry point. She takes the blackboard, works through the trajectory and gives the landing coordinates before officials, engineers and John Glenn.",
       "Racking focus between rapid chalk scrawls and male engineers' reactions, accompanied by low-angle camera tilts.",
       "The climax of intellectual authority: mathematical capability outweighs institutional prejudice."
     ],
     "essayPrompt": "Analyze how “The blackboard breakthrough” develops Merit & recognition through a specific film technique.",
     "counterReading": "Consider whether the scene’s resolution fully changes the conditions described: The climax of intellectual authority: mathematical capability outweighs institutional prejudice.",
-    "watchFor": "Floor-to-ceiling blackboard, chalk dust, uniforms watching: Katherine writes Euler’s method while the camera climbs the equations with her. Mathematics gets a hero shot.",
-    "historyNote": "Euler’s method, published in 1768, numerically solves the differential equations behind orbital paths — old math for a new problem.",
+    "watchFor": "Compare the low-angle views of Katherine working at the blackboard with the seated officials' reactions and Glenn's approval.",
+    "historyNote": "This briefing dramatizes the trajectory calculations needed to connect re-entry conditions with a predicted landing area.",
     "essayStarter": "The blackboard reverses the room’s hierarchy: knowledge, not rank, decides who holds the chalk.",
     "essayImportance": {
-      "rating": 5,
+      "rating": 10,
       "reason": "The blackboard breakthrough makes intellectual authority visible through chalk, focus and framing. It is a major payoff to Katherine's earlier exclusion."
     }
   },
@@ -2347,7 +2347,7 @@
     "fullTitle": "Vivian Mitchell And Dorothy Vaughan In The Restroom",
     "character": "Dorothy Vaughan",
     "analysisType": "Theme Essay",
-    "description": "In the restroom, Vivian Mitchell tells Dorothy that despite what she may think, she bears no personal animosity toward the Black computers. Dorothy dries her hands and quietly replies that she is sure Vivian truly believes that.",
+    "description": "In the restroom, Vivian Mitchell tells Dorothy that she bears no prejudice toward the Black computers. Dorothy turns back toward her and quietly replies that she knows Vivian probably believes that.",
     "techniques": "A symmetrical mirror shot frames both women side by side in neutral lighting, the mirror doubling the pair and holding them at a polite, equal-looking distance.",
     "essay": "Examines unconscious bias: a person can take part in systemic injustice while sincerely believing themselves free of prejudice. Politeness is not fairness.",
     "techniqueLabel": "Symmetrical mirror framing",
@@ -2362,14 +2362,14 @@
       "sexism"
     ],
     "timestamps": {
-      "start": 6160,
-      "end": 6280
+      "start": 6859.08,
+      "end": 6912.76
     },
     "sourceSlugline": "INT. Langley Ladies' Restroom — Day",
     "retrievalPrompts": [
       {
-        "prompt": "What changes in “The bathroom exchange with Vivian”?",
-        "answerCue": "In the restroom, Vivian Mitchell tells Dorothy that despite what she may think, she bears no personal animosity toward the Black computers. Dorothy dries her hands and quietly replies that she is sure Vivian truly believes that."
+        "prompt": "What happens in “The Bathroom Exchange With Vivian”?",
+        "answerCue": "In the restroom, Vivian Mitchell tells Dorothy that she bears no prejudice toward the Black computers. Dorothy turns back toward her and quietly replies that she knows Vivian probably believes that."
       },
       {
         "prompt": "Which film technique shapes the moment?",
@@ -2381,18 +2381,18 @@
       }
     ],
     "sequence": [
-      "In the restroom, Vivian Mitchell tells Dorothy that despite what she may think, she bears no personal animosity toward the Black computers. Dorothy dries her hands and quietly replies that she is sure Vivian truly believes that.",
+      "In the restroom, Vivian Mitchell tells Dorothy that she bears no prejudice toward the Black computers. Dorothy turns back toward her and quietly replies that she knows Vivian probably believes that.",
       "A symmetrical mirror shot frames both women side by side in neutral lighting, the mirror doubling the pair and holding them at a polite, equal-looking distance.",
       "Examines unconscious bias: a person can take part in systemic injustice while sincerely believing themselves free of prejudice. Politeness is not fairness."
     ],
     "essayPrompt": "Analyze how “The bathroom exchange with Vivian” develops Racism & segregation through a specific film technique.",
     "counterReading": "Consider whether the scene’s resolution fully changes the conditions described: Examines unconscious bias: a person can take part in systemic injustice while sincerely believing themselves free of prejudice. Politeness is not fairness.",
-    "watchFor": "Mirror, running water, lipstick: Vivian’s confession of good intentions meets Dorothy’s level gaze in the glass. Politeness is the scene’s subject and its weapon.",
+    "watchFor": "Mirror framing and close reaction shots contrast Vivian's claim of good intentions with Dorothy's calm reply and Vivian's isolated reflection.",
     "historyNote": "Vivian Mitchell is a fictional composite; the scene dramatizes how well-meaning bureaucracy sustained segregation.",
     "essayStarter": "Dorothy’s reply indicts not hatred but self-deception: the most durable bias is the kind its holder cannot see.",
     "keyLine": "I know you probably believe that.",
     "essayImportance": {
-      "rating": 5,
+      "rating": 9,
       "reason": "The bathroom exchange separates polite intentions from participation in discrimination. Mirror framing and dialogue offer strong evidence for an essay about unconscious bias."
     }
   },
@@ -2417,8 +2417,8 @@
     ],
     "sourceSlugline": "IBM computer room; West Computing Group hallway",
     "timestamps": {
-      "start": 6420,
-      "end": 6560
+      "start": 6478.72,
+      "end": 6548.52
     },
     "retrievalPrompts": [
       {
@@ -2445,7 +2445,7 @@
     "historyNote": "Dorothy’s programmers did transition onto IBM systems — foresight that saved her group’s livelihoods.",
     "essayStarter": "The scene rewards preparation over protest: the future belongs to whoever studied for it.",
     "essayImportance": {
-      "rating": 5,
+      "rating": 8,
       "reason": "The women's group entrance pays off Dorothy's preparation and teaching. It turns technological displacement into collective opportunity, supporting a strong before-and-after argument."
     }
   },
@@ -2470,8 +2470,8 @@
       "leadership"
     ],
     "timestamps": {
-      "start": 6540,
-      "end": 6650
+      "start": 7413.04,
+      "end": 7471.12
     },
     "sourceSlugline": "INT. Space Task Group — Day",
     "retrievalPrompts": [
@@ -2499,7 +2499,7 @@
     "historyNote": "The farewell compresses Katherine’s temporary reassignments as electronic computing spread through Langley.",
     "essayStarter": "The pearls rewrite an exclusionary dress rule as belonging: the group literally adorns what it once policed.",
     "essayImportance": {
-      "rating": 4,
+      "rating": 8,
       "reason": "The pearl necklace supplies a visual callback from isolation to acceptance. It offers concise prop analysis for an essay about recognition."
     }
   },
@@ -2524,8 +2524,8 @@
     ],
     "sourceSlugline": "NASA screening room; Space Task Group",
     "timestamps": {
-      "start": 6630,
-      "end": 6750
+      "start": 5923.64,
+      "end": 6154.32
     },
     "retrievalPrompts": [
       {
@@ -2552,7 +2552,7 @@
     "historyNote": "Katherine’s trajectory work underpinned Glenn’s orbital flight planning and its last-minute changes.",
     "essayStarter": "Inclusion here is instrumental before it is moral: the mission needs her before the room respects her.",
     "essayImportance": {
-      "rating": 4,
+      "rating": 8,
       "reason": "The briefing shows expertise gaining institutional access when a life depends on it. Faces and equations support analysis of trust and conditional recognition."
     }
   },
@@ -2575,8 +2575,8 @@
     ],
     "sourceSlugline": "IBM computer room",
     "timestamps": {
-      "start": 6720,
-      "end": 6840
+      "start": 5740.04,
+      "end": 5790.44
     },
     "retrievalPrompts": [
       {
@@ -2603,61 +2603,61 @@
     "historyNote": "Dorothy Vaughan became a respected programming supervisor as NASA computerized.",
     "essayStarter": "Mastery, not menace: the machine changes the work, and the prepared worker changes with it.",
     "essayImportance": {
-      "rating": 4,
+      "rating": 6,
       "reason": "Dorothy's assured control of the IBM challenges the idea that machines replace people. Console details make human expertise concrete."
     }
   },
   {
     "id": 50,
-    "title": "The West Team Shares Credit",
-    "fullTitle": "The West Team Shares Credit",
+    "title": "Dorothy's Skills Are Recognized",
+    "fullTitle": "Dorothy's Skills Are Recognized",
     "character": "Dorothy Vaughan",
     "analysisType": "Character and Theme Essay",
-    "description": "Dorothy’s group receives recognition as the women’s calculations and programming work prove essential to Langley’s missions.",
-    "techniques": "The ensemble framing emphasizes the group alongside its leader, resisting a single-hero account of technical labor.",
-    "essay": "Credit becomes meaningful when it names the collective labor of Black women whose work had been treated as interchangeable or invisible.",
-    "techniqueLabel": "The ensemble framing emphasizes the group alongside its leader, resisting a single-hero account of technical labor",
-    "meaningLabel": "Credit becomes meaningful when it names the collective labor of Black women whose work had been treated as interchangeable or invisible",
+    "description": "During Glenn's flight, Vivian asks Dorothy to help train more computer staff and addresses her with professional respect. Dorothy's programming expertise is now needed by the wider operation.",
+    "techniques": "The scene contrasts the television mission coverage with a restrained workplace conversation; alternating views of Dorothy and Vivian make the change in their relationship visible.",
+    "essay": "Recognition becomes practical when the institution needs Dorothy's knowledge to train its staff, giving her expertise a place in its continuing work.",
+    "techniqueLabel": "Television coverage and restrained workplace dialogue",
+    "meaningLabel": "Programming expertise earns professional recognition",
     "cue": "team",
-    "cueText": "The West Computing room in ensemble frame: the women’s labor named and credited at last.",
+    "cueText": "Vivian approaches Dorothy in the computing room to seek her programming expertise.",
     "tags": [
       "solidarity",
       "sexism",
       "merit",
       "coldwar"
     ],
-    "sourceSlugline": "West Computing Room; NASA grounds",
+    "sourceSlugline": "West Computing Room — Day",
     "timestamps": {
-      "start": 6840,
-      "end": 6980
+      "start": 7975.88,
+      "end": 8035.88
     },
     "retrievalPrompts": [
       {
-        "prompt": "Whose labor does the West team recognition make visible?",
-        "answerCue": "The Black women mathematicians and programmers."
+        "prompt": "What happens in “Dorothy's Skills Are Recognized”?",
+        "answerCue": "During Glenn's flight, Vivian asks Dorothy to help train more computer staff and addresses her with professional respect. Dorothy's programming expertise is now needed by the wider operation."
       },
       {
-        "prompt": "Which detail shows the scene’s central obstacle or opportunity?",
-        "answerCue": "Dorothy’s group receives recognition as the women’s calculations and programming work prove essential to Langley’s missions."
+        "prompt": "Which film technique shapes the moment?",
+        "answerCue": "The scene contrasts the television mission coverage with a restrained workplace conversation; alternating views of Dorothy and Vivian make the change in their relationship visible."
       },
       {
-        "prompt": "How does the film make the scene’s meaning visible?",
-        "answerCue": "The ensemble framing emphasizes the group alongside its leader, resisting a single-hero account of technical labor."
+        "prompt": "Why does the scene matter?",
+        "answerCue": "Recognition becomes practical when the institution needs Dorothy's knowledge to train its staff, giving her expertise a place in its continuing work."
       }
     ],
     "sequence": [
-      "Locate the scene at West Computing Room; NASA grounds.",
-      "Dorothy’s group receives recognition as the women’s calculations and programming work prove essential to Langley’s missions.",
-      "Credit becomes meaningful when it names the collective labor of Black women whose work had been treated as interchangeable or invisible."
+      "During Glenn's flight, Vivian asks Dorothy to help train more computer staff and addresses her with professional respect. Dorothy's programming expertise is now needed by the wider operation.",
+      "The scene contrasts the television mission coverage with a restrained workplace conversation; alternating views of Dorothy and Vivian make the change in their relationship visible.",
+      "Recognition becomes practical when the institution needs Dorothy's knowledge to train its staff, giving her expertise a place in its continuing work."
     ],
-    "essayPrompt": "How does “The West team shares credit” develop solidarity through character and film form? Use the concrete action and technique as evidence.",
-    "counterReading": "One limitation is that credit becomes meaningful when it names the collective labor of black women whose work had been treated as interchangeable or invisible can make structural change appear dependent on individual recognition; consider what institutional barriers remain after this scene.",
-    "watchFor": "The camera refuses a single hero shot, panning across the group so credit lands collectively.",
+    "essayPrompt": "How does “Dorothy's Skills Are Recognized” develop solidarity through character and film form? Use the concrete action and technique as evidence.",
+    "counterReading": "Consider how this moment supports your argument and which parts of that argument require comparison with another scene.",
+    "watchFor": "Watch Vivian approach Dorothy and the small changes in their expressions as Dorothy's expertise is acknowledged.",
     "historyNote": "The West computers’ calculations underpinned Langley’s early space work for years before recognition.",
-    "essayStarter": "Credit becomes just only when it is plural: the film corrects the record by widening the frame.",
+    "essayStarter": "Dorothy's expertise gains institutional recognition when NASA needs her to prepare its staff for electronic computing.",
     "essayImportance": {
-      "rating": 4,
-      "reason": "Ensemble framing gives credit to the team's shared labour. It supports an argument against treating progress as the work of a single hero."
+      "rating": 5,
+      "reason": "Vivian's request turns recognition of Dorothy into a practical need for her programming knowledge. Compare this restrained exchange with the earlier refusals to recognize her work."
     }
   },
   {
@@ -2666,66 +2666,66 @@
     "fullTitle": "Katherine Shares The Mission With Her Family",
     "character": "Katherine Johnson",
     "analysisType": "Character and Theme Essay",
-    "description": "At home, Katherine uses the dinner table and household objects to explain trajectories to her daughters, bringing the excitement of her work into family life.",
-    "techniques": "Warm domestic framing and familiar objects make orbital mechanics understandable without reducing Katherine to her job.",
-    "essay": "The scene connects professional achievement with care, teaching and the next generation’s access to knowledge.",
-    "techniqueLabel": "Warm domestic framing and familiar objects make orbital mechanics understandable without reducing Katherine to her job",
-    "meaningLabel": "The scene connects professional achievement with care, teaching and the next generation’s access to knowledge",
+    "description": "At bedtime, Katherine talks with her daughters about space and her work at NASA. She reassures them, looks at a daughter's drawing and gives them goodnight kisses before leaving the room.",
+    "techniques": "Warm bedroom lighting and alternating views of Katherine and her daughters connect the space effort to an intimate family conversation; the drawing makes their view of her work visible.",
+    "essay": "The family conversation connects Katherine's technical role to the people she supports at home and makes the children's interest in her work visible.",
+    "techniqueLabel": "Warm bedroom framing and family reaction shots",
+    "meaningLabel": "NASA work and family care are connected",
     "cue": "dinner",
-    "cueText": "A warm dining room where Katherine diagrams trajectories with plates for her daughters.",
+    "cueText": "Katherine beside her daughters' beds, talking about space and looking at their drawing.",
     "tags": [
       "family",
       "sexism",
       "coldwar",
       "merit"
     ],
-    "sourceSlugline": "Katherine’s house; dining room",
+    "sourceSlugline": "Katherine's daughters' bedroom — Night",
     "timestamps": {
-      "start": 6900,
-      "end": 7040
+      "start": 2006.0,
+      "end": 2068.68
     },
     "retrievalPrompts": [
       {
-        "prompt": "What does Katherine use to explain trajectories?",
-        "answerCue": "Plates and objects on the dinner table."
+        "prompt": "What happens in “Katherine Shares The Mission With Her Family”?",
+        "answerCue": "At bedtime, Katherine talks with her daughters about space and her work at NASA. She reassures them, looks at a daughter's drawing and gives them goodnight kisses before leaving the room."
       },
       {
-        "prompt": "Which detail shows the scene’s central obstacle or opportunity?",
-        "answerCue": "At home, Katherine uses the dinner table and household objects to explain trajectories to her daughters, bringing the excitement of her work into family life."
+        "prompt": "Which film technique shapes the moment?",
+        "answerCue": "Warm bedroom lighting and alternating views of Katherine and her daughters connect the space effort to an intimate family conversation; the drawing makes their view of her work visible."
       },
       {
-        "prompt": "How does the film make the scene’s meaning visible?",
-        "answerCue": "Warm domestic framing and familiar objects make orbital mechanics understandable without reducing Katherine to her job."
+        "prompt": "Why does the scene matter?",
+        "answerCue": "The family conversation connects Katherine's technical role to the people she supports at home and makes the children's interest in her work visible."
       }
     ],
     "sequence": [
-      "Locate the scene at Katherine’s house; dining room.",
-      "At home, Katherine uses the dinner table and household objects to explain trajectories to her daughters, bringing the excitement of her work into family life.",
-      "The scene connects professional achievement with care, teaching and the next generation’s access to knowledge."
+      "At bedtime, Katherine talks with her daughters about space and her work at NASA. She reassures them, looks at a daughter's drawing and gives them goodnight kisses before leaving the room.",
+      "Warm bedroom lighting and alternating views of Katherine and her daughters connect the space effort to an intimate family conversation; the drawing makes their view of her work visible.",
+      "The family conversation connects Katherine's technical role to the people she supports at home and makes the children's interest in her work visible."
     ],
     "essayPrompt": "How does “Katherine shares the mission with her family” develop family through character and film form? Use the concrete action and technique as evidence.",
-    "counterReading": "One limitation is that the scene connects professional achievement with care, teaching and the next generation’s access to knowledge can make structural change appear dependent on individual recognition; consider what institutional barriers remain after this scene.",
-    "watchFor": "Household objects become teaching tools; the camera treats the table like a second blackboard.",
+    "counterReading": "Consider how this moment supports your argument and which parts of that argument require comparison with another scene.",
+    "watchFor": "Watch Katherine sit beside the beds, respond to her daughters and hold the drawing before tucking them in.",
     "historyNote": "Katherine’s daughters grew up inside her work — the film treats that proximity as pedagogy.",
-    "essayStarter": "The scene closes the film’s circle: the classroom of scene 1 rebuilt at home, with Katherine as teacher.",
+    "essayStarter": "The bedtime conversation presents Katherine's NASA work through her daughters' questions and her care for them.",
     "essayImportance": {
-      "rating": 3,
-      "reason": "The family exchange connects professional achievement to teaching and care. It adds a useful domestic comparison to a character essay."
+      "rating": 2,
+      "reason": "The warm bedtime conversation connects Katherine's NASA work to her daughters' curiosity and her care for them. It adds a useful domestic comparison to a character essay."
     }
   },
   {
     "id": 52,
-    "title": "Mary Earns Her Engineering Qualification",
-    "fullTitle": "Mary Earns Her Engineering Qualification",
+    "title": "Mary Begins Her Engineering Classes",
+    "fullTitle": "Mary Begins Her Engineering Classes",
     "character": "Mary Jackson",
     "analysisType": "Character and Theme Essay",
-    "description": "Mary completes the legal and educational steps that qualify her to move from computer work into engineering at Langley.",
-    "techniques": "The story links institutional spaces—the court, classroom and NASA—into one continuing route toward the new role.",
-    "essay": "Her achievement is personal, but the barriers she has had to clear reveal the structure that kept Black women out of technical careers.",
-    "techniqueLabel": "The story links institutional spaces—the court, classroom and NASA—into one continuing route toward the new role",
-    "meaningLabel": "Her achievement is personal, but the barriers she has had to clear reveal the structure that kept Black women out of technical careers",
+    "description": "After winning permission to attend, Mary enters the previously all-white night class. She faces the professor and the other students, takes a seat and prepares her notebook for the lesson.",
+    "techniques": "A school exterior establishes the location; classroom views and reactions place Mary among the male students before the final close view of her at her desk.",
+    "essay": "The court decision becomes a practical opportunity as Mary enters the classroom required for her engineering training.",
+    "techniqueLabel": "Classroom entrance and reaction shots",
+    "meaningLabel": "Legal access becomes educational opportunity",
     "cue": "court",
-    "cueText": "Diplomas, coursework, and court papers: Mary assembling the qualifications step by step.",
+    "cueText": "Mary enters the night classroom and takes her place among the students.",
     "tags": [
       "opportunity",
       "sexism",
@@ -2733,91 +2733,91 @@
       "education",
       "merit"
     ],
-    "sourceSlugline": "Hampton County Courthouse; NASA grounds",
+    "sourceSlugline": "Hampton High School classroom — Night",
     "timestamps": {
-      "start": 7040,
-      "end": 7140
+      "start": 6667.92,
+      "end": 6717.68
     },
     "retrievalPrompts": [
       {
-        "prompt": "What career transition does Mary complete?",
-        "answerCue": "From computer work into engineering."
+        "prompt": "What happens in “Mary Begins Her Engineering Classes”?",
+        "answerCue": "After winning permission to attend, Mary enters the previously all-white night class. She faces the professor and the other students, takes a seat and prepares her notebook for the lesson."
       },
       {
-        "prompt": "Which detail shows the scene’s central obstacle or opportunity?",
-        "answerCue": "Mary completes the legal and educational steps that qualify her to move from computer work into engineering at Langley."
+        "prompt": "Which film technique shapes the moment?",
+        "answerCue": "A school exterior establishes the location; classroom views and reactions place Mary among the male students before the final close view of her at her desk."
       },
       {
-        "prompt": "How does the film make the scene’s meaning visible?",
-        "answerCue": "The story links institutional spaces—the court, classroom and NASA—into one continuing route toward the new role."
+        "prompt": "Why does the scene matter?",
+        "answerCue": "The court decision becomes a practical opportunity as Mary enters the classroom required for her engineering training."
       }
     ],
     "sequence": [
-      "Locate the scene at Hampton County Courthouse; NASA grounds.",
-      "Mary completes the legal and educational steps that qualify her to move from computer work into engineering at Langley.",
-      "Her achievement is personal, but the barriers she has had to clear reveal the structure that kept Black women out of technical careers."
+      "After winning permission to attend, Mary enters the previously all-white night class. She faces the professor and the other students, takes a seat and prepares her notebook for the lesson.",
+      "A school exterior establishes the location; classroom views and reactions place Mary among the male students before the final close view of her at her desk.",
+      "The court decision becomes a practical opportunity as Mary enters the classroom required for her engineering training."
     ],
-    "essayPrompt": "How does “Mary earns her engineering qualification” develop opportunity through character and film form? Use the concrete action and technique as evidence.",
-    "counterReading": "One limitation is that her achievement is personal, but the barriers she has had to clear reveal the structure that kept black women out of technical careers can make structural change appear dependent on individual recognition; consider what institutional barriers remain after this scene.",
-    "watchFor": "The film montages credentials the way heist films montage plans — each document a small victory.",
+    "essayPrompt": "How does “Mary Begins Her Engineering Classes” develop opportunity through character and film form? Use the concrete action and technique as evidence.",
+    "counterReading": "Consider how this moment supports your argument and which parts of that argument require comparison with another scene.",
+    "watchFor": "Mary crosses the classroom, faces the professor's attention and finally sits with her notebook among the other students.",
     "historyNote": "Mary Jackson completed the coursework that made her NASA’s first Black female engineer.",
-    "essayStarter": "Qualification is shown as construction: a career built paper by paper against a system built to stall.",
+    "essayStarter": "Mary's classroom entrance turns a legal victory into the educational access needed for an engineering career.",
     "essayImportance": {
-      "rating": 3,
-      "reason": "Mary's qualification pays off the court-to-classroom journey. It is most useful as an outcome supporting earlier, more detailed barrier analysis."
+      "rating": 4,
+      "reason": "Mary's classroom entrance turns the court decision into access to education. It provides an outcome to compare with the earlier scenes exposing legal and institutional barriers."
     }
   },
   {
     "id": 53,
-    "title": "Mary Joins The Engineers",
-    "fullTitle": "Mary Joins The Engineers",
+    "title": "Mary's Engineering Achievement Is Recognized",
+    "fullTitle": "Mary's Engineering Achievement Is Recognized",
     "character": "Mary Jackson",
     "analysisType": "Character and Theme Essay",
-    "description": "Mary works in the engineering environment she pursued, contributing her mathematical understanding to the design and testing of aircraft and spacecraft.",
-    "techniques": "Industrial spaces now frame Mary as a practitioner, completing the earlier image of her beneath the wind tunnel.",
-    "essay": "The scene pays off her ambition with skilled work and reframes engineering as a place she belongs by competence.",
-    "techniqueLabel": "Industrial spaces now frame Mary as a practitioner, completing the earlier image of her beneath the wind tunnel",
-    "meaningLabel": "The scene pays off her ambition with skilled work and reframes engineering as a place she belongs by competence",
+    "description": "The closing coda shows Mary among graduates, embraced by family and friends. Written text identifies her achievement as NASA's first female African-American aeronautical engineer and notes her later work supporting women's advancement.",
+    "techniques": "Graduation imagery, ensemble reactions and written historical information connect Mary's personal celebration with the significance of her career.",
+    "essay": "Mary's achievement gives the earlier fight for educational access a visible outcome and links personal advancement to opportunities for other women.",
+    "techniqueLabel": "Graduation ensemble and written historical coda",
+    "meaningLabel": "Educational access leads to professional achievement",
     "cue": "turbine",
-    "cueText": "Mary among engineers at the wind tunnel and hangars, practicing the profession she fought to enter.",
+    "cueText": "Mary in graduation robes, surrounded by family and friends as her engineering achievement is acknowledged.",
     "tags": [
       "merit",
       "sexism",
       "education",
       "opportunity"
     ],
-    "sourceSlugline": "Wind Tunnel; NASA hangar",
+    "sourceSlugline": "College campus — Day",
     "timestamps": {
-      "start": 7140,
-      "end": 7260
+      "start": 8681.88,
+      "end": 8695.04
     },
     "retrievalPrompts": [
       {
-        "prompt": "What earlier setting foreshadowed Mary’s engineering path?",
-        "answerCue": "The wind tunnel."
+        "prompt": "What happens in “Mary's Engineering Achievement Is Recognized”?",
+        "answerCue": "The closing coda shows Mary among graduates, embraced by family and friends. Written text identifies her achievement as NASA's first female African-American aeronautical engineer and notes her later work supporting women's advancement."
       },
       {
-        "prompt": "Which detail shows the scene’s central obstacle or opportunity?",
-        "answerCue": "Mary works in the engineering environment she pursued, contributing her mathematical understanding to the design and testing of aircraft and spacecraft."
+        "prompt": "Which film technique shapes the moment?",
+        "answerCue": "Graduation imagery, ensemble reactions and written historical information connect Mary's personal celebration with the significance of her career."
       },
       {
-        "prompt": "How does the film make the scene’s meaning visible?",
-        "answerCue": "Industrial spaces now frame Mary as a practitioner, completing the earlier image of her beneath the wind tunnel."
+        "prompt": "Why does the scene matter?",
+        "answerCue": "Mary's achievement gives the earlier fight for educational access a visible outcome and links personal advancement to opportunities for other women."
       }
     ],
     "sequence": [
-      "Locate the scene at Wind Tunnel; NASA hangar.",
-      "Mary works in the engineering environment she pursued, contributing her mathematical understanding to the design and testing of aircraft and spacecraft.",
-      "The scene pays off her ambition with skilled work and reframes engineering as a place she belongs by competence."
+      "The closing coda shows Mary among graduates, embraced by family and friends. Written text identifies her achievement as NASA's first female African-American aeronautical engineer and notes her later work supporting women's advancement.",
+      "Graduation imagery, ensemble reactions and written historical information connect Mary's personal celebration with the significance of her career.",
+      "Mary's achievement gives the earlier fight for educational access a visible outcome and links personal advancement to opportunities for other women."
     ],
-    "essayPrompt": "How does “Mary joins the engineers” develop recognition through character and film form? Use the concrete action and technique as evidence.",
-    "counterReading": "One limitation is that the scene pays off her ambition with skilled work and reframes engineering as a place she belongs by competence can make structural change appear dependent on individual recognition; consider what institutional barriers remain after this scene.",
-    "watchFor": "Industrial space now frames Mary as native: the tunnel that once tested her now employs her.",
+    "essayPrompt": "How does “Mary's Engineering Achievement Is Recognized” develop recognition through character and film form? Use the concrete action and technique as evidence.",
+    "counterReading": "Consider how this moment supports your argument and which parts of that argument require comparison with another scene.",
+    "watchFor": "Watch Mary approach the waiting group and the career text appear over their celebration.",
     "historyNote": "Mary Jackson went on to a decades-long engineering career at Langley before becoming a federal women’s program manager.",
-    "essayStarter": "Belonging, finally literal: the workplace that required a court order now requires her expertise.",
+    "essayStarter": "The graduation coda gives Mary's campaign for access a visible outcome while connecting her career to the advancement of other women.",
     "essayImportance": {
-      "rating": 3,
-      "reason": "Mary's changed place in the industrial setting provides a visual before-and-after comparison. Pair it with the wind-tunnel scene."
+      "rating": 6,
+      "reason": "Graduation imagery and career text connect Mary's educational access to her engineering achievement. Pair this outcome with the wind-tunnel encouragement and courtroom petition."
     }
   },
   {
@@ -2842,8 +2842,8 @@
     ],
     "sourceSlugline": "Space Task Group; Al Harrison’s office",
     "timestamps": {
-      "start": 7260,
-      "end": 7360
+      "start": 7551.08,
+      "end": 7588.84
     },
     "retrievalPrompts": [
       {
@@ -2870,7 +2870,7 @@
     "historyNote": "Glenn’s trust in Katherine Johnson’s calculations over the new IBM’s output is a matter of record.",
     "essayStarter": "A name spoken once reorders the hierarchy: the astronaut’s confidence outranks every protocol.",
     "essayImportance": {
-      "rating": 4,
+      "rating": 9,
       "reason": "Glenn naming Katherine makes recognition concrete through a direct request. It supports an argument about competence changing who institutions trust."
     }
   },
@@ -2880,13 +2880,13 @@
     "fullTitle": "Harrison Acknowledges Katherine’s Contribution",
     "character": "Katherine Johnson",
     "analysisType": "Character and Theme Essay",
-    "description": "Harrison recognizes Katherine’s work as the mission’s calculations become central, and the professional relationship shifts toward respect.",
+    "description": "After Friendship 7 returns safely, Harrison acknowledges Katherine amid the control-room celebration with an approving look and nod. Katherine responds as the team shares its relief.",
     "techniques": "A restrained exchange gives recognition weight through changed attention rather than a ceremonial speech.",
     "essay": "The shift matters because recognition is not merely praise: it can alter whose expertise enters future decisions.",
     "techniqueLabel": "A restrained exchange gives recognition weight through changed attention rather than a ceremonial speech",
     "meaningLabel": "The shift matters because recognition is not merely praise: it can alter whose expertise enters future decisions",
     "cue": "door",
-    "cueText": "Harrison’s office in a quieter hour: acknowledgment replacing command in his manner toward Katherine.",
+    "cueText": "Harrison and Katherine exchange a quiet acknowledgement amid the control-room celebration.",
     "tags": [
       "merit",
       "sexism",
@@ -2894,28 +2894,28 @@
       "education",
       "opportunity"
     ],
-    "sourceSlugline": "Harrison’s office; NASA grounds",
+    "sourceSlugline": "Tracking Control Room — Day",
     "timestamps": {
-      "start": 7360,
-      "end": 7460
+      "start": 8631.12,
+      "end": 8669.0
     },
     "retrievalPrompts": [
       {
-        "prompt": "What changes in Harrison’s treatment of Katherine?",
-        "answerCue": "He acknowledges her professional contribution."
+        "prompt": "What happens in “Harrison Acknowledges Katherine’s Contribution”?",
+        "answerCue": "After Friendship 7 returns safely, Harrison acknowledges Katherine amid the control-room celebration with an approving look and nod. Katherine responds as the team shares its relief."
       },
       {
-        "prompt": "Which detail shows the scene’s central obstacle or opportunity?",
-        "answerCue": "Harrison recognizes Katherine’s work as the mission’s calculations become central, and the professional relationship shifts toward respect."
-      },
-      {
-        "prompt": "How does the film make the scene’s meaning visible?",
+        "prompt": "Which film technique shapes the moment?",
         "answerCue": "A restrained exchange gives recognition weight through changed attention rather than a ceremonial speech."
+      },
+      {
+        "prompt": "Why does the scene matter?",
+        "answerCue": "The shift matters because recognition is not merely praise: it can alter whose expertise enters future decisions."
       }
     ],
     "sequence": [
-      "Locate the scene at Harrison’s office; NASA grounds.",
-      "Harrison recognizes Katherine’s work as the mission’s calculations become central, and the professional relationship shifts toward respect.",
+      "After Friendship 7 returns safely, Harrison acknowledges Katherine amid the control-room celebration with an approving look and nod. Katherine responds as the team shares its relief.",
+      "A restrained exchange gives recognition weight through changed attention rather than a ceremonial speech.",
       "The shift matters because recognition is not merely praise: it can alter whose expertise enters future decisions."
     ],
     "essayPrompt": "How does “Harrison acknowledges Katherine’s contribution” develop recognition through character and film form? Use the concrete action and technique as evidence.",
@@ -2924,7 +2924,7 @@
     "historyNote": "The film uses Harrison, a composite, to personify management’s slow conversion to Katherine’s value.",
     "essayStarter": "Recognition matters here because it is structural: whose expertise gets admitted to the next decision.",
     "essayImportance": {
-      "rating": 3,
+      "rating": 6,
       "reason": "Harrison's acknowledgement records a shift in attention and access. It is useful supporting evidence alongside Katherine's mathematical breakthrough."
     }
   },
@@ -2935,12 +2935,12 @@
     "character": "Katherine Johnson",
     "analysisType": "Theme Essay",
     "description": "Minutes before launching aboard Friendship 7, John Glenn distrusts the IBM calculations and asks Katherine to manually verify the trajectory coordinates.",
-    "techniques": "Fast-paced parallel cross-cutting between Glenn's capsule at Cape Canaveral and Katherine calculating at Langley, intensified by ticking audio cues.",
+    "techniques": "The telephone exchange cuts between Glenn and Harrison, using their reactions and the urgent relay of the request to make confidence in Katherine a launch requirement.",
     "essay": "The ultimate desegregation of trust: in life-or-death conditions, true merit and accuracy replace racial and gender prejudice.",
-    "techniqueLabel": "Parallel cross-cutting & ticking audio",
+    "techniqueLabel": "Telephone exchange and reaction shots",
     "meaningLabel": "Life-or-death trust recognizes true merit",
     "cue": "orbit",
-    "cueText": "An orbit checked by hand: a life depends on Katherine's trusted calculations.",
+    "cueText": "Glenn asks Harrison to have Katherine check the trajectory numbers before the launch.",
     "tags": [
       "merit",
       "solidarity",
@@ -2948,18 +2948,18 @@
       "technology"
     ],
     "timestamps": {
-      "start": 7460,
-      "end": 7560
+      "start": 7551.08,
+      "end": 7588.84
     },
     "sourceSlugline": "INT. Space Task Group / Cape Canaveral — Launch Day",
     "retrievalPrompts": [
       {
-        "prompt": "What changes in “Get the girl to check the numbers”?",
+        "prompt": "What happens in “Get The Girl To Check The Numbers”?",
         "answerCue": "Minutes before launching aboard Friendship 7, John Glenn distrusts the IBM calculations and asks Katherine to manually verify the trajectory coordinates."
       },
       {
         "prompt": "Which film technique shapes the moment?",
-        "answerCue": "Fast-paced parallel cross-cutting between Glenn's capsule at Cape Canaveral and Katherine calculating at Langley, intensified by ticking audio cues."
+        "answerCue": "The telephone exchange cuts between Glenn and Harrison, using their reactions and the urgent relay of the request to make confidence in Katherine a launch requirement."
       },
       {
         "prompt": "Why does the scene matter?",
@@ -2968,17 +2968,17 @@
     ],
     "sequence": [
       "Minutes before launching aboard Friendship 7, John Glenn distrusts the IBM calculations and asks Katherine to manually verify the trajectory coordinates.",
-      "Fast-paced parallel cross-cutting between Glenn's capsule at Cape Canaveral and Katherine calculating at Langley, intensified by ticking audio cues.",
+      "The telephone exchange cuts between Glenn and Harrison, using their reactions and the urgent relay of the request to make confidence in Katherine a launch requirement.",
       "The ultimate desegregation of trust: in life-or-death conditions, true merit and accuracy replace racial and gender prejudice."
     ],
     "essayPrompt": "Analyze how “Get the girl to check the numbers” develops Merit & recognition through a specific film technique.",
     "counterReading": "Consider whether the scene’s resolution fully changes the conditions described: The ultimate desegregation of trust: in life-or-death conditions, true merit and accuracy replace racial and gender prejudice.",
-    "watchFor": "The request arrives by phone, almost offhand — and the control room stills. Trust here is a countdown procedure, not a compliment.",
+    "watchFor": "Watch the cuts between Glenn on the telephone and Harrison receiving the request, then Harrison immediately relaying it to Stafford.",
     "historyNote": "Before Friendship 7, John Glenn genuinely asked for Katherine Johnson to verify the IBM’s orbital calculations by hand.",
     "essayStarter": "Glenn’s line converts a lifetime of dismissed expertise into the mission’s final safety check.",
     "keyLine": "Get the girl to check the numbers.",
     "essayImportance": {
-      "rating": 5,
+      "rating": 10,
       "reason": "The request for Katherine to check the numbers makes trust depend on expertise under pressure. Cross-cutting and tense sound support analysis of recognition and prejudice."
     }
   },
@@ -3001,8 +3001,8 @@
     ],
     "sourceSlugline": "Cape Canaveral; crew quarters",
     "timestamps": {
-      "start": 7560,
-      "end": 7740
+      "start": 7632.04,
+      "end": 7671.4
     },
     "retrievalPrompts": [
       {
@@ -3054,8 +3054,8 @@
     ],
     "sourceSlugline": "IBM computer room",
     "timestamps": {
-      "start": 7580,
-      "end": 7680
+      "start": 7671.4,
+      "end": 7713.84
     },
     "retrievalPrompts": [
       {
@@ -3082,7 +3082,7 @@
     "historyNote": "Katherine manually verified the IBM 7090’s Friendship 7 trajectory, the calculation Glenn’s life rode on.",
     "essayStarter": "The scene stages the film’s deepest claim: judgment must audit automation, not surrender to it.",
     "essayImportance": {
-      "rating": 4,
+      "rating": 8,
       "reason": "The comparison of printed output and handwritten work places human judgment beside computing. It provides precise evidence for an argument about technology and expertise."
     }
   },
@@ -3106,8 +3106,8 @@
     ],
     "sourceSlugline": "Cape Canaveral",
     "timestamps": {
-      "start": 7800,
-      "end": 7980
+      "start": 7886.32,
+      "end": 7955.2
     },
     "retrievalPrompts": [
       {
@@ -3134,23 +3134,23 @@
     "historyNote": "The Atlas rocket carried Glenn into orbit; the launch was watched by millions on live television.",
     "essayStarter": "Liftoff pays off every calculation scene at once: abstraction made incandescent.",
     "essayImportance": {
-      "rating": 2,
+      "rating": 3,
       "reason": "The launch supplies scale and a payoff to the team's work. Use it briefly as an outcome rather than relying on spectacle as the main essay evidence."
     }
   },
   {
     "id": 60,
-    "title": "Katherine Tracks The Capsule",
-    "fullTitle": "Katherine Tracks The Capsule",
+    "title": "The Team Tracks The Capsule",
+    "fullTitle": "The Team Tracks The Capsule",
     "character": "Katherine Johnson",
     "analysisType": "Character and Theme Essay",
-    "description": "Katherine follows the flight data from the control room as the capsule completes its orbit and the team responds to changing information.",
-    "techniques": "Cutting between Katherine, instruments and the room makes her analytical attention part of the mission’s visible action.",
+    "description": "The capsule enters orbit while NASA's tracking team follows the mission from the control room. Instrument displays and television coverage connect the spacecraft's progress to the people monitoring it on Earth.",
+    "techniques": "Cutting between the spacecraft, the control-room operators and mission coverage links the orbit to the team monitoring it on Earth.",
     "essay": "The film gives mathematical work dramatic presence by showing how interpretation shapes decisions under pressure.",
-    "techniqueLabel": "Cutting between Katherine, instruments and the room makes her analytical attention part of the mission’s visible action",
+    "techniqueLabel": "Spacecraft and control-room cross-cutting",
     "meaningLabel": "The film gives mathematical work dramatic presence by showing how interpretation shapes decisions under pressure",
     "cue": "circuit",
-    "cueText": "Katherine among consoles in the tracking room, calling figures as the capsule circles the Earth.",
+    "cueText": "The tracking team monitors Glenn's orbit from the control room.",
     "tags": [
       "merit",
       "sexism",
@@ -3159,36 +3159,36 @@
     ],
     "sourceSlugline": "NASA Tracking Control; Hampton",
     "timestamps": {
-      "start": 8220,
-      "end": 8400
+      "start": 7955.2,
+      "end": 7975.88
     },
     "retrievalPrompts": [
       {
-        "prompt": "Where is Katherine during the flight?",
-        "answerCue": "In the NASA tracking control room."
+        "prompt": "What happens in “The Team Tracks The Capsule”?",
+        "answerCue": "The capsule enters orbit while NASA's tracking team follows the mission from the control room. Instrument displays and television coverage connect the spacecraft's progress to the people monitoring it on Earth."
       },
       {
-        "prompt": "Which detail shows the scene’s central obstacle or opportunity?",
-        "answerCue": "Katherine follows the flight data from the control room as the capsule completes its orbit and the team responds to changing information."
+        "prompt": "Which film technique shapes the moment?",
+        "answerCue": "Cutting between the spacecraft, the control-room operators and mission coverage links the orbit to the team monitoring it on Earth."
       },
       {
-        "prompt": "How does the film make the scene’s meaning visible?",
-        "answerCue": "Cutting between Katherine, instruments and the room makes her analytical attention part of the mission’s visible action."
+        "prompt": "Why does the scene matter?",
+        "answerCue": "The film gives mathematical work dramatic presence by showing how interpretation shapes decisions under pressure."
       }
     ],
     "sequence": [
-      "Locate the scene at NASA Tracking Control; Hampton.",
-      "Katherine follows the flight data from the control room as the capsule completes its orbit and the team responds to changing information.",
+      "The capsule enters orbit while NASA's tracking team follows the mission from the control room. Instrument displays and television coverage connect the spacecraft's progress to the people monitoring it on Earth.",
+      "Cutting between the spacecraft, the control-room operators and mission coverage links the orbit to the team monitoring it on Earth.",
       "The film gives mathematical work dramatic presence by showing how interpretation shapes decisions under pressure."
     ],
-    "essayPrompt": "How does “Katherine tracks the capsule” develop merit through character and film form? Use the concrete action and technique as evidence.",
+    "essayPrompt": "How does “The Team Tracks The Capsule” develop merit through character and film form? Use the concrete action and technique as evidence.",
     "counterReading": "One limitation is that the film gives mathematical work dramatic presence by showing how interpretation shapes decisions under pressure can make structural change appear dependent on individual recognition; consider what institutional barriers remain after this scene.",
-    "watchFor": "Cutting binds her pencil to the spacecraft: interpretation itself becomes flight action.",
+    "watchFor": "Watch the movement between the orbit, the tracking room and television coverage as the team follows the flight.",
     "historyNote": "During Glenn’s three orbits, ground computers — human and electronic — tracked every variable.",
     "essayStarter": "The film grants mathematics dramatic presence: thinking, here, is doing.",
     "essayImportance": {
-      "rating": 4,
-      "reason": "Cuts between Katherine, instruments and the room make mathematical interpretation dramatic. It supports an argument about expertise shaping consequential decisions."
+      "rating": 6,
+      "reason": "Cross-cutting between the capsule, the tracking team and mission coverage connects spaceflight to coordinated work on Earth. It supports an essay about collective expertise."
     }
   },
   {
@@ -3212,8 +3212,8 @@
     ],
     "sourceSlugline": "Space Task Group; NASA Tracking Control",
     "timestamps": {
-      "start": 8400,
-      "end": 8520
+      "start": 8300.2,
+      "end": 8424.88
     },
     "retrievalPrompts": [
       {
@@ -3240,7 +3240,7 @@
     "historyNote": "A faulty switch suggested the heat shield was unlatched; engineers kept the retropack on through re-entry as insurance.",
     "essayStarter": "Uncertainty is the test expertise exists for: the scene values judgment precisely when data fails.",
     "essayImportance": {
-      "rating": 3,
+      "rating": 7,
       "reason": "The heat-shield crisis shows decision-making under uncertainty. Tight framing and quick exchanges support a teamwork or leadership argument."
     }
   },
@@ -3265,8 +3265,8 @@
     ],
     "sourceSlugline": "NASA Tracking Control; Atlantic Ocean",
     "timestamps": {
-      "start": 8500,
-      "end": 8590
+      "start": 8486.12,
+      "end": 8622.36
     },
     "retrievalPrompts": [
       {
@@ -3293,7 +3293,7 @@
     "historyNote": "Glenn’s capsule survived re-entry and splashed down in the Atlantic, where the USS Noa recovered him.",
     "essayStarter": "The return belongs to the room, not the rocket: survival computed collectively.",
     "essayImportance": {
-      "rating": 3,
+      "rating": 5,
       "reason": "Intercut concentration and recovery show success as collective work. It provides useful outcome evidence after the stronger trust and calculations scenes."
     }
   },
@@ -3317,8 +3317,8 @@
       "leadership"
     ],
     "timestamps": {
-      "start": 8560,
-      "end": 8660
+      "start": 8622.36,
+      "end": 8669.0
     },
     "sourceSlugline": "INT. NASA Tracking Control Room — Day",
     "retrievalPrompts": [
@@ -3346,7 +3346,7 @@
     "historyNote": "Friendship 7 splashed down in the Atlantic on February 20, 1962, after three orbits — Glenn was recovered by the USS Noa.",
     "essayStarter": "Celebration here is collective on purpose: the film refuses to let one hero absorb a team’s labor.",
     "essayImportance": {
-      "rating": 4,
+      "rating": 7,
       "reason": "The pan from tension to relief makes Katherine's inclusion visible. It offers a clear ending comparison with her earlier isolation."
     }
   },
@@ -3371,8 +3371,8 @@
     ],
     "sourceSlugline": "NASA Tracking Control Room, Hampton",
     "timestamps": {
-      "start": 8660,
-      "end": 8740
+      "start": 8631.12,
+      "end": 8669.0
     },
     "retrievalPrompts": [
       {
@@ -3410,9 +3410,9 @@
     "character": "Katherine Johnson",
     "analysisType": "Character Essay",
     "description": "In the film's final moments, Stafford places coffee on Katherine's desk and gives her a report titled \"Notes on Space Technology by Paul Stafford and Katherine Johnson.\"",
-    "techniques": "Quiet two-shot framing, soft lighting, and a subtle nod of mutual respect.",
+    "techniques": "An insert makes the report's two author names readable before a wide office view shows Stafford bring Katherine coffee and the two return to their work.",
     "essay": "Resolves the workplace conflict, suggesting that sustained professional excellence and shared goals can overcome individual prejudice.",
-    "techniqueLabel": "Soft two-shot & a nod of respect",
+    "techniqueLabel": "Report insert and wide office framing",
     "meaningLabel": "Shared goals lead to mutual recognition",
     "cue": "sharedcoffee",
     "cueText": "Coffee beside two names on a report: ordinary objects now express inclusion, not exclusion.",
@@ -3425,18 +3425,18 @@
       "leadership"
     ],
     "timestamps": {
-      "start": 8740,
-      "end": 8790
+      "start": 8713.6,
+      "end": 8743.6
     },
     "sourceSlugline": "INT. Space Task Group — Katherine's Desk — Day",
     "retrievalPrompts": [
       {
-        "prompt": "What changes in “Coffee and shared credit”?",
+        "prompt": "What happens in “Coffee And Shared Credit”?",
         "answerCue": "In the film's final moments, Stafford places coffee on Katherine's desk and gives her a report titled \"Notes on Space Technology by Paul Stafford and Katherine Johnson.\""
       },
       {
         "prompt": "Which film technique shapes the moment?",
-        "answerCue": "Quiet two-shot framing, soft lighting, and a subtle nod of mutual respect."
+        "answerCue": "An insert makes the report's two author names readable before a wide office view shows Stafford bring Katherine coffee and the two return to their work."
       },
       {
         "prompt": "Why does the scene matter?",
@@ -3445,7 +3445,7 @@
     ],
     "sequence": [
       "In the film's final moments, Stafford places coffee on Katherine's desk and gives her a report titled \"Notes on Space Technology by Paul Stafford and Katherine Johnson.\"",
-      "Quiet two-shot framing, soft lighting, and a subtle nod of mutual respect.",
+      "An insert makes the report's two author names readable before a wide office view shows Stafford bring Katherine coffee and the two return to their work.",
       "Resolves the workplace conflict, suggesting that sustained professional excellence and shared goals can overcome individual prejudice."
     ],
     "essayPrompt": "Analyze how “Coffee and shared credit” develops Merit & recognition through a specific film technique.",
@@ -3454,7 +3454,7 @@
     "historyNote": "Katherine Johnson coauthored research on trajectories, rare formal credit for a computing-pool mathematician.",
     "essayStarter": "Shared authorship is the film’s quietest victory: credit, finally spelled correctly.",
     "essayImportance": {
-      "rating": 5,
+      "rating": 10,
       "reason": "Coffee returns as a visual callback to the earlier exclusion. The two-shot and gesture of respect let an essay track a concrete change in workplace relationships."
     }
   },
@@ -3464,13 +3464,13 @@
     "fullTitle": "NASA’s Work Moves Beyond One Mission",
     "character": "NASA & The Team",
     "analysisType": "Character and Theme Essay",
-    "description": "After Friendship 7, the work continues into later missions and evolving technical demands, with Katherine and her colleagues established as contributors.",
-    "techniques": "The transition from crisis to ongoing operations widens the story beyond one successful launch.",
+    "description": "The closing office shot follows Katherine at work as the camera pulls back. Written text connects her contribution to later Apollo missions and the Space Shuttle, extending the story beyond Friendship 7.",
+    "techniques": "A sustained camera pullback and written career information connect ordinary office work to Katherine's later achievements.",
     "essay": "The film’s lasting claim is institutional: inclusion must persist in everyday work, not appear only when a crisis makes expertise impossible to ignore.",
-    "techniqueLabel": "The transition from crisis to ongoing operations widens the story beyond one successful launch",
+    "techniqueLabel": "Camera pullback and written career coda",
     "meaningLabel": "The film’s lasting claim is institutional: inclusion must persist in everyday work, not appear only when a crisis makes expertise impossible to ignore",
     "cue": "satellite",
-    "cueText": "Briefing rooms and new assignments: the team’s work continuing past Friendship 7 into harder missions.",
+    "cueText": "Katherine continues working in the final office shot as written text records her later NASA contributions.",
     "tags": [
       "opportunity",
       "sexism",
@@ -3478,38 +3478,38 @@
       "education",
       "merit"
     ],
-    "sourceSlugline": "NASA briefing room; Space Task Group",
+    "sourceSlugline": "Space Task Group — Day",
     "timestamps": {
-      "start": 8740,
-      "end": 8800
+      "start": 8722.72,
+      "end": 8781.44
     },
     "retrievalPrompts": [
       {
-        "prompt": "What does the post-flight transition suggest?",
-        "answerCue": "The team’s work and need for inclusion continue."
+        "prompt": "What happens in “NASA’s Work Moves Beyond One Mission”?",
+        "answerCue": "The closing office shot follows Katherine at work as the camera pulls back. Written text connects her contribution to later Apollo missions and the Space Shuttle, extending the story beyond Friendship 7."
       },
       {
-        "prompt": "Which detail shows the scene’s central obstacle or opportunity?",
-        "answerCue": "After Friendship 7, the work continues into later missions and evolving technical demands, with Katherine and her colleagues established as contributors."
+        "prompt": "Which film technique shapes the moment?",
+        "answerCue": "A sustained camera pullback and written career information connect ordinary office work to Katherine's later achievements."
       },
       {
-        "prompt": "How does the film make the scene’s meaning visible?",
-        "answerCue": "The transition from crisis to ongoing operations widens the story beyond one successful launch."
+        "prompt": "Why does the scene matter?",
+        "answerCue": "The film’s lasting claim is institutional: inclusion must persist in everyday work, not appear only when a crisis makes expertise impossible to ignore."
       }
     ],
     "sequence": [
-      "Locate the scene at NASA briefing room; Space Task Group.",
-      "After Friendship 7, the work continues into later missions and evolving technical demands, with Katherine and her colleagues established as contributors.",
+      "The closing office shot follows Katherine at work as the camera pulls back. Written text connects her contribution to later Apollo missions and the Space Shuttle, extending the story beyond Friendship 7.",
+      "A sustained camera pullback and written career information connect ordinary office work to Katherine's later achievements.",
       "The film’s lasting claim is institutional: inclusion must persist in everyday work, not appear only when a crisis makes expertise impossible to ignore."
     ],
     "essayPrompt": "How does “NASA’s work moves beyond one mission” develop opportunity through character and film form? Use the concrete action and technique as evidence.",
     "counterReading": "One limitation is that the film’s lasting claim is institutional: inclusion must persist in everyday work, not appear only when a crisis makes expertise impossible to ignore can make structural change appear dependent on individual recognition; consider what institutional barriers remain after this scene.",
-    "watchFor": "The crisis lighting cools into routine; inclusion must now survive ordinary Tuesdays.",
+    "watchFor": "The camera moves away from Katherine's desk while the career text describes her work beyond the immediate mission.",
     "historyNote": "Katherine Johnson went on to compute trajectories for Apollo missions, including the Moon landing.",
     "essayStarter": "The coda’s warning: equality proven in crisis must be practiced in routine, or it was theater.",
     "essayImportance": {
       "rating": 3,
-      "reason": "The return to ordinary operations raises whether inclusion will outlast a crisis. It is useful for an essay's concluding qualification or counter-argument."
+      "reason": "The written career coda extends Katherine's contribution beyond Friendship 7. It supports a concluding discussion of lasting expertise and the visibility of her later work."
     }
   },
   {
@@ -3533,8 +3533,8 @@
     ],
     "sourceSlugline": "NASA grounds; Langley",
     "timestamps": {
-      "start": 8780,
-      "end": 8940
+      "start": 8669.0,
+      "end": 8813.6
     },
     "retrievalPrompts": [
       {

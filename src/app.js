@@ -118,8 +118,8 @@
           return Array.isArray(scene.tags) ? [...new Set(scene.tags)] : [];
         }
         const tagLabel = (t) => (TAGS[t] && TAGS[t].label) || t;
-        const importanceOf = s => Number.isInteger(s.essayImportance?.rating) && s.essayImportance.rating >= 1 && s.essayImportance.rating <= 5 ? s.essayImportance.rating : 1;
-        const importanceBadge = (s,caption=true) => `<span class="importance-badge" role="img" aria-label="Importance: ${importanceOf(s)} out of 5 stars" title="${esc(s.essayImportance?.reason || '')}">${caption?'<span aria-hidden="true">Importance</span>':''}<span class="importance-stars" aria-hidden="true">${Array.from({length:5},(_,i)=>`<span class="${i < importanceOf(s) ? 'filled' : ''}">${icon('star',13)}</span>`).join('')}</span></span>`;
+        const importanceOf = s => Number.isInteger(s.essayImportance?.rating) && s.essayImportance.rating >= 1 && s.essayImportance.rating <= 10 ? s.essayImportance.rating : 1;
+        const importanceBadge = (s,caption=true) => `<span class="importance-badge" role="img" aria-label="Importance: ${importanceOf(s)} out of 10" title="${esc(s.essayImportance?.reason || '')}">${caption?'<span aria-hidden="true">Importance</span>':''}<span class="importance-stars" aria-hidden="true"><span class="filled">${icon('star',13)}</span><span>${importanceOf(s)}/10</span></span></span>`;
         const tagDef = (t) => (TAGS[t] && TAGS[t].def) || 'a key idea for your essay';
         const TAG_COLORS = {
           racism: '#a3513b', sexism: '#b0688c', segregation: '#8a6d3b', injustice: '#7d5a3c',
@@ -1226,7 +1226,7 @@
           return list.sort(library.sort==='importance'?(a,b)=>importanceOf(b)-importanceOf(a)||filmSort(a,b):library.sort==='az'?(a,b)=>a.title.localeCompare(b.title)||a.id-b.id:library.sort==='weak'?(a,b)=>rank[masteryOf(a.id)]-rank[masteryOf(b.id)]||filmSort(a,b):filmSort);
         }
         const facetLabels={char:'Character',analysis:'Essay Type',mastery:'Study Status',tag:'Tags',importance:'Importance'};
-        const valueLabel=(k,v)=>k==='tag'?tagLabel(v):k==='importance'?`${v} ${v==='1'?'Star':'Stars'}`:k==='mastery'?({new:'Not Started',learning:'Learning',confident:'Confident',saved:'Bookmarked'}[v]||v):v;
+        const valueLabel=(k,v)=>k==='tag'?tagLabel(v):k==='importance'?`${v}/10`:k==='mastery'?({new:'Not Started',learning:'Learning',confident:'Confident',saved:'Bookmarked'}[v]||v):v;
         const activeFilterCount=()=>facetKeys.reduce((n,k)=>n+library[k].length,0);
         function libraryCountHTML(scenes) { return `Showing ${scenes.length} of ${plural(getScenes().length,'scene')}.`; }
         function activePillsHTML() {
@@ -1245,7 +1245,7 @@
           const all=getScenes(),scenes=filteredScenes(),n=activeFilterCount();
           const mode=libraryPhone.matches?'phone':'desktop';
           const filters=facetKeys.map(k=>{
-            const universe=k==='mastery'?['new','learning','confident','saved']:k==='importance'?['5','4','3','2','1']:[...new Set(all.flatMap(s=>facetValues(s,k)).filter(Boolean))].sort((a,b)=>valueLabel(k,a).localeCompare(valueLabel(k,b)));
+            const universe=k==='mastery'?['new','learning','confident','saved']:k==='importance'?Array.from({length:10},(_,i)=>String(10-i)):[...new Set(all.flatMap(s=>facetValues(s,k)).filter(Boolean))].sort((a,b)=>valueLabel(k,a).localeCompare(valueLabel(k,b)));
             const values=[...new Set([...universe,...library[k]])]; const pool=all.filter(s=>matchesFilters(s,k));
             const open=library.groups[mode][k]??mode==='desktop';
             return `<details class="filter-disclosure" data-filter-group="${k}" data-mode="${mode}" ${open?'open':''}><summary>${facetLabels[k]}${library[k].length?`<span class="filter-badge">${library[k].length} selected</span>`:''}</summary><fieldset class="filter-group"><legend class="sr-only">${facetLabels[k]}</legend>${library[k].length?`<button class="text-button filter-clear" data-action="libClearGroup" data-kind="${k}" aria-label="Clear ${facetLabels[k]} Filters">Clear</button>`:''}<div class="filter-options">${values.map(v=>{const count=pool.filter(s=>facetValues(s,k).includes(v)).length;return `<label class="filter-option ${library[k].includes(v)?'selected':''}"><input type="checkbox" data-change="libFacet" data-kind="${k}" value="${esc(v)}" ${library[k].includes(v)?'checked':''}><span>${esc(valueLabel(k,v))}</span><b aria-label="${count} matching scenes">${count}</b></label>`}).join('')}</div></fieldset></details>`;
@@ -1582,10 +1582,29 @@
           const player = $('#filmPlayer');
           if (player) {
             const status = $('#playerStatus'), retry = $('[data-action="retryFilm"]');
-            let loadTimer;
+            let loadTimer, clipFrame=null;
+            const finishClip = () => {
+              const end=watchStopAt;
+              if (end==null) return;
+              watchStopAt=null;
+              player.pause();
+              // Reviewed ends exclude the next frame in this 25 fps film.
+              try { player.currentTime=Math.max(0,end-1/25); } catch(e) {}
+              state.watchPos=player.currentTime;save();
+              status.textContent='Clip complete. Press Play to continue watching.';
+            };
+            const queueClipFrame = () => {
+              if (!player.requestVideoFrameCallback || clipFrame!=null || !player.isConnected || player.paused || player.seeking || watchStopAt==null) return;
+              clipFrame=player.requestVideoFrameCallback((_now,frame)=>{
+                clipFrame=null;
+                if (!player.isConnected || player.paused || player.seeking || watchStopAt==null) return;
+                if (frame.mediaTime+1/25>=watchStopAt-0.000001) finishClip();
+                else queueClipFrame();
+              });
+            };
             const waitForFilm = () => { clearTimeout(loadTimer); loadTimer=setTimeout(()=>{if(player.isConnected&&player.readyState<1){status.textContent='The hosted film is taking longer to load. You can retry playback.';retry.hidden=false;}},30000); };
             const showFailure = () => { clearTimeout(loadTimer); if (!player.isConnected) return; status.textContent='The film could not be loaded. Try again when the hosted source is available.'; retry.hidden=false; };
-            const playClip = () => player.play().catch(error => {
+            const playClip = () => player.play().then(queueClipFrame).catch(error => {
               if (!player.isConnected || error?.name==='AbortError') return;
               if (error?.name==='NotAllowedError') status.textContent='Press Play to start this clip.';
               else showFailure();
@@ -1607,17 +1626,19 @@
             player.addEventListener('loadstart',waitForFilm);
             player.addEventListener('loadedmetadata',()=>{clearTimeout(loadTimer);retry.hidden=true;});
             waitForFilm();
-            player.addEventListener('playing',()=>{if(player.isConnected)status.textContent='Playing the film.'});
+            player.addEventListener('playing',()=>{if(player.isConnected){status.textContent='Playing the film.';queueClipFrame();}});
+            player.addEventListener('seeking',()=>{if(clipFrame!=null){player.cancelVideoFrameCallback?.(clipFrame);clipFrame=null;}});
+            player.addEventListener('seeked',queueClipFrame);
             if (player.readyState >= 1) begin(); else player.addEventListener('loadedmetadata', begin, { once: true });
             player.addEventListener('timeupdate', () => {
-              const t = player.currentTime;
+              let t = player.currentTime;
               if (!player.isConnected) return;
-              if (watchStopAt != null && t >= watchStopAt) { player.pause(); watchStopAt = null; status.textContent='Clip complete. Press Play to continue watching.'; }
+              if (watchStopAt != null && t >= watchStopAt) { finishClip();t=player.currentTime; }
               const now = Date.now();
               if (now - lastSave > 5000) { lastSave = now; state.watchPos = t; save(); }
               markChapter(t);
             });
-            player.addEventListener('pause', () => { state.watchPos = player.currentTime; save(); });
+            player.addEventListener('pause', () => { if(clipFrame!=null){player.cancelVideoFrameCallback?.(clipFrame);clipFrame=null;}state.watchPos = player.currentTime; save(); });
           }
         }
 
@@ -1986,7 +2007,7 @@
             const meta = [];
             if (s.character) meta.push(`**Character:** ${s.character}`);
             if (s.analysisType) meta.push(`**Essay type:** ${s.analysisType}`);
-            meta.push(`**Importance:** ${importanceOf(s)}/5 stars — ${s.essayImportance?.reason || ''}`);
+            meta.push(`**Importance:** ${importanceOf(s)}/10 — ${s.essayImportance?.reason || ''}`);
             const tg = tagsOf(s);
             if (tg.length) meta.push(`**Tags:** ${tg.map(tagLabel).join(', ')}`);
             if (meta.length) L.push(meta.join('  \n'), '');

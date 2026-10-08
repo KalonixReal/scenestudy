@@ -6,9 +6,9 @@ Hidden Figures study application with 67 authored scenes, a searchable scene lib
 
 Every scene uses one consistent Tags list throughout the application. Former essay tags and theme classifications are combined without duplicate labels; names such as Teamwork, Recognition and Self-Respect make them easier to understand.
 
-Importance is a curated 1–5-star rating of usefulness as essay evidence. Higher ratings identify clear arguments, specific techniques, turning points and strong comparisons; details explain each rating. Library sorting places the highest ratings first, and star filters can be combined with tags. Use the rating to find strong examples that fit your particular essay topic.
+Importance uses the supplied scores out of 10 for usefulness as essay evidence. A compact star and numeric score appear throughout the application. Library sorting places the highest scores first, and Importance filters can be combined with tags. Details explain how each scene can support an essay; choose examples that fit your argument.
 
-The latest update passed 57 focused checks, a 75-state interface check and 36 production-build states. All other existing scene fields, including timestamps, remain unchanged. No new critic or improvement loops were requested for this update. Evidence is in `audit/tag-update/` and `audit/importance-update/` on the workspace branch.
+The latest update passed 51 focused checks and 36 production page states. It visually reviews all 67 clips against the hosted film cut, refining starts and ends with consecutive 25 fps frames at the boundaries. Scene IDs and saved study progress stay stable. Minimal factual corrections remove descriptions of actions not shown in the chosen clips. The complete boundary review and focused checks are in `audit/timing-update/` on the workspace branch; earlier tag and repair audits remain historical evidence.
 
 ## Run and build
 
@@ -49,4 +49,4 @@ Completed the initial repair loop and all three practical improvement loops with
 
 ## Repository branches and release
 
-`main` contains the finished website with `index.html` at its root and the fresh `dist/` output. `workspace` contains the complete project, source references, screenshots, review evidence and scripts, excluding movies and credentials. `release/scenestudy-site.zip` and its hash manifest on the workspace branch provide a portable website package.
+`main` contains the finished website with `index.html` at its root and the fresh `dist/` output. `workspace` contains the complete project, source references, screenshots, review evidence and scripts, excluding movies, their extracted audio and credentials. `release/scenestudy-site.zip` and its hash manifest on the workspace branch provide a portable website package.

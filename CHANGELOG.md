@@ -1,5 +1,13 @@
 # SceneStudy improvements — 8 October 2026
 
+## Importance out of 10 and visually reviewed clips (2026-10-08)
+
+- Applied the supplied Importance scores exactly, with one compact star and x/10 throughout the interface, filters and exports.
+- Three subagents visually reviewed all 67 scenes and refined boundaries using consecutive 25 fps frames. The bathroom sign clip now begins before the crowbar action at 1:12:29.04.
+- Relocated clips that pointed to different events, and corrected unsupported study descriptions, including the invented dinner-table trajectory lesson. Scene IDs, tags and the saved-progress format remain stable.
+- Clip playback now stops on the last included frame through video frame callbacks, with a time-update fallback.
+- 51 focused checks and 36 production page states passed, including real muted video playback. No critic or next-step loops. Full results and precision limits are recorded in audit/timing-update/REPORT.md on the workspace branch.
+
 ## Unified tags and Importance
 
 - Merged former essay tags and theme classifications into one Tags system. Preserved all 13 stable IDs and original primary tags, added 97 assignments from former themes, and removed duplicate classification displays.
