@@ -92,12 +92,11 @@
         CUES._default=CUES.geometry;
         const cueArt=(cue,label,cls='')=>`<svg class="scene-art ${cls}" viewBox="0 0 230 170" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" ${label?`role="img" aria-label="${esc(label)}"`:'aria-hidden="true"'}><circle cx="115" cy="85" r="64" fill="var(--art-wash)" stroke="none"/>${CUES[cue]||CUES._default}</svg>`;
 
-        /* ================= SCENE LIBRARY (built-in + user-imported) ================= */
+        /* ================= BUILT-IN SCENE LIBRARY ================= */
         const BUILTIN_SCENES = window.SCENESTUDY_MASTER_SCENES;
         const FILM_NAME = 'Hidden Figures';
         const MOVIE_SOURCE = 'https://cdn2.etv.nz/vod/etv5-token202504/etv/hidden_figures_tv_3_20181202_2030_640x360_1500k.mp4';
         const FILM_RUNTIME = 8960.52; // seconds, measured from the provided file
-        const IMPORTED_ID_BASE = 1000; // user-imported scene ids start here
 
         /* ================= SCENE TAGS ================= */
         const TAGS = {
@@ -194,16 +193,8 @@
           coldwar: 'How does national urgency change what becomes possible in this scene?',
         };
         const essayPromptFor = (scene) => {
-          if (scene && typeof scene.essayPrompt === 'string' && scene.essayPrompt.trim().length > 8) return scene.essayPrompt.trim();
           const tags = tagsOf(scene).filter((t) => ESSAY_PROMPTS[t]);
           return tags.length ? ESSAY_PROMPTS[tags[0]] : 'How does the filmmaking in this scene reinforce its bigger idea?';
-        };
-        const recallPromptCycle = (scene) => {
-          const list = [essayPromptFor(scene)];
-          (Array.isArray(scene.retrievalPrompts) ? scene.retrievalPrompts : []).forEach((rp) => { if (rp && typeof rp.prompt === 'string' && rp.prompt.trim()) list.push(rp.prompt.trim()); });
-          const tagPrompt = (() => { const tags = tagsOf(scene).filter((t) => ESSAY_PROMPTS[t]); return tags.length ? ESSAY_PROMPTS[tags[0]] : null; })();
-          if (tagPrompt && !list.includes(tagPrompt)) list.push(tagPrompt);
-          return list;
         };
         const displayHeading = (text, fallback) => text && text.length <= 85 ? text : fallback;
         const lower1 = (str) => { if (!str) return str; if (/^[A-Z]{2,}\b/.test(str)) return str; return str.charAt(0).toLowerCase() + str.slice(1); };
@@ -222,10 +213,6 @@
           progressRange: '30',
           progressStart: '',
           progressEnd: '',
-          uploadedScenes: [],   // scenes imported from a user PDF (persisted)
-          uploadedNextId: IMPORTED_ID_BASE,
-          essayDraft: null,     // { thesis, thesisCustom, intro, body:[{sceneId,text}], conclusion }
-          recallMeta: {},       // sceneId -> { checks:[bool,bool,bool] }
         });
         // Scene IDs were renumbered 1–67 in film order (previously 1–75 with gaps).
         const IDMAP_V2 = { 1: 1, 2: 16, 3: 13, 4: 21, 7: 6, 8: 9, 9: 23, 10: 19, 11: 31, 13: 11, 14: 24, 15: 35, 16: 37, 19: 44, 20: 56, 21: 47, 22: 65, 24: 45, 25: 39, 28: 43, 29: 22, 30: 63, 31: 2, 32: 3, 33: 4, 34: 5, 35: 7, 36: 8, 37: 10, 38: 32, 39: 25, 40: 12, 41: 14, 42: 15, 43: 18, 44: 17, 45: 34, 46: 36, 47: 38, 48: 27, 49: 28, 50: 33, 51: 26, 52: 40, 53: 41, 54: 42, 55: 29, 56: 48, 57: 54, 58: 58, 59: 57, 60: 59, 61: 60, 62: 61, 63: 62, 64: 64, 65: 46, 66: 49, 67: 52, 68: 53, 69: 51, 70: 30, 71: 20, 72: 55, 73: 50, 74: 66, 75: 67 };
@@ -237,14 +224,10 @@
             const parsed = JSON.parse(raw);
             if (parsed && parsed.v === 3) {
               state = Object.assign(freshState(), parsed);
-              if (!Array.isArray(parsed.selectedSceneIds)) state.selectedSceneIds = BUILTIN_SCENES.map(s => s.id).concat(Array.isArray(parsed.uploadedScenes) ? parsed.uploadedScenes.map(s => s.id).filter(id => Number.isFinite(id)) : []);
+              if (!Array.isArray(parsed.selectedSceneIds)) state.selectedSceneIds = BUILTIN_SCENES.map((scene) => scene.id);
               if (!Array.isArray(state.history)) state.history = [];
               if (!state.progressRange) state.progressRange = '30';
               if (!Number.isFinite(state.watchPos)) state.watchPos = 0;
-              if (!Array.isArray(state.uploadedScenes)) state.uploadedScenes = [];
-              if (!Number.isFinite(state.uploadedNextId) || state.uploadedNextId < IMPORTED_ID_BASE) state.uploadedNextId = IMPORTED_ID_BASE;
-              if (!state.essayDraft || typeof state.essayDraft !== 'object') state.essayDraft = null;
-              if (!state.recallMeta || typeof state.recallMeta !== 'object') state.recallMeta = {};
             } else if (parsed && parsed.v === 2) {
               const cards = {};
               Object.entries(parsed.cards || {}).forEach(([id, c]) => {
@@ -273,25 +256,25 @@
               if (!Number.isFinite(state.watchPos)) state.watchPos = 0;
               state.activity.streak = Number.isFinite(state.activity.streak) ? state.activity.streak : 0;
               state.activity.lastStudyDay = state.activity.lastStudyDay || null;
-              try { localStorage.setItem(STORE_KEY, JSON.stringify(state)); } catch (e) { updateDraftStatus('Draft Could Not Be Saved'); }
+              try { localStorage.setItem(STORE_KEY, JSON.stringify(state)); } catch (e) {}
             }
           }
         } catch (e) { state = freshState(); }
 
-        const validSceneIds = () => { const s = new Set(BUILTIN_SCENES.map(x => x.id)); for (const x of (Array.isArray(state.uploadedScenes) ? state.uploadedScenes : [])) s.add(x.id); return s; };
-        const cleanIds = (list, map = null) => { const valid = validSceneIds(); return [...new Set((Array.isArray(list) ? list : []).map(id => map ? map[Number(id)] : Number(id)).filter(id => valid.has(id)))]; };
-        const cleanCards = (cards, map = null) => { const valid = validSceneIds(); return Object.fromEntries(Object.entries(cards && typeof cards === 'object' && !Array.isArray(cards) ? cards : {}).flatMap(([id,c]) => {
+        const validSceneIds = new Set(BUILTIN_SCENES.map(s => s.id));
+        const cleanIds = (list, map = null) => [...new Set((Array.isArray(list) ? list : []).map(id => map ? map[Number(id)] : Number(id)).filter(id => validSceneIds.has(id)))];
+        const cleanCards = (cards, map = null) => Object.fromEntries(Object.entries(cards && typeof cards === 'object' && !Array.isArray(cards) ? cards : {}).flatMap(([id,c]) => {
           const n = map ? map[Number(id)] : Number(id);
-          if (!valid.has(n) || !c || typeof c !== 'object' || Array.isArray(c)) return [];
+          if (!validSceneIds.has(n) || !c || typeof c !== 'object' || Array.isArray(c)) return [];
           return [[n, { interval: Number.isFinite(c.interval) ? clamp(c.interval,0,30) : 0, reviews: Number.isFinite(c.reviews) ? clamp(Math.floor(c.reviews),0,1000000) : 0,
             dueAt: Number.isFinite(c.dueAt) && c.dueAt >= 0 && c.dueAt <= 8640000000000000 ? c.dueAt : 0,
             last: Number.isFinite(c.last) && c.last >= 0 && c.last <= 8640000000000000 ? c.last : 0,
             lastRating: ['again','good','easy'].includes(c.lastRating) ? c.lastRating : null }]];
-        })); };
-        const cleanNotes = (notes, map = null) => { const valid = validSceneIds(); return Object.fromEntries(Object.entries(notes && typeof notes === 'object' && !Array.isArray(notes) ? notes : {}).flatMap(([id,text]) => {
+        }));
+        const cleanNotes = (notes, map = null) => Object.fromEntries(Object.entries(notes && typeof notes === 'object' && !Array.isArray(notes) ? notes : {}).flatMap(([id,text]) => {
           const n = map ? map[Number(id)] : Number(id);
-          return valid.has(n) && typeof text === 'string' && text.trim() ? [[n,text.slice(0,100000)]] : [];
-        })); };
+          return validSceneIds.has(n) && typeof text === 'string' && text.trim() ? [[n,text.slice(0,100000)]] : [];
+        }));
         const cleanActivity = (a = {}, map = null) => ({
           matches: Number.isFinite(a?.matches) ? clamp(Math.floor(a.matches),0,1000000) : 0,
           quizzes: Number.isFinite(a?.quizzes) ? clamp(Math.floor(a.quizzes),0,1000000) : 0,
@@ -300,8 +283,8 @@
           streak: Number.isFinite(a?.streak) ? clamp(Math.floor(a.streak),0,100000) : 0,
           lastStudyDay: typeof a?.lastStudyDay === 'string' && Number.isFinite(Date.parse(a.lastStudyDay)) ? a.lastStudyDay : null,
         });
-        const cleanHistory = (list, map=null) => { const valid = validSceneIds(); return (Array.isArray(list) ? list : []).filter(e => e && typeof e === 'object' && Number.isFinite(e.at) && e.at >= 0 && e.at <= Date.now() + DAY && ['review','quiz','matching','explanation'].includes(e.type))
-          .slice(-2000).map(e => {const id=map?map[Number(e.sceneId)]:Number(e.sceneId);return { type:e.type, at:e.at, sceneId:valid.has(id) ? id : null, score:Number.isFinite(e.score) ? clamp(e.score,0,100) : null };}); };
+        const cleanHistory = (list, map=null) => (Array.isArray(list) ? list : []).filter(e => e && typeof e === 'object' && Number.isFinite(e.at) && e.at >= 0 && e.at <= Date.now() + DAY && ['review','quiz','matching','explanation'].includes(e.type))
+          .slice(-2000).map(e => {const id=map?map[Number(e.sceneId)]:Number(e.sceneId);return { type:e.type, at:e.at, sceneId:validSceneIds.has(id) ? id : null, score:Number.isFinite(e.score) ? clamp(e.score,0,100) : null };});
         const cleanDate = value => typeof value==='string' && /^\d{4}-\d{2}-\d{2}$/.test(value) && Number.isFinite(Date.parse(value)) && new Date(value).toISOString().slice(0,10)===value ? value : '';
         state.cards = cleanCards(state.cards);
         state.notes = cleanNotes(state.notes);
@@ -332,11 +315,9 @@
           if (state.history.length > 2000) state.history = state.history.slice(-2000);
           save();
         };
-        const uploadedScenes = () => (Array.isArray(state.uploadedScenes) ? state.uploadedScenes : []);
-        const ALL_SCENES = () => BUILTIN_SCENES.concat(uploadedScenes());
         const getScenes = () => {
           const selected = new Set(state.selectedSceneIds);
-          return ALL_SCENES().filter((scene) => selected.has(scene.id));
+          return BUILTIN_SCENES.filter((scene) => selected.has(scene.id));
         };
         const getCharacters = () => [...new Set(getScenes().map((s) => s.character).filter(Boolean))];
         const sceneById = (id) => getScenes().find((s) => s.id === id);
@@ -346,7 +327,7 @@
           return `${String(Math.floor(total / 3600)).padStart(2,'0')}:${String(Math.floor(total % 3600 / 60)).padStart(2,'0')}:${String(total % 60).padStart(2,'0')}`;
         };
         const clipFor = (id) => {
-          const s = ALL_SCENES().find((x) => x.id === id);
+          const s = BUILTIN_SCENES.find((x) => x.id === id);
           const t = s && s.timestamps;
           return { start: t ? t.start : null, end: t ? t.end : null };
         };
@@ -469,7 +450,6 @@
           { id: 'matching', label: 'Match & Mix', icn: 'link' },
           { id: 'quiz', label: 'Essay Quiz', icn: 'zap' },
           { id: 'recall', label: 'Recall & Explain', icn: 'quote' },
-          { id: 'essay', label: 'Essay Builder', icn: 'printer' },
 
         ];
         let currentView = 'overview';
@@ -482,7 +462,7 @@
             let count = '';
             if (n.id === 'flashcards' && due > 0) count = `<span class="nav-count">${due}</span>`;
             if (n.id === 'library') count = `<span class="nav-count">${getScenes().length}</span>`;
-            return `<button class="nav-item ${currentView === n.id ? 'active' : ''}" data-action="nav" data-view="${n.id}" ${currentView === n.id ? 'aria-current="page"' : ''}>${icon(n.icn, 20)}<span>${n.label}</span>${n.id === 'flashcards' && due > 0 ? '<span class="nav-due-badge" aria-hidden="true"></span>' : ''}${count ? ' ' + count : ''}</button>`;
+            return `<button class="nav-item ${currentView === n.id ? 'active' : ''}" data-action="nav" data-view="${n.id}" ${currentView === n.id ? 'aria-current="page"' : ''}>${icon(n.icn, 20)}<span>${n.label}</span>${n.id === 'flashcards' && due > 0 ? '<span class="nav-due-badge" aria-hidden="true"></span>' : ''}${count}</button>`;
           }).join('');
           const chip = $('#topbarDue');
           if (due > 0) { chip.hidden = false; chip.innerHTML = `${icon('zap', 14)} ${due} Due`; chip.setAttribute('aria-label', `${due} Reviews Due`); } else chip.hidden = true;
@@ -504,7 +484,7 @@
         const go = (v) => setView(v);
 
         function renderView() {
-          for(const group of viewEl.querySelectorAll('details[data-filter-group]'))library.groups[group.dataset.mode][group.dataset.filterGroup]=group.open;
+          for(const group of viewEl.querySelectorAll('details[data-filter-group]')){(group.dataset.filterScope==='selection'?selection:library).groups[group.dataset.mode][group.dataset.filterGroup]=group.open;}
           const active = document.activeElement;
           const owned = viewEl.contains(active);
           const key = owned && active.dataset ? { action:active.dataset.action, change:active.dataset.change, id:active.dataset.id, domId:active.id, kind:active.dataset.kind, value:active.value } : null;
@@ -521,17 +501,17 @@
         const flash = { deck: 'all', order: [], idx: 0, flipped: false, session: [], done: false, focus: null };
         const match = { category: 'technique', left: [], right: [], selL: null, selR: null, pairs: [], attempts: 0, wrong: false, done: false, timer: null };
         const quiz = { qs: [], idx: 0, picked: null, answers: [], done: false, len: 10, focus: 'all', effFocus: 'all' };
-        const recall = { sceneId: null, checked: false, promptIdx: 0 };
+        const recall = { sceneId: null, checked: false };
         const facetKeys = ['char','analysis','mastery','tag','importance'];
         const library = { q: '', char: [], tag: [], importance: [], analysis: [], mastery: [], sort: 'film', open: false, groups:{phone:{},desktop:{}} };
         const libraryPhone=matchMedia('(max-width:640px)');
-        const selection={q:''};
+        const selection={q:'',char:[],tag:[],importance:[],analysis:[],mastery:[],sort:'film',open:false,groups:{phone:{},desktop:{}}};
         function resetViewStates() {
           flash.deck = 'all'; flash.order = []; flash.idx = 0; flash.flipped = false; flash.session = []; flash.done = false; flash.focus = null;
           newMatchRound(); quiz.qs = []; quiz.idx = 0; quiz.picked = null; quiz.answers = []; quiz.done = false; quiz.partial = false;
           recall.sceneId = getScenes()[0] ? getScenes()[0].id : null; recall.checked = false;
           library.q = ''; for (const k of facetKeys) library[k] = []; library.sort = 'film'; library.open = false;
-          library.groups={phone:{},desktop:{}};selection.q='';
+          library.groups={phone:{},desktop:{}};selection.q='';for (const k of facetKeys) selection[k]=[];selection.sort='film';selection.open=false;selection.groups={phone:{},desktop:{}};
         }
 
         /* ================= OVERVIEW ================= */
@@ -679,7 +659,6 @@
                       <div class="fc-block"><h4>${esc(displayHeading(scene.techniqueLabel,'Film Technique'))}</h4><p>${esc(scene.techniques)}</p></div>
                       <div class="fc-block"><h4>${esc(displayHeading(scene.meaningLabel,'Meaning & Effect'))}</h4><p>${esc(scene.essay)}</p></div>
                     </div>
-                    ${(Array.isArray(scene.retrievalPrompts) && scene.retrievalPrompts.length) ? `<details class="fc-retrieval"><summary>${icon('bulb', 14)} Retrieval Drill <small>answer from memory, then check</small></summary><div class="fc-retrieval-list">${scene.retrievalPrompts.filter((rp) => rp && rp.prompt).map((rp) => `<details class="retrieval-item"><summary>${esc(rp.prompt)}</summary><p class="retrieval-cue">${esc(rp.answerCue || 'Point to a concrete moment and quote it.')}</p></details>`).join('')}</div></details>` : ''}
                     <div class="theme-chips">${scene.analysisType ? `<span class="theme-chip analysis-chip">${esc(scene.analysisType)}</span>` : ''}${tagsOf(scene).map((t) => tagChip(t)).join('')}</div>
                     <div class="rate-row">
                       ${[['again', 'Again', 'ok-soft'], ['good', 'Good', ''], ['easy', 'Easy', '']].map(([r, lbl]) => `
@@ -1000,7 +979,7 @@
         }
         let cachedBankMetadata=null;
         function bankMetadata() {
-          const key=getScenes().map(s=>s.id).join(',')+':'+sceneDataRev;
+          const key=getScenes().map(s=>s.id).join(',');
           if(cachedBankMetadata?.key!==key){const bank=buildBank();cachedBankMetadata={key,size:bank.length,skills:new Set(bank.map(q=>q.kind)).size};}
           return cachedBankMetadata;
         }
@@ -1175,7 +1154,7 @@
             <div class="recall-layout">
               <div class="writing-area">
                 <span class="eyebrow">The Why Behind The Moment</span>
-                <h3>${esc(recallPromptCycle(scene)[recall.promptIdx % recallPromptCycle(scene).length])}</h3>
+                <h3>${esc(essayPromptFor(scene))}</h3>
                 <p class="writing-prompt">Recall a specific moment, name a cinematic technique, and explain its effect. Don't peek at the reference just yet.</p>
                 <div class="essay-angle">${icon('tag', 15)}<span><b>Focus Tags:</b> ${tagsOf(scene).map((t) => tagChip(t)).join(' ')}</span></div>
                 <label for="recallAnswer">Your Explanation</label>
@@ -1199,12 +1178,10 @@
                   ${scene.analysisType ? `<p class="ref-analysis"><span class="theme-chip analysis-chip">${esc(scene.analysisType)}</span></p>` : ''}
                   <div class="answer-block"><span class="answer-label">${esc(displayHeading(scene.techniqueLabel,'Film Technique'))}</span><p>${esc(scene.techniques)}</p></div>
                   <div class="answer-block"><span class="answer-label">${esc(displayHeading(scene.meaningLabel,'Meaning & Effect'))}</span><p>${esc(scene.essay)}</p></div>
-                  ${scene.counterReading ? `<div class="answer-block counter-block"><span class="answer-label">Counter-Reading</span><p>${esc(scene.counterReading)}</p></div>` : ''}
                   <div class="self-check">
                     <strong>A Quick Self-Check</strong>
-                    ${(() => { const rec = (state.recallMeta || {})[scene.id]; const checks = rec && Array.isArray(rec.checks) ? rec.checks : [false, false, false];
-                    return ['I used a specific scene detail.', 'I identified a cinematic technique.', 'I explained its effect and meaning.'].map((c, ci) => `
-                      <label><input type="checkbox" data-check="selfCheck" ${checks[ci] ? 'checked' : ''}/><span>${c}</span></label>`).join(''); })()}
+                    ${['I used a specific scene detail.', 'I identified a cinematic technique.', 'I explained its effect and meaning.'].map((c) => `
+                      <label><input type="checkbox" data-check="selfCheck"/><span>${c}</span></label>`).join('')}
                     <small>This is a self-check, not an automated grade.</small>
                   </div>
                 </div>` : `
@@ -1232,312 +1209,16 @@
           if (saved) toast('Explanation saved. Compare the ideas, not exact wording.', 'checkCircle');
         }
 
-        /* ================= PDF SCENE IMPORT ================= */
-        const pdfImport = { status: 'idle', candidates: [], fileName: '', error: '', busy: false };
-        let pdfjsPromise = null;
-        function loadPdfJs() {
-          if (pdfjsPromise) return pdfjsPromise;
-          const base = document.baseURI;
-          pdfjsPromise = import(new URL('assets/pdfjs/pdf.min.mjs', base).href).then((lib) => {
-            lib.GlobalWorkerOptions.workerSrc = new URL('assets/pdfjs/pdf.worker.min.mjs', base).href;
-            return lib;
-          });
-          return pdfjsPromise;
-        }
-        const normKey = (t) => String(t || '').toLowerCase().replace(/[^a-z0-9 ]+/g, ' ').replace(/\s+/g, ' ').trim();
-        const titleFromLocation = (slug) => {
-          let s = slug.replace(/^(INT\.|EXT\.|I\/E\.|INT\/EXT|EST\.)[\s.]-?\s*/i, '').replace(/\s*[-–—]\s*(DAY|NIGHT|DUSK|DAWN|MORNING|EVENING|CONTINUOUS|LATER|moments later)\s*$/i, '').trim();
-          s = s.replace(/^(INT|EXT)\.?\s*/i, '');
-          return s.split(/\s+/).map((w) => w ? w.charAt(0).toUpperCase() + w.slice(1).toLowerCase() : w).join(' ').slice(0, 60) || 'Untitled Scene';
-        };
-        const CHARACTER_KEYS = ['Katherine Johnson', 'Dorothy Vaughan', 'Mary Jackson', 'Al Harrison', 'John Glenn', 'Vivian Mitchell'];
-        const TAG_LEXICON = {
-          racism: ['negro', 'colored', 'racist', 'prejudice', 'n-word', 'coloreds'],
-          sexism: ['girls', 'gal', 'skirt', 'woman', 'women', 'lady', 'ladies', 'her place', 'pretty'],
-          segregation: ['colored', 'separate', 'whites only', 'restroom', 'bathroom', 'west area', 'coloreds'],
-          injustice: ['permission', 'denied', 'red tape', 'approval', 'petition', 'ruled', 'court', 'judge', 'cleared', 'clearance'],
-          dignity: ['respect', 'proud', 'pride', 'dignity', 'worth'],
-          education: ['school', 'study', 'learn', 'class', 'teacher', 'lesson', 'homework', 'college', 'book', 'manual', 'fortran'],
-          opportunity: ['job', 'position', 'opening', 'promote', 'promotion', 'apply', 'vacancy', 'transfer'],
-          family: ['mother', 'father', 'mom', 'dad', 'daughter', 'girls', 'home', 'dinner', 'family'],
-          merit: ['credit', 'recognition', 'earn', 'earned', 'deserve', 'best', 'brilliant', 'genius'],
-          leadership: ['lead', 'supervisor', 'in charge', 'harrison', 'manage'],
-          solidarity: ['together', 'team', 'we', 'us', 'help', 'share', 'community'],
-          technology: ['ibm', 'machine', 'computer', 'punch card', 'calculate', 'program', 'fortran', 'engine', 'launch', 'orbit', 'capsule', 'rocket'],
-          coldwar: ['sputnik', 'russian', 'soviet', 'space race', 'war', 'military', 'kennedy', 'russia'],
-        };
-        const CUE_LEXICON = { coffee: 'coffee', pot: 'coffee', court: 'court', judge: 'court', library: 'book', book: 'book', chalkboard: 'chalkboard', chalk: 'chalkboard', euler: 'euler', 'wind tunnel': 'turbine', machine: 'computer', ibm: 'computer', computer: 'computer', rain: 'rain', restroom: 'sign', bathroom: 'sign', sign: 'sign', church: 'church', dinner: 'dinner', kitchen: 'dinner', hallway: 'hallway', corridor: 'hallway', car: 'car', highway: 'car', bus: 'car', running: 'running', run: 'running', launch: 'orbit', rocket: 'orbit', capsule: 'orbit', orbit: 'orbit', satellite: 'satellite', classroom: 'classroom', school: 'classroom', desk: 'report', report: 'report', document: 'report', door: 'door', mirror: 'mirror', pearls: 'pearls', necklace: 'pearls', team: 'team', crowd: 'cheering', porch: 'door', courtroom: 'court' };
-        function pickCue(text) {
-          const t = text.toLowerCase();
-          for (const [k, v] of Object.entries(CUE_LEXICON)) if (t.includes(k)) return v;
-          return 'geometry';
-        }
-        function tagsForText(text) {
-          const t = ' ' + text.toLowerCase() + ' ';
-          const scores = Object.entries(TAG_LEXICON).map(([tag, words]) => [tag, words.reduce((n, w) => n + (t.includes(w) ? 1 : 0), 0)]);
-          scores.sort((a, b) => b[1] - a[1]);
-          const top = scores.filter(([, n]) => n >= 2).slice(0, 3).map(([tag]) => tag);
-          return top.length ? top : (scores[0][1] >= 1 ? [scores[0][0], 'merit'] : ['merit', 'solidarity']);
-        }
-        function characterForText(text) {
-          const t = text.toLowerCase();
-          let best = null, bestN = 0;
-          for (const name of CHARACTER_KEYS) {
-            const first = name.split(' ')[0].toLowerCase();
-            const n = t.split(first).length - 1;
-            if (n > bestN) { bestN = n; best = name; }
-          }
-          return bestN >= 1 ? best : 'NASA & The Team';
-        }
-        function matchBuiltinTimestamp(slug, text) {
-          const tokens = (s) => normKey(s).split(' ').filter((w) => w.length > 2 && !['the', 'and', 'her', 'his', 'with', 'for', 'int', 'ext', 'day', 'night'].includes(w));
-          const a = new Set(tokens(slug));
-          let best = null, bestScore = 0;
-          for (const s of BUILTIN_SCENES) {
-            const b = new Set([...tokens(s.sourceSlugline || ''), ...tokens(s.title)]);
-            let inter = 0;
-            for (const w of a) if (b.has(w)) inter++;
-            const score = inter / Math.max(1, Math.min(a.size, b.size));
-            if (score > bestScore) { bestScore = score; best = s; }
-          }
-          return bestScore >= 0.5 && best && best.timestamps ? { timestamps: best.timestamps, matchedTitle: best.title } : null;
-        }
-        function sentenceSplit(text) {
-          return text.replace(/\s+/g, ' ').split(/(?<=[.!?])\s+(?=[A-Z“"])/).filter((s) => s.trim().length > 20);
-        }
-        function buildImportedScene(cand, id) {
-          const tags = tagsForText(cand.text);
-          const character = characterForText(cand.text);
-          const analysisType = tags.includes('education') || tags.includes('injustice') || tags.includes('coldwar') ? 'Theme Essay' : 'Character Essay';
-          const descSentences = sentenceSplit(cand.action).slice(0, 3);
-          const description = (descSentences.join(' ') || cand.action.slice(0, 200)).trim();
-          const dialogueLines = cand.dialogue.filter((d) => d.line.length >= 25 && d.line.length <= 160);
-          const keyLineObj = dialogueLines.sort((a, b) => b.line.length - a.line.length)[0] || null;
-          const keyLine = keyLineObj ? `${keyLineObj.speaker.toLowerCase().replace(/\w\S*/g, (w) => w.charAt(0).toUpperCase() + w.slice(1))}: “${keyLineObj.line.trim()}”` : '';
-          const techniqueLabel = /close on|push in|tracking|montage|pov|point of view|voice over|v\.o\./i.test(cand.text) ? 'Visual Storytelling' : 'Dialogue And Staging';
-          const meaningLabel = tagDef(tags[0]);
-          const match = matchBuiltinTimestamp(cand.slug, cand.text);
-          const tagLabel0 = tagLabel(tags[0]);
-          const essay = [
-            `${character === 'NASA & The Team' ? 'The scene' : character} moves this scene toward the question of ${meaningLabel}.`,
-            descSentences[0] || cand.action.slice(0, 140),
-            keyLine ? `The line ${keyLine.replace(/^[^:]+:\s*/, '')} lands as the scene’s turning point — quote it, then explain what it proves about ${tagLabel0.toLowerCase()}.` : `Watch how ${tagLabel0.toLowerCase()} surfaces through small details rather than speeches.`,
-            `For your essay, treat this scene as evidence: name one choice the filmmakers make, then connect it to ${meaningLabel}.`,
-          ].join(' ');
-          const essayStarter = keyLine ? `${titleFromLocation(cand.slug)} shows ${meaningLabel} — for example, ${keyLine.replace(/^[^:]+:\s*/, '').replace(/”$/, '')}…` : `In ${titleFromLocation(cand.slug)}, the film shows ${meaningLabel} when…`;
-          return {
-            id,
-            title: titleFromLocation(cand.slug),
-            fullTitle: `${titleFromLocation(cand.slug)} (Imported From PDF)`,
-            character,
-            analysisType,
-            description,
-            techniques: techniqueLabel + ' — staging, framing and performance carry the scene’s argument.',
-            essay,
-            techniqueLabel,
-            meaningLabel,
-            cue: pickCue(cand.slug + ' ' + cand.action),
-            cueText: `Imported scene: ${description.slice(0, 120)}`,
-            tags,
-            timestamps: match ? match.timestamps : null,
-            sourceSlugline: cand.slug,
-            retrievalPrompts: [
-              { prompt: `What does this scene change about ${tagLabel0.toLowerCase()}?`, answerCue: keyLine ? `Anchor the answer in the line “${keyLineObj.line.trim().slice(0, 70)}…”` : 'Point to one concrete moment and quote it.' },
-              { prompt: 'Which filmmaking choice carries the meaning here?', answerCue: `${techniqueLabel} — name where it appears in the scene.` },
-              { prompt: `How would you use this scene in a paragraph about ${tagLabel0.toLowerCase()}?`, answerCue: 'State the point, quote the scene, then analyse the connection.' },
-            ],
-            sequence: descSentences.length >= 3 ? descSentences.slice(0, 3).map((s) => s.slice(0, 110)) : [...descSentences.map((s) => s.slice(0, 110)), 'The scene closes on the beat that sets up the next exchange.'].slice(0, 3),
-            essayPrompt: essayPromptFor({ tags }),
-            counterReading: `Argue the opposite: does this scene really change anything about ${tagLabel0.toLowerCase()}, or only appear to?`,
-            watchFor: `Watch how ${tagLabel0.toLowerCase()} is staged — who holds power in the frame, and how the scene ends.`,
-            historyNote: '',
-            essayStarter,
-            essayImportance: { rating: 3, reason: 'Imported from your PDF — rate it as you study.' },
-            keyLine: keyLine || undefined,
-            importedFrom: cand.pdfName || 'PDF',
-            timestampMatch: match ? match.matchedTitle : null,
-          };
-        }
-        function parseScreenplay(text, pdfName) {
-          const lines = text.split(/\r?\n/);
-          const slugRe = /^\s*(INT\.|EXT\.|I\/E\.|INT\/EXT)[\s.]/i;
-          const transRe = /^(CUT TO:|FADE (IN|OUT|TO)|DISSOLVE TO:|SMASH CUT|THE END|FADE OUT\.)/i;
-          const blocks = [];
-          let cur = null;
-          for (const rawLine of lines) {
-            const line = rawLine.replace(/\t/g, '  ').trimEnd();
-            if (slugRe.test(line)) {
-              if (cur) blocks.push(cur);
-              cur = { slug: line.trim(), action: [], dialogue: [], text: '' };
-              continue;
-            }
-            if (!cur) continue;
-            if (transRe.test(line.trim())) continue;
-            const t = line.trim();
-            if (!t) continue;
-            // character cue: short ALL-CAPS line (possibly with (cont'd)/(v.o.)/(o.s.))
-            const isCue = /^[A-Z][A-Z0-9 .'\-#]{1,28}(\s*\((cont'd|v\.o\.|o\.s\.|prelap|filtered)\))?$/i.test(t) && t === t.toUpperCase() && !/[.!?]$/.test(t);
-            const lastDialogue = cur.dialogue[cur.dialogue.length - 1];
-            if (isCue) {
-              cur.dialogue.push({ speaker: t.replace(/\(.*\)/, '').trim(), line: '' });
-            } else if (lastDialogue && !lastDialogue.line && t === t.toUpperCase() && t.length > 12 && !/[.!?]$/.test(t)) {
-              // secondary cue-like line — treat as action
-              cur.action.push(t);
-            } else if (lastDialogue && (!cur.action.length || lastDialogue.line || cur.dialogue.length)) {
-              lastDialogue.line = lastDialogue.line ? lastDialogue.line + ' ' + t : t;
-            } else {
-              cur.action.push(t);
-            }
-          }
-          if (cur) blocks.push(cur);
-          const candidates = [];
-          const seen = new Set(ALL_SCENES().map((s) => normKey(s.title)));
-          for (const b of blocks) {
-            if (!b.slug || b.action.length + b.dialogue.length < 2) continue;
-            const text = [b.slug, b.action.join(' '), b.dialogue.map((d) => d.line).join(' ')].join(' ').trim();
-            if (text.length < 80) continue;
-            const title = titleFromLocation(b.slug);
-            const key = normKey(title);
-            if (seen.has(key)) continue;
-            seen.add(key);
-            candidates.push({ slug: b.slug, action: b.action.join(' ').slice(0, 600), dialogue: b.dialogue.filter((d) => d.line).slice(0, 12), text: text.slice(0, 1200), pdfName });
-          }
-          return candidates;
-        }
-        async function extractPdfScenes(file) {
-          if (pdfImport.busy) return;
-          pdfImport.busy = true; pdfImport.status = 'working'; pdfImport.error = ''; pdfImport.candidates = []; pdfImport.fileName = file.name;
-          renderView();
-          try {
-            const lib = await loadPdfJs();
-            const buf = await file.arrayBuffer();
-            const doc = await lib.getDocument({ data: buf }).promise;
-            const maxPages = Math.min(doc.numPages, 400);
-            let text = '';
-            for (let p = 1; p <= maxPages; p++) {
-              const page = await doc.getPage(p);
-              const content = await page.getTextContent();
-              let lastY = null, line = '';
-              const lines = [];
-              for (const item of content.items) {
-                const y = item.transform && item.transform[5];
-                if (lastY !== null && Math.abs(y - lastY) > 2) { lines.push(line); line = ''; }
-                line += item.str + (item.hasEOL ? '\n' : ' ');
-                lastY = y;
-              }
-              lines.push(line);
-              text += lines.join('\n') + '\n';
-              if (p % 40 === 0) { const st = $('#pdfStatus'); if (st) st.textContent = `Reading page ${p} of ${maxPages}…`; }
-            }
-            const candidates = parseScreenplay(text, file.name);
-            pdfImport.candidates = candidates;
-            pdfImport.chosen = new Set(candidates.map((_, i) => i));
-            pdfImport.status = candidates.length ? 'ready' : 'empty';
-            if (!candidates.length) pdfImport.error = 'No scene headings (INT./EXT.) were found in this PDF. Screenplay-style scripts work best.';
-          } catch (e) {
-            pdfImport.status = 'error';
-            pdfImport.error = e && e.message && /pdf\.(min|worker)/i.test(String(e)) ? 'The PDF reader could not load. Check your connection and try again.' : 'This PDF could not be read. It may be a scan (image-only) or protected.';
-          }
-          pdfImport.busy = false;
-          save();
-          renderView();
-        }
-        function addChosenPdfScenes() {
-          if (!pdfImport.candidates.length) return;
-          const chosen = [...(pdfImport.chosen || [])].sort((a, b) => a - b);
-          if (!chosen.length) return;
-          const added = [];
-          for (const i of chosen) {
-            const cand = pdfImport.candidates[i];
-            if (!cand) continue;
-            const id = state.uploadedNextId++;
-            state.uploadedScenes.push(buildImportedScene(cand, id));
-            added.push(id);
-          }
-          const prevSelected = new Set(state.selectedSceneIds);
-          added.forEach((id) => prevSelected.add(id));
-          state.selectedSceneIds = ALL_SCENES().filter((s) => prevSelected.has(s.id)).map((s) => s.id);
-          pdfImport.candidates = []; pdfImport.chosen = null; pdfImport.status = 'idle'; pdfImport.fileName = '';
-          const saved = saveNow();
-          renderNav();
-          renderView();
-          if (saved) toast(`${plural(added.length, 'scene')} added from the PDF and selected.`, 'checkCircle');
-        }
-        function removeUploadedScene(id) {
-          state.uploadedScenes = uploadedScenes().filter((s) => s.id !== id);
-          state.selectedSceneIds = state.selectedSceneIds.filter((x) => x !== id);
-          delete state.cards[id]; delete state.notes[id];
-          state.bookmarks = state.bookmarks.filter((b) => b !== id);
-          state.activity.explanations = state.activity.explanations.filter((x) => x !== id);
-          const saved = saveNow();
-          renderNav(); renderView();
-          if (saved) toast('Scene removed. Its study progress was cleaned up too.', 'trash');
-        }
-        function removeAllUploadedScenes() {
-          if (!uploadedScenes().length) return;
-          const ids = new Set(uploadedScenes().map((s) => s.id));
-          openModal(`
-            <div class="modal-head"><h2>Remove All ${ids.size} PDF Scenes?</h2><button class="icon-button" data-action="closeModal" aria-label="Close Dialog">${icon('x', 20)}</button></div>
-            <div class="modal-body">
-              <p class="modal-intro">The scenes you imported from PDFs will be removed, along with their cards, bookmarks and notes. Built-in scenes and your overall progress history stay untouched.</p>
-              <div class="reset-actions">
-                <button class="button secondary" data-action="closeModal">Keep Scenes</button>
-                <button class="button danger-button" data-action="applyRemoveAllUploaded">${icon('trash', 15)} Remove All</button>
-              </div>
-            </div>`);
-        }
-        function pdfCardHTML() {
-          const n = pdfImport.candidates.length;
-          const chosenCount = pdfImport.chosen ? pdfImport.chosen.size : 0;
-          return `
-          <div class="pdf-card">
-            <div class="pdf-card-head">
-              <div><h3>Add Scenes From A PDF</h3><p class="section-sub">Upload a screenplay-style PDF. SceneStudy finds its scene headings, names each scene, and prepares it with the same study material as the built-in library.</p></div>
-            </div>
-            ${pdfImport.status === 'working'
-              ? `<p class="pdf-status" id="pdfStatus" role="status">Reading “${esc(pdfImport.fileName)}”…</p>`
-              : `<div class="pdf-actions">
-                  <button class="button secondary" data-action="pdfPickFile">${icon('download', 16)} Choose PDF File</button>
-                  ${uploadedScenes().length ? `<button class="text-button danger-text" data-action="pdfRemoveAll">${icon('trash', 15)} Remove All PDF Scenes (${uploadedScenes().length})</button>` : ''}
-                </div>
-                ${pdfImport.status === 'error' || pdfImport.status === 'empty' ? `<p class="pdf-status pdf-error" role="alert">${esc(pdfImport.error)}</p>` : ''}
-                ${pdfImport.status === 'ready' ? `
-                  <p class="pdf-status" role="status">Found ${plural(n, 'scene heading')} in “${esc(pdfImport.fileName)}”. Review the list below — only the scenes you keep will be added.</p>
-                  <div class="pdf-candidate-toolbar">
-                    <span><b>${chosenCount}</b> of ${n} marked to add</span>
-                    <div>
-                      <button class="text-button" data-action="pdfMarkAll">Mark All</button>
-                      <button class="text-button" data-action="pdfMarkNone">Mark None</button>
-                      <button class="button primary small-button" data-action="pdfAdd" ${chosenCount ? '' : 'disabled'}>Add ${plural(chosenCount, 'Scene')} ${icon('right', 15)}</button>
-                      <button class="text-button" data-action="pdfDiscard">Discard</button>
-                    </div>
-                  </div>` : ''}`}
-          </div>
-          ${pdfImport.status === 'ready' ? `<div class="scene-choice-list pdf-candidates" role="group" aria-label="Scenes Found In PDF">
-            ${pdfImport.candidates.map((cand, i) => { const on = pdfImport.chosen && pdfImport.chosen.has(i); const match = matchBuiltinTimestamp(cand.slug, cand.text); return `<label class="scene-choice pdf-choice ${on ? 'selected' : ''}"><input type="checkbox" data-action="pdfToggle" data-index="${i}" ${on ? 'checked' : ''} aria-label="Add ${esc(titleFromLocation(cand.slug))}"><span class="choice-number">${pad2(i + 1)}</span><span class="choice-copy"><b>${esc(titleFromLocation(cand.slug))}</b><small>${esc(characterForText(cand.text))} · ${match ? sceneTimeLabel(BUILTIN_SCENES.find(s => s.title === match.matchedTitle).id) : 'No Timecode Yet'}</small></span><span class="choice-tags"><i class="pdf-chip">From PDF</i>${tagsForText(cand.text).slice(0, 2).map((tag) => `<i>${esc(tagLabel(tag))}</i>`).join('')}</span></label>`; }).join('')}
-          </div>` : ''}`;
-        }
-
         /* ================= LIBRARY ================= */
         function emptyLibraryCta() {
-          return `<div class="empty-cta"><div class="empty-cta-art">${icon('grid', 30)}</div><h3>No Scenes Selected Yet</h3><p>Your library is empty, so there is nothing to study. Choose scenes from the ${ALL_SCENES().length} available to begin.</p><button class="button primary" data-action="nav" data-view="selection">${icon('right', 16)} Choose Scenes</button></div>`;
+          return `<div class="empty-cta"><div class="empty-cta-art">${icon('grid', 30)}</div><h3>No Scenes Selected Yet</h3><p>Your library is empty, so there is nothing to study. Choose scenes from the built-in catalogue of ${BUILTIN_SCENES.length} to begin.</p><button class="button primary" data-action="nav" data-view="selection">${icon('right', 16)} Choose Scenes</button></div>`;
         }
 
-        const sceneHay = s => `${s.id} ${s.title} ${s.fullTitle} ${s.description} ${s.character} ${tagsOf(s).join(' ')} ${tagsOf(s).map(tagLabel).join(' ')} ${s.cueText||''} ${s.techniqueLabel||''} ${s.meaningLabel||''} ${s.techniques||''} ${s.essay||''} ${s.keyLine||''} ${s.watchFor||''} ${s.historyNote||''} ${s.essayStarter||''} ${s.essayPrompt||''} ${s.counterReading||''} ${s.sourceSlugline||''} ${(Array.isArray(s.retrievalPrompts)?s.retrievalPrompts:[]).map(r=>r&&r.prompt||'').join(' ')}`.toLowerCase();
-        let sceneDataRev = 0; // bumped when an imported scene's fields are edited
-        let sceneSearchCache = new Map(BUILTIN_SCENES.map(s=>[s.id,sceneHay(s)]));
-        let sceneSearchStamp = '';
-        function getSceneSearch() {
-          const stamp = `${ALL_SCENES().length}:${uploadedScenes().map(s=>s.id).join(',')}:${sceneDataRev}`;
-          if (stamp !== sceneSearchStamp) {
-            sceneSearchCache = new Map(ALL_SCENES().map(s=>[s.id,sceneHay(s)]));
-            sceneSearchStamp = stamp;
-          }
-          return sceneSearchCache;
-        }
+        const sceneHay = s => `${s.id} ${s.title} ${s.fullTitle} ${s.description} ${s.character} ${tagsOf(s).join(' ')} ${tagsOf(s).map(tagLabel).join(' ')} ${s.cueText||''} ${s.techniqueLabel||''} ${s.meaningLabel||''} ${s.techniques||''} ${s.essay||''} ${s.keyLine||''} ${s.watchFor||''} ${s.historyNote||''} ${s.essayStarter||''}`.toLowerCase();
+        const sceneSearch = new Map(BUILTIN_SCENES.map(s=>[s.id,sceneHay(s)]));
         const facetValues = (s,k) => k==='char' ? [s.character] : k==='analysis' ? [s.analysisType] : k==='tag' ? tagsOf(s) : k==='importance' ? [String(importanceOf(s))] : [masteryOf(s.id),...(state.bookmarks.includes(s.id)?['saved']:[])];
         function matchesFilters(s, except=null) {
-          return (!library.q.trim() || getSceneSearch().get(s.id).includes(library.q.trim().toLowerCase())) && facetKeys.every(k=>k===except||!library[k].length||library[k].some(v=>facetValues(s,k).includes(v)));
+          return (!library.q.trim() || sceneSearch.get(s.id).includes(library.q.trim().toLowerCase())) && facetKeys.every(k=>k===except||!library[k].length||library[k].some(v=>facetValues(s,k).includes(v)));
         }
         const filmSort = (a,b) => ((Number.isFinite(a.timestamps?.start)?a.timestamps.start:Infinity)-(Number.isFinite(b.timestamps?.start)?b.timestamps.start:Infinity)) || a.id-b.id;
         function filteredScenes() {
@@ -1553,13 +1234,15 @@
           if(library.q.trim()) entries.unshift({k:'q',v:'',label:`Search: “${library.q.trim()}”`});
           return entries.length ? `<div class="active-pills" aria-label="Active Filters">${entries.map(x=>`<button class="active-pill" data-action="libClearOne" data-kind="${x.k}" data-value="${esc(x.v)}" aria-label="Remove ${esc(x.label)} Filter">${esc(x.label)} ${icon('x',14)}</button>`).join('')}</div>` : '';
         }
-        function renderLibraryPreservingFocus(action,kind='',value='') {
+        function renderFilterablePreservingFocus(action,fallback,kind='',value='') {
           const scroll=window.scrollY; renderView();
           const candidates=[...viewEl.querySelectorAll('[data-action], [data-change]')];
           const target=candidates.find(el=>(el.dataset.action===action||el.dataset.change===action)&&(!kind||el.dataset.kind===kind)&&(!value||el.value===value));
           const summary=kind?viewEl.querySelector(`details[data-filter-group="${kind}"] summary`):null;
-          (target||summary||viewEl.querySelector('[data-action="libFilters"]'))?.focus({preventScroll:true}); window.scrollTo(0,scroll);
+          (target||summary||viewEl.querySelector(`[data-action="${fallback}"]`))?.focus({preventScroll:true}); window.scrollTo(0,scroll);
         }
+        function renderLibraryPreservingFocus(action,kind='',value='') { renderFilterablePreservingFocus(action,'libFilters',kind,value); }
+        function renderSelectionPreservingFocus(action,kind='',value='') { renderFilterablePreservingFocus(action,'selFilters',kind,value); }
         function vLibrary(root) {
           const all=getScenes(),scenes=filteredScenes(),n=activeFilterCount();
           const mode=libraryPhone.matches?'phone':'desktop';
@@ -1578,52 +1261,6 @@
             ${scenes.length?`<div class="library-grid">${scenes.map(s=>`<article class="scene-tile"><div class="tile-top"><span class="tile-num">${masteryRing(s.id)}${pad2(s.id)}</span>${state.notes[s.id]?.trim()?`<span class="tile-notedot" role="img" aria-label="Recall Notes Saved">${icon('notes',14)}</span>`:''}<button class="icon-button tile-save ${state.bookmarks.includes(s.id)?'saved':''}" data-action="toggleBookmarkStop" data-id="${s.id}" aria-pressed="${state.bookmarks.includes(s.id)}" aria-label="${state.bookmarks.includes(s.id)?'Remove Bookmark':'Bookmark'}: ${esc(s.title)}">${icon('bookmark',18)}</button></div><button class="tile-main" data-action="openScene" data-id="${s.id}" aria-label="Open Details For ${esc(s.title)}">${cueArt(s.cue,s.cueText,'art')}<span class="tile-title">${esc(s.title)}</span><span class="scene-timestamp">${sceneTimeLabel(s.id)}</span>${importanceBadge(s)}<span class="tile-char">${esc(s.character)}</span>${s.analysisType?`<span class="tile-analysis">${esc(s.analysisType)}</span>`:''}<span class="tile-tags">${tagsOf(s).slice(0,3).map(t=>`<i style="color:${tagColor(t)}">#${esc(tagLabel(t))}</i>`).join(' ')}${tagsOf(s).length>3?` <b>+${tagsOf(s).length-3}</b>`:''}</span><span class="tile-cue print-only">${esc(s.cueText)}</span></button></article>`).join('')}</div>`:!all.length?emptyLibraryCta():`<div class="empty-note"><h3>No scenes match these filters.</h3><p>Remove a filter or try a different search.</p><button class="text-button" data-action="libClear">Clear All Filters</button></div>`}`;
         }
 
-        let editingSceneId = null;
-        function openImportedSceneEditor(id) {
-          const s = sceneById(id);
-          if (!s || s.id < IMPORTED_ID_BASE) return;
-          editingSceneId = id;
-          const tagBoxes = Object.keys(TAGS).map((t) => `<label class="filter-option ${tagsOf(s).includes(t) ? 'selected' : ''}"><input type="checkbox" data-edit-tag="${t}" ${tagsOf(s).includes(t) ? 'checked' : ''}><span>${esc(tagLabel(t))}</span></label>`).join('');
-          const charOptions = [...CHARACTER_KEYS, 'NASA & The Team'].map((c) => `<option value="${esc(c)}" ${s.character === c ? 'selected' : ''}>${esc(c)}</option>`).join('');
-          openModal(`
-            <div class="modal-head"><h2>Edit Imported Scene</h2><button class="icon-button" data-action="closeModal" aria-label="Close Dialog">${icon('x', 20)}</button></div>
-            <div class="modal-body">
-              <p class="modal-intro">Correct anything the automatic import guessed wrong. Changes apply everywhere this scene appears.</p>
-              <div class="edit-scene-form">
-                <label class="edit-field"><span>Title</span><input type="text" id="editTitle" maxlength="80" value="${esc(s.title)}"></label>
-                <label class="edit-field"><span>Character</span><select id="editCharacter">${charOptions}</select></label>
-                <div class="edit-field"><span>Tags</span><div class="edit-tag-boxes" id="editTagBoxes">${tagBoxes}</div></div>
-                <label class="edit-field"><span>Key Line</span><input type="text" id="editKeyLine" maxlength="200" value="${esc(s.keyLine || '')}" placeholder="The line you plan to quote"></label>
-                <label class="edit-field"><span>Essay Prompt</span><textarea id="editEssayPrompt" rows="2" maxlength="300">${esc(s.essayPrompt || '')}</textarea></label>
-                <label class="edit-field"><span>Importance (1–10)</span><input type="number" id="editImportance" min="1" max="10" value="${importanceOf(s)}"></label>
-              </div>
-              <div class="reset-actions">
-                <button class="button secondary" data-action="closeModal">Cancel</button>
-                <button class="button primary" data-action="saveImportedScene">${icon('check', 16)} Save Changes</button>
-              </div>
-            </div>`);
-        }
-        function saveImportedSceneEdit() {
-          const s = sceneById(editingSceneId);
-          if (!s || s.id < IMPORTED_ID_BASE) { closeModal(); return; }
-          const title = ($('#editTitle')?.value || '').trim();
-          if (title) s.title = title.slice(0, 80);
-          s.fullTitle = `${s.title} (Imported From PDF)`;
-          s.character = $('#editCharacter')?.value || s.character;
-          const picked = [...document.querySelectorAll('#editTagBoxes input[data-edit-tag]')].filter((b) => b.checked).map((b) => b.dataset.editTag);
-          if (picked.length) s.tags = picked;
-          else { const tagBox = $('#editTagBoxes'); if (tagBox) { tagBox.style.outline = '2px solid #a3513b'; tagBox.style.borderRadius = '9px'; } toast('Keep at least one tag — tag exercises read it.', 'alert'); return; }
-          const keyLine = ($('#editKeyLine')?.value || '').trim();
-          if (keyLine) s.keyLine = keyLine.slice(0, 200); else delete s.keyLine;
-          const prompt = ($('#editEssayPrompt')?.value || '').trim();
-          s.essayPrompt = prompt.slice(0, 300);
-          const rating = Number($('#editImportance')?.value);
-          if (Number.isFinite(rating)) s.essayImportance = { rating: clamp(Math.round(rating), 1, 10), reason: (s.essayImportance && s.essayImportance.reason) || 'Imported from your PDF — rate it as you study.' };
-          sceneDataRev++;
-          editingSceneId = null;
-          const saved = saveNow(); closeModal(); renderNav(); renderView();
-          if (saved) toast('Scene updated across every study mode.', 'checkCircle');
-        }
         function relatedScenes(id) {
           const all = getScenes();
           const s = all.find((x) => x.id === id);
@@ -1663,8 +1300,6 @@
                 <div class="clip-actions"><button class="button primary small-button" data-action="playSceneClip" data-id="${s.id}">${icon('right', 14)} Play This Clip</button><button class="button secondary small-button" data-action="copyTimecode" data-id="${s.id}">${icon('notes', 14)} Copy Timecode</button></div>
               </section>
               ${s.watchFor ? `<div class="detail-block"><span class="answer-label">What To Watch For</span><p>${esc(s.watchFor)}</p></div>` : ''}
-              ${s.counterReading ? `<div class="detail-block"><span class="answer-label">Counter-Reading</span><p>${esc(s.counterReading)}</p></div>` : ''}
-              ${(Array.isArray(s.retrievalPrompts) && s.retrievalPrompts.length) ? `<div class="detail-block"><span class="answer-label">Retrieval Prompts</span><ul class="modal-retrieval">${s.retrievalPrompts.filter((rp) => rp && rp.prompt).map((rp) => `<li><b>${esc(rp.prompt)}</b><small>${esc(rp.answerCue || '')}</small></li>`).join('')}</ul></div>` : ''}
               ${s.historyNote ? `<div class="detail-block history-note-block"><span class="answer-label">History Note</span><p>${esc(s.historyNote)}</p></div>` : ''}
               <div class="detail-block"><span class="answer-label">${esc(displayHeading(s.techniqueLabel,'Film Technique'))}</span><p>${esc(s.techniques)}</p></div>
               <div class="detail-block"><span class="answer-label">${esc(displayHeading(s.meaningLabel,'Meaning & Effect'))}</span><p>${esc(s.essay)}</p></div>
@@ -1673,7 +1308,6 @@
               <div class="reset-actions">
                 <button class="button secondary" data-action="toggleBookmark" data-id="${s.id}">${icon('bookmark', 16)} ${saved ? 'Remove Bookmark' : 'Bookmark'}</button>
                 ${state.cards[s.id] ? `<button class="button secondary" data-action="resetCard" data-id="${s.id}">${icon('rotate', 16)} Reset Card</button>` : ''}
-                ${s.id >= IMPORTED_ID_BASE ? `<button class="button secondary" data-action="editImportedScene" data-id="${s.id}">${icon('sliders', 16)} Edit Scene</button>` : ''}
                 <button class="button primary" data-action="studyScene" data-id="${s.id}">${icon('layers', 16)} Study This Scene</button>
               </div>
             </div>`);
@@ -1681,7 +1315,7 @@
 
         /* ================= PROGRESS ================= */
         function exportProgress() {
-          const payload = { v: 3, exportedAt: new Date().toISOString(), sheet: FILM_NAME, progress: { cards: state.cards, bookmarks: state.bookmarks, notes: state.notes, activity: state.activity, selectedSceneIds:state.selectedSceneIds, history:state.history, watchPos:state.watchPos, progressRange:state.progressRange, progressStart:state.progressStart, progressEnd:state.progressEnd, uploadedScenes: uploadedScenes(), uploadedNextId: state.uploadedNextId, essayDraft: state.essayDraft, recallMeta: state.recallMeta } };
+          const payload = { v: 3, exportedAt: new Date().toISOString(), sheet: FILM_NAME, progress: { cards: state.cards, bookmarks: state.bookmarks, notes: state.notes, activity: state.activity, selectedSceneIds:state.selectedSceneIds, history:state.history, watchPos:state.watchPos, progressRange:state.progressRange, progressStart:state.progressStart, progressEnd:state.progressEnd } };
           downloadFile(JSON.stringify(payload, null, 2), 'scenestudy-progress-backup.json', 'application/json');
           toast('Progress backup downloaded.', 'download');
         }
@@ -1696,8 +1330,6 @@
             const p = payload && payload.progress ? payload.progress : (payload && payload.cards ? payload : null);
             if (!p || typeof p !== 'object' || !p.cards || Array.isArray(p.cards) || typeof p.cards !== 'object' || (payload.v != null && ![2,3].includes(payload.v))) { toast('No progress found in that file — restore cancelled.', 'alert'); return; }
             const validIds = new Set(BUILTIN_SCENES.map((s) => s.id));
-            const payloadUploaded = Array.isArray(p.uploadedScenes) ? p.uploadedScenes.filter((s) => s && typeof s === 'object' && Number.isFinite(s.id)) : [];
-            payloadUploaded.forEach((s) => validIds.add(s.id));
             const idMap = payload.v === 2 ? IDMAP_V2 : null;
             const mapId = (id) => {
               const n = Number(id);
@@ -1721,10 +1353,7 @@
             if(supplied('watchPos'))pendingRestore.watchPos=Number.isFinite(p.watchPos)?clamp(p.watchPos,0,FILM_RUNTIME):0;
             if(supplied('progressRange'))pendingRestore.progressRange=['7','30','90','all','custom'].includes(p.progressRange)?p.progressRange:'30';
             for(const key of ['progressStart','progressEnd'])if(supplied(key))pendingRestore[key]=cleanDate(p[key]);
-            if(payloadUploaded.length){pendingRestore.uploadedScenes=payloadUploaded;pendingRestore.uploadedNextId=Number.isFinite(p.uploadedNextId)?p.uploadedNextId:IMPORTED_ID_BASE;}
-            if(p.essayDraft&&typeof p.essayDraft==='object')pendingRestore.essayDraft=p.essayDraft;
-            if(p.recallMeta&&typeof p.recallMeta==='object')pendingRestore.recallMeta=p.recallMeta;
-            const extras=[supplied('history')?'activity history':null,supplied('selectedSceneIds')?'scene selection':null,supplied('watchPos')?'film position':null,['progressRange','progressStart','progressEnd'].some(supplied)?'Progress date preferences':null,payloadUploaded.length?`${payloadUploaded.length} PDF scenes`:null].filter(Boolean);
+            const extras=[supplied('history')?'activity history':null,supplied('selectedSceneIds')?'scene selection':null,supplied('watchPos')?'film position':null,['progressRange','progressStart','progressEnd'].some(supplied)?'Progress date preferences':null].filter(Boolean);
             const cardsN = Object.keys(restoredCards).length;
             const marksN = pendingRestore.bookmarks.length;
             const notesN = Object.keys(restoredNotes).length;
@@ -1740,7 +1369,6 @@
                   <div class="fact"><b>${streakN}</b><span>day streak</span></div>
                   ${supplied('history')?`<div class="fact"><b>${pendingRestore.history.length}</b><span>history records</span></div>`:''}
                   ${supplied('selectedSceneIds')?`<div class="fact"><b>${pendingRestore.selectedSceneIds.length}</b><span>selected scenes</span></div>`:''}
-                  ${payloadUploaded.length?`<div class="fact"><b>${payloadUploaded.length}</b><span>PDF scenes</span></div>`:''}
                 </div>
                 <div class="reset-actions">
                   <button class="button secondary" data-action="closeModal">Cancel</button>
@@ -1754,8 +1382,6 @@
         function applyProgressRestore() {
           if (!pendingRestore) { closeModal(); return; }
           Object.assign(state,pendingRestore);
-          if (state.essayDraft) state.essayDraft = cleanEssayDraft(state.essayDraft);
-          if (!state.recallMeta || typeof state.recallMeta !== 'object') state.recallMeta = {};
           pendingRestore = null;
           const saved = saveNow(); resetViewStates(); closeModal();
           renderNav(); renderView();
@@ -1799,10 +1425,6 @@
           const progressRange = state.progressRange;
           const progressStart = state.progressStart;
           const progressEnd = state.progressEnd;
-          const uploadedScenes = (Array.isArray(state.uploadedScenes) ? state.uploadedScenes : []).slice();
-          const uploadedNextId = state.uploadedNextId;
-          const essayDraft = state.essayDraft;
-          const recallMeta = state.recallMeta;
           state = freshState();
           state.history = history;
           state.selectedSceneIds = selectedSceneIds;
@@ -1810,10 +1432,6 @@
           state.progressRange = progressRange;
           state.progressStart = progressStart;
           state.progressEnd = progressEnd;
-          state.uploadedScenes = uploadedScenes;
-          state.uploadedNextId = Number.isFinite(uploadedNextId) ? uploadedNextId : IMPORTED_ID_BASE;
-          state.essayDraft = essayDraft;
-          state.recallMeta = recallMeta;
           save();
           const saved = saveNow(); resetViewStates(); closeModal();
           renderNav(); renderView();
@@ -1902,8 +1520,8 @@
           renderNav();
           if(currentView!=='selection'){renderView();return;}
           document.querySelectorAll('.scene-choice').forEach(el=>{const input=el.querySelector('input');const selected=valid.has(Number(input.dataset.id));input.checked=selected;el.classList.toggle('selected',selected)});
-          $('.section-toolbar .quiet-tag').textContent=`${valid.size} Of ${ALL_SCENES().length} Selected`;
-          $('.selection-toolbar > span').innerHTML=`<b>${valid.size}</b> Selected · ${ALL_SCENES().length} Scenes Available`;
+          $('.section-toolbar .quiet-tag').textContent=`${valid.size} Of ${BUILTIN_SCENES.length} Selected`;
+          $('.selection-toolbar > span').innerHTML=`<b>${valid.size}</b> Selected · ${BUILTIN_SCENES.length} Authored Scenes`;
           $('.selection-footer > span').textContent=valid.size?`${valid.size} scenes will appear across your study modes.`:'Select at least one scene to use the study modes.';
           $('[data-action="applySceneSelection"]').disabled=!valid.size;
           const matches=selectionResults();
@@ -1918,24 +1536,44 @@
           if (next.has(id)) next.delete(id); else next.add(id);
           setSceneSelection([...next]);
         }
-        function selectionResults() {const q=selection.q.trim().toLowerCase();return ALL_SCENES().filter(s=>!q||getSceneSearch().get(s.id).includes(q));}
-        function selectionResultLabel(matches,selected) {return `Showing ${matches.length} of ${ALL_SCENES().length} scenes · ${matches.filter(s=>selected.has(s.id)).length} shown scenes selected.`;}
+        function matchesSelectionFilters(s,except=null) {
+          return (!selection.q.trim() || sceneSearch.get(s.id).includes(selection.q.trim().toLowerCase())) && facetKeys.every(k=>k===except||!selection[k].length||selection[k].some(v=>facetValues(s,k).includes(v)));
+        }
+        const selectionFilterCount=()=>facetKeys.reduce((n,k)=>n+selection[k].length,0);
+        function selectionResults() {
+          const list=BUILTIN_SCENES.filter(s=>matchesSelectionFilters(s)); const rank={new:0,learning:1,confident:2};
+          return list.sort(selection.sort==='importance'?(a,b)=>importanceOf(b)-importanceOf(a)||filmSort(a,b):selection.sort==='az'?(a,b)=>a.title.localeCompare(b.title)||a.id-b.id:selection.sort==='weak'?(a,b)=>rank[masteryOf(a.id)]-rank[masteryOf(b.id)]||filmSort(a,b):filmSort);
+        }
+        function selectionResultLabel(matches,selected) {return `Showing ${matches.length} of ${BUILTIN_SCENES.length} scenes · ${matches.filter(s=>selected.has(s.id)).length} shown scenes selected.`;}
+        function selectionPillsHTML() {
+          const entries=facetKeys.flatMap(k=>selection[k].map(v=>({k,v,label:valueLabel(k,v)})));
+          if(selection.q.trim()) entries.unshift({k:'q',v:'',label:`Search: “${selection.q.trim()}”`});
+          return entries.length ? `<div class="active-pills" aria-label="Active Scene Choice Filters">${entries.map(x=>`<button class="active-pill" data-action="selClearOne" data-kind="${x.k}" data-value="${esc(x.v)}" aria-label="Remove ${esc(x.label)} Filter From Scene Choices">${esc(x.label)} ${icon('x',14)}</button>`).join('')}</div>` : '';
+        }
         function vSceneSelection(root) {
           const selected = new Set(state.selectedSceneIds);
-          const matches=selectionResults();
+          const all=BUILTIN_SCENES, matches=selectionResults(), n=selectionFilterCount();
+          const mode=libraryPhone.matches?'phone':'desktop';
+          const filters=facetKeys.map(k=>{
+            const universe=k==='mastery'?['new','learning','confident','saved']:k==='importance'?Array.from({length:10},(_,i)=>String(10-i)):[...new Set(all.flatMap(s=>facetValues(s,k)).filter(Boolean))].sort((a,b)=>valueLabel(k,a).localeCompare(valueLabel(k,b)));
+            const values=[...new Set([...universe,...selection[k]])]; const pool=all.filter(s=>matchesSelectionFilters(s,k));
+            const open=selection.groups[mode][k]??mode==='desktop';
+            return `<details class="filter-disclosure" data-filter-group="${k}" data-filter-scope="selection" data-mode="${mode}" ${open?'open':''}><summary>${facetLabels[k]}${selection[k].length?`<span class="filter-badge">${selection[k].length} selected</span>`:''}</summary><fieldset class="filter-group"><legend class="sr-only">${facetLabels[k]}</legend>${selection[k].length?`<button class="text-button filter-clear" data-action="selClearGroup" data-kind="${k}" aria-label="Clear ${facetLabels[k]} Filters From Scene Choices">Clear</button>`:''}<div class="filter-options">${values.map(v=>{const count=pool.filter(s=>facetValues(s,k).includes(v)).length;return `<label class="filter-option ${selection[k].includes(v)?'selected':''}"><input type="checkbox" data-change="selFacet" data-kind="${k}" value="${esc(v)}" ${selection[k].includes(v)?'checked':''}><span>${esc(valueLabel(k,v))}</span><b aria-label="${count} matching scenes">${count}</b></label>`}).join('')}</div></fieldset></details>`;
+          }).join('');
           root.innerHTML = `
             <div class="section-toolbar">
               <div><h2>Choose Scenes</h2><p class="section-sub">Select the scenes you want to study. Build a library around the scenes you want to practise.</p></div>
-              <span class="quiet-tag">${selected.size} Of ${ALL_SCENES().length} Selected</span>
+              <span class="quiet-tag">${selected.size} Of ${all.length} Selected</span>
             </div>
-            ${pdfCardHTML()}
-            <span class="search-box selection-search">${icon('search',18)}<input type="search" id="selectionSearch" data-input="selectionSearch" aria-label="Search Scenes To Select" placeholder="Search scenes, characters, techniques" value="${esc(selection.q)}">${selection.q?`<button class="search-clear" data-action="selectionSearchClear" aria-label="Clear Selection Search">${icon('x',18)}</button>`:''}</span>
-            <div class="selection-toolbar"><span><b>${selected.size}</b> Selected · ${ALL_SCENES().length} Scenes Available</span><div><button class="text-button" data-action="selectSelectionResults" ${matches.some(s=>!selected.has(s.id))?'':'disabled'}>Select Results</button><button class="text-button" data-action="deselectSelectionResults" ${matches.some(s=>selected.has(s.id))?'':'disabled'}>Deselect Results</button><button class="text-button" data-action="selectAllScenes">Select All</button><button class="text-button" data-action="selectNoScenes">Deselect All</button></div></div>
+            <div class="library-toolbar selection-controls"><span class="search-box">${icon('search',18)}<input type="search" id="selectionSearch" data-input="selectionSearch" aria-label="Search Scenes To Select" placeholder="Search scenes, characters, techniques" value="${esc(selection.q)}">${selection.q?`<button class="search-clear" data-action="selectionSearchClear" aria-label="Clear Selection Search">${icon('x',18)}</button>`:''}</span><span class="select-wrap"><select aria-label="Sort Scene Choices" data-change="selSort">${[['film','Film Order'],['importance','Importance'],['az','Title A–Z'],['weak','Weakest First']].map(([v,l])=>`<option value="${v}" ${selection.sort===v?'selected':''}>${l}</option>`).join('')}</select>${icon('sliders',14)}</span><button class="button secondary" data-action="selFilters" aria-controls="selectionFilters" aria-expanded="${selection.open}">${icon('sliders',18)} Filters${n?`<b class="filter-badge">${n}</b>`:''}</button></div>
+            <section id="selectionFilters" class="filter-panel" aria-label="Scene Choice Filters" ${selection.open?'':'hidden'}><div class="filter-panel-head"><p>Choose any values within a group. Combine groups to narrow the choices.</p><button class="text-button" data-action="selClear">Clear All</button></div><div class="filter-groups">${filters}</div><div class="filter-panel-foot"><button class="button primary" data-action="selShowResults">Show ${plural(matches.length,'Scene')} ${icon('right',16)}</button></div></section>
+            ${selectionPillsHTML()}
+            <div class="selection-toolbar"><span><b>${selected.size}</b> Selected · ${all.length} Authored Scenes</span><div><button class="text-button" data-action="selectSelectionResults" ${matches.some(s=>!selected.has(s.id))?'':'disabled'}>Select Results</button><button class="text-button" data-action="deselectSelectionResults" ${matches.some(s=>selected.has(s.id))?'':'disabled'}>Deselect Results</button><button class="text-button" data-action="selectAllScenes">Select All</button><button class="text-button" data-action="selectNoScenes">Deselect All</button></div></div>
             <p id="selectionResults" class="library-count" tabindex="-1" role="status" aria-live="polite">${selectionResultLabel(matches,selected)}</p>
             <div class="scene-choice-list" role="group" aria-label="Choose Scenes To Study">
-              ${matches.map((scene) => { const isImported = scene.id >= IMPORTED_ID_BASE; return `<label class="scene-choice ${selected.has(scene.id) ? 'selected' : ''}"><input type="checkbox" data-action="toggleSceneSelection" data-id="${scene.id}" ${selected.has(scene.id) ? 'checked' : ''} aria-label="Select ${esc(scene.title)}"><span class="choice-number">${isImported ? 'PDF' : pad2(scene.id)}</span><span class="choice-copy"><b>${esc(scene.title)}</b><small>${esc(scene.character)} · ${sceneTimeLabel(scene.id)}</small>${importanceBadge(scene)}</span><span class="choice-tags">${isImported ? '<i class="pdf-chip">From PDF</i>' : ''}${tagsOf(scene).slice(0,2).map((tag) => `<i>${esc(tagLabel(tag))}</i>`).join('')}</span></label>`; }).join('')}
+              ${matches.map((scene) => `<label class="scene-choice ${selected.has(scene.id) ? 'selected' : ''}"><input type="checkbox" data-action="toggleSceneSelection" data-id="${scene.id}" ${selected.has(scene.id) ? 'checked' : ''} aria-label="Select ${esc(scene.title)}"><span class="choice-number">${pad2(scene.id)}</span><span class="choice-copy"><b>${esc(scene.title)}</b><small>${esc(scene.character)} · ${sceneTimeLabel(scene.id)}</small>${importanceBadge(scene)}</span><span class="choice-tags">${tagsOf(scene).slice(0,2).map((tag) => `<i>${esc(tagLabel(tag))}</i>`).join('')}</span></label>`).join('')}
             </div>
-            ${matches.length?'':'<div class="empty-note"><h3>No scenes match this search.</h3><button class="text-button" data-action="selectionSearchClear">Clear Search</button></div>'}
+            ${matches.length?'':`<div class="empty-note"><h3>No scenes match these filters.</h3><p>Remove a filter or try a different search.</p><button class="text-button" data-action="selClear">Clear All Filters</button></div>`}
             <div class="selection-footer"><span>${selected.size ? `${selected.size} scenes will appear across your study modes.` : 'Select at least one scene to use the study modes.'}</span><button class="button primary" data-action="applySceneSelection" ${selected.size ? '' : 'disabled'}>Use Selected Scenes ${icon('right', 16)}</button></div>`;
         }
 
@@ -2028,164 +1666,7 @@
         }
 
         /* ================= EVENT WIRING ================= */
-
-        /* ================= ESSAY BUILDER ================= */
-        const essayState = { saved: false };
-        function cleanEssayDraft(d) {
-          const base = { thesis: '', thesisCustom: '', intro: '', body: [{ sceneId: null, text: '' }], conclusion: '' };
-          if (!d || typeof d !== 'object') return base;
-          const pick = (v, n) => (typeof v === 'string' ? v.slice(0, n) : base[Object.keys(base).find(k => base[k] === v)] || '');
-          const out = {
-            thesis: typeof d.thesis === 'string' ? d.thesis.slice(0, 400) : '',
-            thesisCustom: typeof d.thesisCustom === 'string' ? d.thesisCustom.slice(0, 400) : '',
-            intro: typeof d.intro === 'string' ? d.intro.slice(0, 8000) : '',
-            conclusion: typeof d.conclusion === 'string' ? d.conclusion.slice(0, 8000) : '',
-            body: Array.isArray(d.body) ? d.body.slice(0, 6).map((b) => ({
-              sceneId: b && Number.isFinite(Number(b.sceneId)) && sceneById(Number(b.sceneId)) ? Number(b.sceneId) : null,
-              text: b && typeof b.text === 'string' ? b.text.slice(0, 8000) : '',
-            })) : [{ sceneId: null, text: '' }],
-          };
-          if (!out.body.length) out.body = [{ sceneId: null, text: '' }];
-          return out;
-        }
-        function getEssayDraft() {
-          if (!state.essayDraft) state.essayDraft = cleanEssayDraft(null);
-          return state.essayDraft;
-        }
-        function totalEssayWords() {
-          const d = getEssayDraft();
-          const text = [d.intro, ...d.body.map((b) => b.text), d.conclusion, d.thesis || d.thesisCustom].join(' ');
-          return text.trim() ? text.trim().split(/\s+/).length : 0;
-        }
-        function essayReadiness(d) {
-          const rows = [];
-          const thesis = d.thesisCustom.trim() || d.thesis.trim();
-          rows.push({ ok: !!thesis, label: 'A thesis is chosen', hint: thesis ? '' : 'Pick one from the bank or write your own.' });
-          const bound = d.body.filter((b) => b.sceneId != null && sceneById(b.sceneId));
-          rows.push({ ok: bound.length === d.body.length && bound.length > 0, label: 'Every paragraph is anchored to a scene', hint: bound.length === d.body.length ? '' : 'Choose a scene for each paragraph.' });
-          const quoted = bound.filter((b) => { const s = sceneById(b.sceneId); const t = b.text || ''; return /["“”'].{8,}["“”']/.test(t) || (s.keyLine && t.toLowerCase().includes(s.keyLine.toLowerCase().slice(0, 24))); });
-          rows.push({ ok: bound.length > 0 && quoted.length === bound.length, label: 'Each paragraph quotes a specific moment', hint: 'Add a short quote — the key line under each paragraph is a good candidate.' });
-          const counterDone = bound.some((b) => { const s = sceneById(b.sceneId); return s && s.counterReading && /however|but|counter|argue|against|yet /i.test(b.text); });
-          rows.push({ ok: counterDone, label: 'At least one counter-reading answered', hint: 'Open a paragraph scene for its Counter-Reading, then answer it in a sentence.' });
-          const thin = bound.filter((b) => (b.text.trim() ? b.text.trim().split(/\s+/).length : 0) < 40);
-          rows.push({ ok: bound.length > 0 && thin.length === 0, label: 'Paragraphs have room to develop (40+ words)', hint: thin.length ? `${thin.length} ${thin.length === 1 ? 'paragraph is' : 'paragraphs are'} still short.` : '' });
-          return rows;
-        }
-        function essayReadinessHTML(d) {
-          const rows = essayReadiness(d);
-          const done = rows.filter((r) => r.ok).length;
-          return `<section class="essay-section essay-readiness">
-            <span class="eyebrow">Draft Readiness — ${done} Of ${rows.length} Ready</span>
-            <ul class="readiness-list">${rows.map((r) => `<li class="${r.ok ? 'ready' : 'todo'}">${icon(r.ok ? 'checkCircle' : 'alert', 15)}<span><b>${esc(r.label)}</b>${r.hint && !r.ok ? `<small>${esc(r.hint)}</small>` : ''}</span></li>`).join('')}</ul>
-            <small class="importance-help">A self-check, not a grade — use it to decide when the draft is ready to revise.</small>
-          </section>`;
-        }
-        function vEssay(root) {
-          const scenes = getScenes();
-          if (!scenes.length) { root.innerHTML = emptyLibraryCta(); return; }
-          const d = getEssayDraft();
-          if (!d.body.length) d.body = [{ sceneId: null, text: '' }];
-          const words = totalEssayWords();
-          const thesisOptions = THESES.map((t, i) => `<option value="${i}" ${d.thesis === t.text ? 'selected' : ''}>${esc(t.text)}</option>`).join('');
-          const paragraphBlock = (b, i) => {
-            const s = b.sceneId != null ? sceneById(b.sceneId) : null;
-            return `<div class="essay-para" data-para="${i}">
-              <div class="essay-para-head"><span class="eyebrow">Evidence Paragraph ${i + 1}</span><button class="icon-button" data-action="essayRemovePara" data-index="${i}" aria-label="Remove Paragraph ${i + 1}" ${d.body.length <= 1 ? 'disabled' : ''}>${icon('trash', 16)}</button></div>
-              <div class="essay-para-scene">
-                <span class="select-wrap"><select aria-label="Scene For Paragraph ${i + 1}" data-change="essayParaScene" data-index="${i}">
-                  <option value="" ${b.sceneId == null ? 'selected' : ''}>Choose a scene…</option>
-                  ${scenes.map((sc) => `<option value="${sc.id}" ${b.sceneId === sc.id ? 'selected' : ''}>${pad2(sc.id)} — ${esc(sc.title)}</option>`).join('')}
-                </select>${icon('sliders', 14)}</span>
-                ${s ? `<span class="mono essay-para-time">${sceneTimeLabel(s.id)}</span>` : ''}
-              </div>
-              ${s ? `<div class="essay-para-ref">
-                ${s.keyLine ? `<p class="essay-ref-line">“${esc(s.keyLine)}”</p>` : ''}
-                ${s.essayStarter ? `<p class="essay-ref-starter">${icon('bulb', 13)} Starter: ${esc(s.essayStarter)}</p>` : ''}
-                <p class="essay-ref-meta">${esc(s.character)}${s.techniqueLabel ? ' · ' + esc(displayHeading(s.techniqueLabel, 'Technique')) : ''} · ${tagChip(tagsOf(s)[0] || 'merit')}</p>
-              </div>` : ''}
-              <textarea rows="5" aria-label="Paragraph ${i + 1} Text" data-action-essay="essayPara" data-index="${i}" placeholder="Point — quote the moment — explain how the technique proves it.">${esc(b.text)}</textarea>
-            </div>`;
-          };
-          root.innerHTML = `
-            <div class="section-toolbar">
-              <div><h2>Essay Builder</h2><p class="section-sub">Turn scene evidence into a connected draft — thesis, paragraphs, done.</p></div>
-              <span class="quiet-tag">${words} ${words === 1 ? 'Word' : 'Words'}</span>
-            </div>
-            <div class="essay-layout">
-              <div class="essay-main">
-                <section class="essay-section">
-                  <span class="eyebrow">Thesis</span>
-                  <span class="select-wrap"><select aria-label="Choose A Thesis" data-change="essayThesis">
-                    <option value="" ${!d.thesis ? 'selected' : ''}>Choose from the thesis bank…</option>
-                    ${thesisOptions}
-                  </select>${icon('bulb', 14)}</span>
-                  <textarea rows="2" aria-label="Or Write Your Own Thesis" data-action-essay="thesisCustom" placeholder="Or write your own thesis in one sentence.">${esc(d.thesisCustom || '')}</textarea>
-                </section>
-                <section class="essay-section">
-                  <span class="eyebrow">Introduction</span>
-                  <textarea rows="3" aria-label="Introduction" data-action-essay="intro" placeholder="Open with the film's big question, then land on your thesis.">${esc(d.intro)}</textarea>
-                </section>
-                <div class="essay-paras">${d.body.map(paragraphBlock).join('')}</div>
-                <div class="essay-add-row">
-                  <button class="button secondary small-button" data-action="essayAddPara" ${d.body.length >= 6 ? 'disabled' : ''}>${icon('layers', 15)} Add Evidence Paragraph (${d.body.length}/6)</button>
-                  <button class="text-button" data-action="essaySeedOutline" ${scenes.length ? '' : 'disabled'}>${icon('sparkles', 15)} Seed Strongest Scenes</button>
-                </div>
-                <section class="essay-section">
-                  <span class="eyebrow">Conclusion</span>
-                  <textarea rows="3" aria-label="Conclusion" data-action-essay="conclusion" placeholder="Answer the 'so what' — what does the film ultimately prove?">${esc(d.conclusion)}</textarea>
-                </section>
-                ${essayReadinessHTML(d)}
-                <div class="essay-export-row">
-                  <button class="button primary" data-action="essayExport" ${words ? '' : 'disabled'}>${icon('download', 16)} Export Essay Draft</button>
-                  <button class="text-button danger-text" data-action="essayClear" ${words ? '' : 'disabled'}>${icon('trash', 15)} Clear Draft</button>
-                  <span class="mono essay-saved" role="status">${essayState.saved ? 'Draft Saved' : 'Draft Ready'}</span>
-                </div>
-              </div>
-              <aside class="essay-aside">
-                <div class="reference-hint">${icon('bulb', 18)}<p>Each paragraph = one scene, one technique, one proof. Quote the film, then analyse.</p></div>
-                <div class="technique-footer">${icon('quote', 18)}<div><strong>Point · Evidence · Analysis</strong><p>State the point, quote the film, then explain how the technique makes the point land. Repeat per scene, and answer the strongest counter-reading once.</p></div></div>
-              </aside>
-            </div>`;
-        }
-        function exportEssayDraft() {
-          const d = getEssayDraft();
-          const L = [`# ${FILM_NAME} — Essay Draft`, ''];
-          const thesis = d.thesisCustom.trim() || d.thesis.trim();
-          if (thesis) L.push(`**Thesis.** ${thesis}`, '');
-          if (d.intro.trim()) L.push(d.intro.trim(), '');
-          d.body.forEach((b, i) => {
-            const s = b.sceneId != null ? sceneById(b.sceneId) : null;
-            L.push(`### Paragraph ${i + 1}${s ? ` — ${s.title} (${sceneTimeLabel(s.id)})` : ''}`, '');
-            if (b.text.trim()) L.push(b.text.trim(), '');
-          });
-          if (d.conclusion.trim()) L.push(d.conclusion.trim(), '');
-          const usedScenes = d.body.map((b) => b.sceneId != null ? sceneById(b.sceneId) : null).filter(Boolean);
-          if (usedScenes.length) {
-            L.push('---', '', '## Revision Sheet — The Scenes Behind This Draft', '');
-            usedScenes.forEach((s) => {
-              L.push(`### ${pad2(s.id)} — ${s.title}`, '');
-              if (s.keyLine) L.push(`**Key line.** “${s.keyLine}”`, '');
-              if (s.techniques || s.techniqueLabel) L.push(`**How it's filmed.** ${s.techniqueLabel ? s.techniqueLabel + ' — ' : ''}${s.techniques || ''}`.trim(), '');
-              if (s.counterReading) L.push(`**Answer the counter-reading.** ${s.counterReading}`, '');
-              const note = state.notes[s.id];
-              if (note && note.trim()) L.push(`**My recall notes.** ${note.trim()}`, '');
-              L.push(`**Film time.** ${sceneTimeLabel(s.id)}`, '');
-            });
-          }
-          downloadFile(L.join('\n'), `${FILM_NAME.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')}-essay-draft.md`, 'text/markdown');
-          toast('Essay draft with revision sheet downloaded.', 'notes');
-        }
-        function seedEssayOutline() {
-          const d = getEssayDraft();
-          const pool = getScenes().slice().sort((a, b) => importanceOf(b) - importanceOf(a)).slice(0, 3);
-          d.body = pool.map((s) => ({ sceneId: s.id, text: s.essayStarter ? s.essayStarter + ' …' : '' }));
-          if (!d.thesis && !d.thesisCustom && THESES.length) d.thesis = THESES[0].text;
-          save();
-          renderView();
-          toast('Outline seeded from your strongest evidence scenes.', 'sparkles');
-        }
-
-        const VIEWS = { overview: vOverview, flashcards: vFlashcards, matching: vMatching, quiz: vQuiz, recall: vRecall, library: vLibrary, watch: vWatch, progress: vProgress, selection: vSceneSelection, essay: vEssay };
+        const VIEWS = { overview: vOverview, flashcards: vFlashcards, matching: vMatching, quiz: vQuiz, recall: vRecall, library: vLibrary, watch: vWatch, progress: vProgress, selection: vSceneSelection };
 
         document.addEventListener('click', (e) => {
           const target = e.target.closest('[data-action]');
@@ -2241,25 +1722,15 @@
             case 'quizStart': newQuiz(); renderView(); break;
             case 'quizRetry': {
               const missed = new Set(quiz.answers.filter((a) => !a.correct).map((a) => a.id));
-              const missedCount = quiz.answers.filter((a) => !a.correct).length;
               const pool = buildBank().filter((q) => q.scene && missed.has(q.scene.id));
               if (!pool.length) { toast('No retry questions available — starting fresh.', 'alert'); quiz.qs = []; quiz.idx = 0; quiz.picked = null; quiz.answers = []; quiz.done = false; renderView(); break; }
               quiz.focus = 'all'; quiz.effFocus = 'all';
-              quiz.len = Math.min(30, Math.max(missedCount, Math.min(10, pool.length)));
               quiz.qs = shuffle(pool).slice(0, quiz.len === 'all' ? pool.length : Math.min(Number(quiz.len) || pool.length, pool.length));
               quiz.idx = 0; quiz.picked = null; quiz.answers = []; quiz.done = false; quiz.partial = false;
               renderView();
               break;
             }
             case 'newQuiz': quiz.qs = []; quiz.idx = 0; quiz.picked = null; quiz.answers = []; quiz.done = false; quiz.partial = false; renderView(); break;
-            case 'editImportedScene': openImportedSceneEditor(id); break;
-            case 'saveImportedScene': saveImportedSceneEdit(); break;
-            case 'toggleEditTag': {
-              const tag = target.dataset.tag;
-              const box = document.querySelector(`#editTagBoxes input[data-tag="${tag}"]`);
-              if (box) box.checked = !box.checked;
-              break;
-            }
             case 'studyScene': closeModal(); flash.focus = id; go('flashcards'); break;
             case 'resetCard': {
               if (id != null) {
@@ -2294,12 +1765,8 @@
               break;
             }
             case 'newRecallPrompt': {
-              const cycle = recallPromptCycle(sceneById(recall.sceneId) || {});
-              if (cycle.length > 1) { recall.promptIdx = (recall.promptIdx + 1) % cycle.length; recall.checked = false; renderView(); }
-              else {
-                const others = getScenes().filter((s) => s.id !== recall.sceneId);
-                if (others.length) { recall.sceneId = shuffle(others)[0].id; recall.checked = false; recall.promptIdx = 0; renderView(); }
-              }
+              const others = getScenes().filter((s) => s.id !== recall.sceneId);
+              if (others.length) { recall.sceneId = shuffle(others)[0].id; recall.checked = false; renderView(); }
               break;
             }
             case 'openScene': openSceneModal(id); break;
@@ -2307,6 +1774,11 @@
             case 'libFilters': library.open = !library.open; renderLibraryPreservingFocus('libFilters'); break;
             case 'libShowResults': { library.open=false;renderView();const results=$('.library-count');results.focus({preventScroll:true});results.scrollIntoView({block:'start'});break; }
             case 'selectionSearchClear': selection.q='';renderView();$('#selectionSearch').focus();break;
+            case 'selFilters': selection.open=!selection.open; renderSelectionPreservingFocus('selFilters'); break;
+            case 'selShowResults': { selection.open=false; renderView(); const results=$('#selectionResults'); results.focus({preventScroll:true}); results.scrollIntoView({block:'start'}); break; }
+            case 'selClear': selection.q=''; for (const k of facetKeys) selection[k]=[]; renderSelectionPreservingFocus('selClear'); break;
+            case 'selClearGroup': selection[target.dataset.kind]=[]; renderSelectionPreservingFocus('selClearGroup',target.dataset.kind); break;
+            case 'selClearOne': { const k=target.dataset.kind; if(k==='q')selection.q=''; else selection[k]=selection[k].filter(v=>v!==target.dataset.value); renderSelectionPreservingFocus('selClearOne'); break; }
             case 'selectSelectionResults': setSceneSelection([...new Set([...state.selectedSceneIds,...selectionResults().map(s=>s.id)])]);break;
             case 'deselectSelectionResults': {const ids=new Set(selectionResults().map(s=>s.id));setSceneSelection(state.selectedSceneIds.filter(id=>!ids.has(id)));break;}
             case 'libClear': library.q = ''; for (const k of facetKeys) library[k] = []; renderLibraryPreservingFocus('libClear'); break;
@@ -2320,7 +1792,7 @@
             case 'shortcuts': openShortcuts(); break;
             case 'confirmReset': confirmReset(); break;
             case 'resetAll': applyReset(); break;
-            case 'selectAllScenes': setSceneSelection(ALL_SCENES().map((scene) => scene.id)); break;
+            case 'selectAllScenes': setSceneSelection(BUILTIN_SCENES.map((scene) => scene.id)); break;
             case 'selectNoScenes':
               if (!state.selectedSceneIds.length) break;
               openModal(`
@@ -2335,32 +1807,6 @@
               break;
             case 'applyDeselectAll': closeModal(); setSceneSelection([]); break;
             case 'toggleSceneSelection': toggleSceneSelection(Number(target.dataset.id)); break;
-            case 'pdfPickFile': { const inp = $('#pdfInput'); if (inp) { inp.value = ''; inp.click(); } break; }
-            case 'pdfToggle': {
-              const i = Number(target.dataset.index);
-              const next = new Set(pdfImport.chosen || []);
-              if (next.has(i)) next.delete(i); else next.add(i);
-              pdfImport.chosen = next;
-              renderView();
-              break;
-            }
-            case 'pdfMarkAll': pdfImport.chosen = new Set(pdfImport.candidates.map((_, i) => i)); renderView(); break;
-            case 'pdfMarkNone': pdfImport.chosen = new Set(); renderView(); break;
-            case 'pdfAdd': addChosenPdfScenes(); break;
-            case 'pdfDiscard': pdfImport.candidates = []; pdfImport.chosen = null; pdfImport.status = 'idle'; pdfImport.fileName = ''; renderView(); break;
-            case 'pdfRemoveAll': removeAllUploadedScenes(); break;
-            case 'applyRemoveAllUploaded': {
-              const ids = uploadedScenes().map((s) => s.id);
-              state.uploadedScenes = [];
-              state.selectedSceneIds = state.selectedSceneIds.filter((x) => !ids.includes(x));
-              ids.forEach((x) => { delete state.cards[x]; delete state.notes[x]; });
-              state.bookmarks = state.bookmarks.filter((b) => !ids.includes(b));
-              state.activity.explanations = state.activity.explanations.filter((x) => !ids.includes(x));
-              closeModal();
-              const saved = saveNow(); renderNav(); renderView();
-              if (saved) toast('PDF scenes removed. Built-in scenes and progress history are untouched.', 'trash');
-              break;
-            }
             case 'applySceneSelection': setView('library'); break;
             case 'playSceneClip': closeModal(); goWatchAt(id); break;
             case 'copyTimecode': {
@@ -2402,23 +1848,6 @@
               break;
             }
             case 'exportNotes': exportNotesMarkdown(); break;
-            case 'essayAddPara': { const d = getEssayDraft(); if (d.body.length < 6) { d.body.push({ sceneId: null, text: '' }); save(); renderView(); } break; }
-            case 'essayRemovePara': { const d = getEssayDraft(); const i = Number(target.dataset.index); if (d.body.length > 1 && Number.isFinite(i)) { d.body.splice(i, 1); save(); renderView(); } break; }
-            case 'essayExport': exportEssayDraft(); break;
-            case 'essaySeedOutline': seedEssayOutline(); break;
-            case 'essayClear': {
-              openModal(`
-                <div class="modal-head"><h2>Clear The Essay Draft?</h2><button class="icon-button" data-action="closeModal" aria-label="Close Dialog">${icon('x', 20)}</button></div>
-                <div class="modal-body">
-                  <p class="modal-intro">Your thesis, paragraphs and draft text will be cleared. You can start fresh right away — scenes and study progress are untouched.</p>
-                  <div class="reset-actions">
-                    <button class="button secondary" data-action="closeModal">Keep Draft</button>
-                    <button class="button danger-button" data-action="essayClearYes">${icon('trash', 15)} Clear Draft</button>
-                  </div>
-                </div>`);
-              break;
-            }
-            case 'essayClearYes': { state.essayDraft = cleanEssayDraft(null); essayState.saved = false; closeModal(); const savedOk = saveNow(); renderView(); if (savedOk) toast('Essay draft cleared.', 'trash'); break; }
             case 'printPack': printPack(); break;
           }
         });
@@ -2430,12 +1859,12 @@
             if (kind === 'libFacet') { const k=el.dataset.kind; const val=el.value; library[k]=el.checked ? [...new Set([...library[k],val])] : library[k].filter(v=>v!==val); renderLibraryPreservingFocus('libFacet',k,val); }
             if (kind === 'deck') { flashSetDeck(el.value, false); renderView(); }
             if (kind === 'libSort') { library.sort = el.value; renderView(); }
+            if (kind === 'selFacet') { const k=el.dataset.kind; const val=el.value; selection[k]=el.checked ? [...new Set([...selection[k],val])] : selection[k].filter(v=>v!==val); renderSelectionPreservingFocus('selFacet',k,val); }
+            if (kind === 'selSort') { selection.sort = el.value; renderView(); }
             if (kind === 'matchCategory') { match.category = el.value; newMatchRound(); renderView(); }
             if (kind === 'quizLen') { quiz.len = el.value === 'all' ? 'all' : Number(el.value); }
             if (kind === 'quizFocus') { quiz.focus = el.value; }
-            if (kind === 'recallScene') { recall.sceneId = Number(el.value); recall.checked = false; recall.promptIdx = 0; renderView(); }
-            if (kind === 'essayThesis') { const d = getEssayDraft(); d.thesis = el.value === '' ? '' : (THESES[Number(el.value)]?.text || ''); save(); renderView(); }
-            if (kind === 'essayParaScene') { const d = getEssayDraft(); const i = Number(el.dataset.index); if (d.body[i]) { d.body[i].sceneId = el.value === '' ? null : Number(el.value); save(); renderView(); } }
+            if (kind === 'recallScene') { recall.sceneId = Number(el.value); recall.checked = false; renderView(); }
             if (kind === 'progressRange') { state.progressRange = el.value; save(); renderView(); }
             if (kind === 'progressDate') { if (el.id === 'progressStart') state.progressStart = el.value; else state.progressEnd = el.value; save(); renderView(); }
           }
@@ -2443,18 +1872,6 @@
             const f = e.target.files[0];
             e.target.value = '';
             previewProgressRestore(f);
-          }
-          if (e.target.dataset && e.target.dataset.check === 'selfCheck') {
-            const m = state.recallMeta || (state.recallMeta = {});
-            const rec = m[recall.sceneId] || (m[recall.sceneId] = { checks: [false, false, false] });
-            const boxes = [...document.querySelectorAll('[data-check="selfCheck"]')];
-            rec.checks = boxes.map((b) => b.checked);
-            save();
-          }
-          if (e.target.id === 'pdfInput' && e.target.files && e.target.files[0]) {
-            const f = e.target.files[0];
-            e.target.value = '';
-            extractPdfScenes(f);
           }
         });
 
@@ -2466,24 +1883,6 @@
             renderView();
             const searchAgain = document.getElementById(searchId);
             if (searchAgain) { searchAgain.focus(); try { searchAgain.setSelectionRange(caretStart,caretEnd); } catch(e) {} }
-          }
-          if (e.target.dataset && e.target.dataset.actionEssay) {
-            const d = getEssayDraft();
-            const field = e.target.dataset.actionEssay;
-            if (field === 'thesisCustom') d.thesisCustom = e.target.value.slice(0, 400);
-            else if (field === 'intro') d.intro = e.target.value.slice(0, 8000);
-            else if (field === 'conclusion') d.conclusion = e.target.value.slice(0, 8000);
-            else if (field === 'essayPara') { const i = Number(e.target.dataset.index); if (d.body[i]) d.body[i].text = e.target.value.slice(0, 8000); }
-            essayState.saved = false;
-            save();
-            const wc = $('#view .section-toolbar .quiet-tag');
-            if (wc) wc.textContent = `${totalEssayWords()} ${totalEssayWords() === 1 ? 'Word' : 'Words'}`;
-            const readiness = $('#view .essay-readiness');
-            if (readiness) {
-              const fresh = document.createElement('div');
-              fresh.innerHTML = essayReadinessHTML(d).trim();
-              if (fresh.firstElementChild) readiness.replaceWith(fresh.firstElementChild);
-            }
           }
           if (e.target.id === 'recallAnswer') {
             const text = e.target.value;
@@ -2518,8 +1917,8 @@
         document.addEventListener('compositionend', e => {
           if (['librarySearch','selectionSearch'].includes(e.target.dataset.input)) e.target.dispatchEvent(new Event('input', { bubbles: true }));
         });
-        document.addEventListener('toggle',e=>{const el=e.target;if(el.dataset?.filterGroup&&el.isConnected&&viewEl.contains(el))library.groups[el.dataset.mode][el.dataset.filterGroup]=el.open;},true);
-        libraryPhone.addEventListener('change',()=>{if(currentView==='library')renderView();});
+        document.addEventListener('toggle',e=>{const el=e.target;if(el.dataset?.filterGroup&&el.isConnected&&viewEl.contains(el)){const store=el.dataset.filterScope==='selection'?selection:library;store.groups[el.dataset.mode][el.dataset.filterGroup]=el.open;}},true);
+        libraryPhone.addEventListener('change',()=>{if(currentView==='library'||currentView==='selection')renderView();});
 
         // Flashcard keyboard shortcuts
         document.addEventListener('keydown', (e) => {
@@ -2550,13 +1949,13 @@
           }
         });
 
-        // "/" jumps to the library search
+        // "/" jumps to the library / selection search
         document.addEventListener('keydown', (e) => {
           if ($('#main').inert || e.ctrlKey || e.altKey || e.metaKey) return;
-          if (currentView !== 'library' || e.key !== '/') return;
+          if ((currentView !== 'library' && currentView !== 'selection') || e.key !== '/') return;
           if (e.target.closest('input, textarea, select') || modalRoot.childElementCount) return;
           e.preventDefault();
-          const inp = $('#librarySearch');
+          const inp = currentView === 'library' ? $('#librarySearch') : $('#selectionSearch');
           if (inp) { inp.focus(); inp.select(); }
         });
 
@@ -2566,6 +1965,7 @@
           if(modalRoot.childElementCount){e.preventDefault();closeModal();}
           else if(document.body.classList.contains('nav-open')){e.preventDefault();setNavOpen(false);}
           else if(currentView==='library'&&library.open){e.preventDefault();library.open=false;renderLibraryPreservingFocus('libFilters');}
+          else if(currentView==='selection'&&selection.open){e.preventDefault();selection.open=false;renderSelectionPreservingFocus('selFilters');}
         });
         // Keep keyboard focus inside an open dialog
         document.addEventListener('keydown', (e) => {
@@ -2649,8 +2049,6 @@
             if (s.essay || s.meaningLabel) L.push(`**Why it matters.** ${exportAnalysis(s.meaningLabel,s.essay)}`, '');
             if (s.historyNote) L.push(`**History note.** ${s.historyNote}`, '');
             if (s.essayStarter) L.push(`**Essay starter.** ${s.essayStarter}`, '');
-            if (s.counterReading) L.push(`**Counter-reading.** ${s.counterReading}`, '');
-            if (Array.isArray(s.retrievalPrompts) && s.retrievalPrompts.length) L.push('**Retrieval prompts.**', ...s.retrievalPrompts.filter((rp) => rp && rp.prompt).map((rp) => `- ${rp.prompt}${rp.answerCue ? ` _(${rp.answerCue})_` : ''}`), '');
             L.push(`**Film time.** ${sceneTimeLabel(s.id)}`, '');
             if (s.cueText) L.push(`> Visual cue: ${s.cueText}`, '');
             const note = state.notes[s.id];
