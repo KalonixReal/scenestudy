@@ -484,7 +484,7 @@
         const go = (v) => setView(v);
 
         function renderView() {
-          for(const group of viewEl.querySelectorAll('details[data-filter-group]'))library.groups[group.dataset.mode][group.dataset.filterGroup]=group.open;
+          for(const group of viewEl.querySelectorAll('details[data-filter-group]')){(group.dataset.filterScope==='selection'?selection:library).groups[group.dataset.mode][group.dataset.filterGroup]=group.open;}
           const active = document.activeElement;
           const owned = viewEl.contains(active);
           const key = owned && active.dataset ? { action:active.dataset.action, change:active.dataset.change, id:active.dataset.id, domId:active.id, kind:active.dataset.kind, value:active.value } : null;
@@ -505,13 +505,13 @@
         const facetKeys = ['char','analysis','mastery','tag','importance'];
         const library = { q: '', char: [], tag: [], importance: [], analysis: [], mastery: [], sort: 'film', open: false, groups:{phone:{},desktop:{}} };
         const libraryPhone=matchMedia('(max-width:640px)');
-        const selection={q:''};
+        const selection={q:'',char:[],tag:[],importance:[],analysis:[],mastery:[],sort:'film',open:false,groups:{phone:{},desktop:{}}};
         function resetViewStates() {
           flash.deck = 'all'; flash.order = []; flash.idx = 0; flash.flipped = false; flash.session = []; flash.done = false; flash.focus = null;
           newMatchRound(); quiz.qs = []; quiz.idx = 0; quiz.picked = null; quiz.answers = []; quiz.done = false; quiz.partial = false;
           recall.sceneId = getScenes()[0] ? getScenes()[0].id : null; recall.checked = false;
           library.q = ''; for (const k of facetKeys) library[k] = []; library.sort = 'film'; library.open = false;
-          library.groups={phone:{},desktop:{}};selection.q='';
+          library.groups={phone:{},desktop:{}};selection.q='';for (const k of facetKeys) selection[k]=[];selection.sort='film';selection.open=false;selection.groups={phone:{},desktop:{}};
         }
 
         /* ================= OVERVIEW ================= */
@@ -1234,13 +1234,15 @@
           if(library.q.trim()) entries.unshift({k:'q',v:'',label:`Search: “${library.q.trim()}”`});
           return entries.length ? `<div class="active-pills" aria-label="Active Filters">${entries.map(x=>`<button class="active-pill" data-action="libClearOne" data-kind="${x.k}" data-value="${esc(x.v)}" aria-label="Remove ${esc(x.label)} Filter">${esc(x.label)} ${icon('x',14)}</button>`).join('')}</div>` : '';
         }
-        function renderLibraryPreservingFocus(action,kind='',value='') {
+        function renderFilterablePreservingFocus(action,fallback,kind='',value='') {
           const scroll=window.scrollY; renderView();
           const candidates=[...viewEl.querySelectorAll('[data-action], [data-change]')];
           const target=candidates.find(el=>(el.dataset.action===action||el.dataset.change===action)&&(!kind||el.dataset.kind===kind)&&(!value||el.value===value));
           const summary=kind?viewEl.querySelector(`details[data-filter-group="${kind}"] summary`):null;
-          (target||summary||viewEl.querySelector('[data-action="libFilters"]'))?.focus({preventScroll:true}); window.scrollTo(0,scroll);
+          (target||summary||viewEl.querySelector(`[data-action="${fallback}"]`))?.focus({preventScroll:true}); window.scrollTo(0,scroll);
         }
+        function renderLibraryPreservingFocus(action,kind='',value='') { renderFilterablePreservingFocus(action,'libFilters',kind,value); }
+        function renderSelectionPreservingFocus(action,kind='',value='') { renderFilterablePreservingFocus(action,'selFilters',kind,value); }
         function vLibrary(root) {
           const all=getScenes(),scenes=filteredScenes(),n=activeFilterCount();
           const mode=libraryPhone.matches?'phone':'desktop';
@@ -1534,23 +1536,44 @@
           if (next.has(id)) next.delete(id); else next.add(id);
           setSceneSelection([...next]);
         }
-        function selectionResults() {const q=selection.q.trim().toLowerCase();return BUILTIN_SCENES.filter(s=>!q||sceneSearch.get(s.id).includes(q));}
+        function matchesSelectionFilters(s,except=null) {
+          return (!selection.q.trim() || sceneSearch.get(s.id).includes(selection.q.trim().toLowerCase())) && facetKeys.every(k=>k===except||!selection[k].length||selection[k].some(v=>facetValues(s,k).includes(v)));
+        }
+        const selectionFilterCount=()=>facetKeys.reduce((n,k)=>n+selection[k].length,0);
+        function selectionResults() {
+          const list=BUILTIN_SCENES.filter(s=>matchesSelectionFilters(s)); const rank={new:0,learning:1,confident:2};
+          return list.sort(selection.sort==='importance'?(a,b)=>importanceOf(b)-importanceOf(a)||filmSort(a,b):selection.sort==='az'?(a,b)=>a.title.localeCompare(b.title)||a.id-b.id:selection.sort==='weak'?(a,b)=>rank[masteryOf(a.id)]-rank[masteryOf(b.id)]||filmSort(a,b):filmSort);
+        }
         function selectionResultLabel(matches,selected) {return `Showing ${matches.length} of ${BUILTIN_SCENES.length} scenes · ${matches.filter(s=>selected.has(s.id)).length} shown scenes selected.`;}
+        function selectionPillsHTML() {
+          const entries=facetKeys.flatMap(k=>selection[k].map(v=>({k,v,label:valueLabel(k,v)})));
+          if(selection.q.trim()) entries.unshift({k:'q',v:'',label:`Search: “${selection.q.trim()}”`});
+          return entries.length ? `<div class="active-pills" aria-label="Active Scene Choice Filters">${entries.map(x=>`<button class="active-pill" data-action="selClearOne" data-kind="${x.k}" data-value="${esc(x.v)}" aria-label="Remove ${esc(x.label)} Filter From Scene Choices">${esc(x.label)} ${icon('x',14)}</button>`).join('')}</div>` : '';
+        }
         function vSceneSelection(root) {
           const selected = new Set(state.selectedSceneIds);
-          const matches=selectionResults();
+          const all=BUILTIN_SCENES, matches=selectionResults(), n=selectionFilterCount();
+          const mode=libraryPhone.matches?'phone':'desktop';
+          const filters=facetKeys.map(k=>{
+            const universe=k==='mastery'?['new','learning','confident','saved']:k==='importance'?Array.from({length:10},(_,i)=>String(10-i)):[...new Set(all.flatMap(s=>facetValues(s,k)).filter(Boolean))].sort((a,b)=>valueLabel(k,a).localeCompare(valueLabel(k,b)));
+            const values=[...new Set([...universe,...selection[k]])]; const pool=all.filter(s=>matchesSelectionFilters(s,k));
+            const open=selection.groups[mode][k]??mode==='desktop';
+            return `<details class="filter-disclosure" data-filter-group="${k}" data-filter-scope="selection" data-mode="${mode}" ${open?'open':''}><summary>${facetLabels[k]}${selection[k].length?`<span class="filter-badge">${selection[k].length} selected</span>`:''}</summary><fieldset class="filter-group"><legend class="sr-only">${facetLabels[k]}</legend>${selection[k].length?`<button class="text-button filter-clear" data-action="selClearGroup" data-kind="${k}" aria-label="Clear ${facetLabels[k]} Filters From Scene Choices">Clear</button>`:''}<div class="filter-options">${values.map(v=>{const count=pool.filter(s=>facetValues(s,k).includes(v)).length;return `<label class="filter-option ${selection[k].includes(v)?'selected':''}"><input type="checkbox" data-change="selFacet" data-kind="${k}" value="${esc(v)}" ${selection[k].includes(v)?'checked':''}><span>${esc(valueLabel(k,v))}</span><b aria-label="${count} matching scenes">${count}</b></label>`}).join('')}</div></fieldset></details>`;
+          }).join('');
           root.innerHTML = `
             <div class="section-toolbar">
               <div><h2>Choose Scenes</h2><p class="section-sub">Select the scenes you want to study. Build a library around the scenes you want to practise.</p></div>
-              <span class="quiet-tag">${selected.size} Of ${BUILTIN_SCENES.length} Selected</span>
+              <span class="quiet-tag">${selected.size} Of ${all.length} Selected</span>
             </div>
-            <span class="search-box selection-search">${icon('search',18)}<input type="search" id="selectionSearch" data-input="selectionSearch" aria-label="Search Scenes To Select" placeholder="Search scenes, characters, techniques" value="${esc(selection.q)}">${selection.q?`<button class="search-clear" data-action="selectionSearchClear" aria-label="Clear Selection Search">${icon('x',18)}</button>`:''}</span>
-            <div class="selection-toolbar"><span><b>${selected.size}</b> Selected · ${BUILTIN_SCENES.length} Authored Scenes</span><div><button class="text-button" data-action="selectSelectionResults" ${matches.some(s=>!selected.has(s.id))?'':'disabled'}>Select Results</button><button class="text-button" data-action="deselectSelectionResults" ${matches.some(s=>selected.has(s.id))?'':'disabled'}>Deselect Results</button><button class="text-button" data-action="selectAllScenes">Select All</button><button class="text-button" data-action="selectNoScenes">Deselect All</button></div></div>
+            <div class="library-toolbar selection-controls"><span class="search-box">${icon('search',18)}<input type="search" id="selectionSearch" data-input="selectionSearch" aria-label="Search Scenes To Select" placeholder="Search scenes, characters, techniques" value="${esc(selection.q)}">${selection.q?`<button class="search-clear" data-action="selectionSearchClear" aria-label="Clear Selection Search">${icon('x',18)}</button>`:''}</span><span class="select-wrap"><select aria-label="Sort Scene Choices" data-change="selSort">${[['film','Film Order'],['importance','Importance'],['az','Title A–Z'],['weak','Weakest First']].map(([v,l])=>`<option value="${v}" ${selection.sort===v?'selected':''}>${l}</option>`).join('')}</select>${icon('sliders',14)}</span><button class="button secondary" data-action="selFilters" aria-controls="selectionFilters" aria-expanded="${selection.open}">${icon('sliders',18)} Filters${n?`<b class="filter-badge">${n}</b>`:''}</button></div>
+            <section id="selectionFilters" class="filter-panel" aria-label="Scene Choice Filters" ${selection.open?'':'hidden'}><div class="filter-panel-head"><p>Choose any values within a group. Combine groups to narrow the choices.</p><button class="text-button" data-action="selClear">Clear All</button></div><div class="filter-groups">${filters}</div><div class="filter-panel-foot"><button class="button primary" data-action="selShowResults">Show ${plural(matches.length,'Scene')} ${icon('right',16)}</button></div></section>
+            ${selectionPillsHTML()}
+            <div class="selection-toolbar"><span><b>${selected.size}</b> Selected · ${all.length} Authored Scenes</span><div><button class="text-button" data-action="selectSelectionResults" ${matches.some(s=>!selected.has(s.id))?'':'disabled'}>Select Results</button><button class="text-button" data-action="deselectSelectionResults" ${matches.some(s=>selected.has(s.id))?'':'disabled'}>Deselect Results</button><button class="text-button" data-action="selectAllScenes">Select All</button><button class="text-button" data-action="selectNoScenes">Deselect All</button></div></div>
             <p id="selectionResults" class="library-count" tabindex="-1" role="status" aria-live="polite">${selectionResultLabel(matches,selected)}</p>
             <div class="scene-choice-list" role="group" aria-label="Choose Scenes To Study">
               ${matches.map((scene) => `<label class="scene-choice ${selected.has(scene.id) ? 'selected' : ''}"><input type="checkbox" data-action="toggleSceneSelection" data-id="${scene.id}" ${selected.has(scene.id) ? 'checked' : ''} aria-label="Select ${esc(scene.title)}"><span class="choice-number">${pad2(scene.id)}</span><span class="choice-copy"><b>${esc(scene.title)}</b><small>${esc(scene.character)} · ${sceneTimeLabel(scene.id)}</small>${importanceBadge(scene)}</span><span class="choice-tags">${tagsOf(scene).slice(0,2).map((tag) => `<i>${esc(tagLabel(tag))}</i>`).join('')}</span></label>`).join('')}
             </div>
-            ${matches.length?'':'<div class="empty-note"><h3>No scenes match this search.</h3><button class="text-button" data-action="selectionSearchClear">Clear Search</button></div>'}
+            ${matches.length?'':`<div class="empty-note"><h3>No scenes match these filters.</h3><p>Remove a filter or try a different search.</p><button class="text-button" data-action="selClear">Clear All Filters</button></div>`}
             <div class="selection-footer"><span>${selected.size ? `${selected.size} scenes will appear across your study modes.` : 'Select at least one scene to use the study modes.'}</span><button class="button primary" data-action="applySceneSelection" ${selected.size ? '' : 'disabled'}>Use Selected Scenes ${icon('right', 16)}</button></div>`;
         }
 
@@ -1751,6 +1774,11 @@
             case 'libFilters': library.open = !library.open; renderLibraryPreservingFocus('libFilters'); break;
             case 'libShowResults': { library.open=false;renderView();const results=$('.library-count');results.focus({preventScroll:true});results.scrollIntoView({block:'start'});break; }
             case 'selectionSearchClear': selection.q='';renderView();$('#selectionSearch').focus();break;
+            case 'selFilters': selection.open=!selection.open; renderSelectionPreservingFocus('selFilters'); break;
+            case 'selShowResults': { selection.open=false; renderView(); const results=$('#selectionResults'); results.focus({preventScroll:true}); results.scrollIntoView({block:'start'}); break; }
+            case 'selClear': selection.q=''; for (const k of facetKeys) selection[k]=[]; renderSelectionPreservingFocus('selClear'); break;
+            case 'selClearGroup': selection[target.dataset.kind]=[]; renderSelectionPreservingFocus('selClearGroup',target.dataset.kind); break;
+            case 'selClearOne': { const k=target.dataset.kind; if(k==='q')selection.q=''; else selection[k]=selection[k].filter(v=>v!==target.dataset.value); renderSelectionPreservingFocus('selClearOne'); break; }
             case 'selectSelectionResults': setSceneSelection([...new Set([...state.selectedSceneIds,...selectionResults().map(s=>s.id)])]);break;
             case 'deselectSelectionResults': {const ids=new Set(selectionResults().map(s=>s.id));setSceneSelection(state.selectedSceneIds.filter(id=>!ids.has(id)));break;}
             case 'libClear': library.q = ''; for (const k of facetKeys) library[k] = []; renderLibraryPreservingFocus('libClear'); break;
@@ -1831,6 +1859,8 @@
             if (kind === 'libFacet') { const k=el.dataset.kind; const val=el.value; library[k]=el.checked ? [...new Set([...library[k],val])] : library[k].filter(v=>v!==val); renderLibraryPreservingFocus('libFacet',k,val); }
             if (kind === 'deck') { flashSetDeck(el.value, false); renderView(); }
             if (kind === 'libSort') { library.sort = el.value; renderView(); }
+            if (kind === 'selFacet') { const k=el.dataset.kind; const val=el.value; selection[k]=el.checked ? [...new Set([...selection[k],val])] : selection[k].filter(v=>v!==val); renderSelectionPreservingFocus('selFacet',k,val); }
+            if (kind === 'selSort') { selection.sort = el.value; renderView(); }
             if (kind === 'matchCategory') { match.category = el.value; newMatchRound(); renderView(); }
             if (kind === 'quizLen') { quiz.len = el.value === 'all' ? 'all' : Number(el.value); }
             if (kind === 'quizFocus') { quiz.focus = el.value; }
@@ -1887,8 +1917,8 @@
         document.addEventListener('compositionend', e => {
           if (['librarySearch','selectionSearch'].includes(e.target.dataset.input)) e.target.dispatchEvent(new Event('input', { bubbles: true }));
         });
-        document.addEventListener('toggle',e=>{const el=e.target;if(el.dataset?.filterGroup&&el.isConnected&&viewEl.contains(el))library.groups[el.dataset.mode][el.dataset.filterGroup]=el.open;},true);
-        libraryPhone.addEventListener('change',()=>{if(currentView==='library')renderView();});
+        document.addEventListener('toggle',e=>{const el=e.target;if(el.dataset?.filterGroup&&el.isConnected&&viewEl.contains(el)){const store=el.dataset.filterScope==='selection'?selection:library;store.groups[el.dataset.mode][el.dataset.filterGroup]=el.open;}},true);
+        libraryPhone.addEventListener('change',()=>{if(currentView==='library'||currentView==='selection')renderView();});
 
         // Flashcard keyboard shortcuts
         document.addEventListener('keydown', (e) => {
@@ -1919,13 +1949,13 @@
           }
         });
 
-        // "/" jumps to the library search
+        // "/" jumps to the library / selection search
         document.addEventListener('keydown', (e) => {
           if ($('#main').inert || e.ctrlKey || e.altKey || e.metaKey) return;
-          if (currentView !== 'library' || e.key !== '/') return;
+          if ((currentView !== 'library' && currentView !== 'selection') || e.key !== '/') return;
           if (e.target.closest('input, textarea, select') || modalRoot.childElementCount) return;
           e.preventDefault();
-          const inp = $('#librarySearch');
+          const inp = currentView === 'library' ? $('#librarySearch') : $('#selectionSearch');
           if (inp) { inp.focus(); inp.select(); }
         });
 
@@ -1935,6 +1965,7 @@
           if(modalRoot.childElementCount){e.preventDefault();closeModal();}
           else if(document.body.classList.contains('nav-open')){e.preventDefault();setNavOpen(false);}
           else if(currentView==='library'&&library.open){e.preventDefault();library.open=false;renderLibraryPreservingFocus('libFilters');}
+          else if(currentView==='selection'&&selection.open){e.preventDefault();selection.open=false;renderSelectionPreservingFocus('selFilters');}
         });
         // Keep keyboard focus inside an open dialog
         document.addEventListener('keydown', (e) => {
