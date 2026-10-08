@@ -1,5 +1,16 @@
 # SceneStudy improvements — 8 October 2026
 
+## Unified tags and Importance
+
+- Merged former essay tags and theme classifications into one Tags system. Preserved all 13 stable IDs and original primary tags, added 97 assignments from former themes, and removed duplicate classification displays.
+- Simplified labels, including Teamwork, Self-Respect, Recognition, Space Race, Gender Bias, Racial Separation and Unfair Treatment. Library filters, flashcards, matching, quizzes, progress and Markdown exports share the same tags.
+- Added curated 1–5-star Importance ratings for all 67 scenes, based on strength as essay evidence: argument, specific film technique, turning point or comparison. Every scene has an explanation; brief context and narrower supporting details rank lower.
+- Importance appears in the Library, Choose Scenes, flashcards and details. Sort highest first or combine star-level filters with tags and other filters. Ratings remain separate from saved study progress.
+- All other existing scene fields are unchanged, including start and end times. No timestamp work was performed following the user's cancellation.
+- Focused checks only for this update: 11 tag checks, seven Importance checks, 13 general interaction checks, nine selection/filter checks, seven backup/cache/export checks and ten exercise regression checks passed. 75 page states had no detected overflow, contrast failures or page errors; the production output passed 36 further states. No critic or improvement loops were run for this update.
+
+## Earlier repair and improvement release
+
 - Consistent light and dark themes, including selected/hovered navigation, controls, icons, tags, disabled states, exercise feedback, dialogs and print colors.
 - Revised all 27 shared scene SVG cues; clearer forms, consistent proportions and theme-aware outlines.
 - Exactly two navigation sections: Home and Exercises.

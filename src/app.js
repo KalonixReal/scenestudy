@@ -19,6 +19,7 @@
 
         /* ================= ICONS ================= */
         const P = {
+          star: '<path d="m12 3 2.8 5.7 6.3.9-4.6 4.4 1.1 6.3-5.6-3-5.6 3 1.1-6.3L3 9.6l6.2-.9Z"/>',
           sun: '<circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/>',
           moon: '<path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/>',
           printer: '<path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><path d="M6 9V3a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v6"/><rect x="6" y="14" width="12" height="8" rx="1"/>',
@@ -97,26 +98,28 @@
         const MOVIE_SOURCE = 'https://cdn2.etv.nz/vod/etv5-token202504/etv/hidden_figures_tv_3_20181202_2030_640x360_1500k.mp4';
         const FILM_RUNTIME = 8960.52; // seconds, measured from the provided file
 
-        /* ================= ESSAY TAGS (informed by published analyses of Hidden Figures) ================= */
+        /* ================= SCENE TAGS ================= */
         const TAGS = {
           racism: { label: 'Racism', def: 'racial prejudice built into rules, spaces and everyday habits' },
-          sexism: { label: 'Sexism', def: 'assumptions about what women can or cannot do' },
-          segregation: { label: 'Segregation', def: 'the physical separation of Black workers from white spaces' },
-          injustice: { label: 'Injustice', def: 'unfair systems — red tape, gatekeeping, information control' },
-          dignity: { label: 'Dignity', def: 'self-respect and the refusal of demeaning assumptions' },
+          sexism: { label: 'Gender Bias', def: 'assumptions about what women can or cannot do' },
+          segregation: { label: 'Racial Separation', def: 'the physical separation of Black workers from white spaces' },
+          injustice: { label: 'Unfair Treatment', def: 'unfair systems — red tape, gatekeeping, information control' },
+          dignity: { label: 'Self-Respect', def: 'self-respect and the refusal of demeaning assumptions' },
           education: { label: 'Education', def: 'learning as the engine of advancement' },
           opportunity: { label: 'Opportunity', def: 'access to the rooms where decisions are made' },
-          family: { label: 'Family & Home', def: 'the household lessons that shape ambition' },
-          merit: { label: 'Merit & Recognition', def: 'excellence finally being seen and credited' },
+          family: { label: 'Family', def: 'the household lessons that shape ambition' },
+          merit: { label: 'Recognition', def: 'excellence finally being seen and credited' },
           leadership: { label: 'Leadership', def: 'lifting others while advancing yourself' },
-          solidarity: { label: 'Solidarity', def: 'community strength and shared victories' },
-          technology: { label: 'Technology & Change', def: 'automation, adaptation and the future of work' },
-          coldwar: { label: 'Cold War Pressure', def: 'geopolitical urgency that forces progress' },
+          solidarity: { label: 'Teamwork', def: 'community strength and shared victories' },
+          technology: { label: 'Technology', def: 'automation, adaptation and the future of work' },
+          coldwar: { label: 'Space Race', def: 'the competition to reach space that pushes NASA to change' },
         };
         function tagsOf(scene) {
-          return Array.isArray(scene.tags) ? scene.tags.slice() : [];
+          return Array.isArray(scene.tags) ? [...new Set(scene.tags)] : [];
         }
         const tagLabel = (t) => (TAGS[t] && TAGS[t].label) || t;
+        const importanceOf = s => Number.isInteger(s.essayImportance?.rating) && s.essayImportance.rating >= 1 && s.essayImportance.rating <= 5 ? s.essayImportance.rating : 1;
+        const importanceBadge = (s,caption=true) => `<span class="importance-badge" role="img" aria-label="Importance: ${importanceOf(s)} out of 5 stars" title="${esc(s.essayImportance?.reason || '')}">${caption?'<span aria-hidden="true">Importance</span>':''}<span class="importance-stars" aria-hidden="true">${Array.from({length:5},(_,i)=>`<span class="${i < importanceOf(s) ? 'filled' : ''}">${icon('star',13)}</span>`).join('')}</span></span>`;
         const tagDef = (t) => (TAGS[t] && TAGS[t].def) || 'a key idea for your essay';
         const TAG_COLORS = {
           racism: '#a3513b', sexism: '#b0688c', segregation: '#8a6d3b', injustice: '#7d5a3c',
@@ -317,7 +320,6 @@
           return BUILTIN_SCENES.filter((scene) => selected.has(scene.id));
         };
         const getCharacters = () => [...new Set(getScenes().map((s) => s.character).filter(Boolean))];
-        const getThemes = () => [...new Set(getScenes().flatMap((s) => s.themes || []))];
         const sceneById = (id) => getScenes().find((s) => s.id === id);
         const formatTimecode = (seconds) => {
           if (!Number.isFinite(seconds) || seconds < 0) return '—';
@@ -500,8 +502,8 @@
         const match = { category: 'technique', left: [], right: [], selL: null, selR: null, pairs: [], attempts: 0, wrong: false, done: false, timer: null };
         const quiz = { qs: [], idx: 0, picked: null, answers: [], done: false, len: 10, focus: 'all', effFocus: 'all' };
         const recall = { sceneId: null, checked: false };
-          const facetKeys = ['char','analysis','mastery','tag','theme'];
-        const library = { q: '', char: [], theme: [], tag: [], analysis: [], mastery: [], sort: 'film', open: false, groups:{phone:{},desktop:{}} };
+        const facetKeys = ['char','analysis','mastery','tag','importance'];
+        const library = { q: '', char: [], tag: [], importance: [], analysis: [], mastery: [], sort: 'film', open: false, groups:{phone:{},desktop:{}} };
         const libraryPhone=matchMedia('(max-width:640px)');
         const selection={q:''};
         function resetViewStates() {
@@ -613,7 +615,7 @@
                   <option value="due" ${flash.deck === 'due' ? 'selected' : ''}>Due For Review (${due})</option>
                   <option value="saved" ${flash.deck === 'saved' ? 'selected' : ''}>Bookmarked (${getScenes().filter(s => state.bookmarks.includes(s.id)).length})</option>
                   ${charOpts.length ? `<optgroup label="Characters">${charOpts.map((c) => `<option value="${esc(c)}" ${flash.deck === c ? 'selected' : ''}>${esc(c)}</option>`).join('')}</optgroup>` : ''}
-                  ${tagOpts.length ? `<optgroup label="Essay Tags">${tagOpts.map((t) => `<option value="tag:${t}" ${flash.deck === 'tag:' + t ? 'selected' : ''}>${esc(tagLabel(t))} (${getScenes().filter(s=>tagsOf(s).includes(t)).length})</option>`).join('')}</optgroup>` : ''}
+                  ${tagOpts.length ? `<optgroup label="Tags">${tagOpts.map((t) => `<option value="tag:${t}" ${flash.deck === 'tag:' + t ? 'selected' : ''}>${esc(tagLabel(t))} (${getScenes().filter(s=>tagsOf(s).includes(t)).length})</option>`).join('')}</optgroup>` : ''}
                 </select>${icon('sliders', 14)}</span>
               </div>
             </div>
@@ -644,18 +646,20 @@
                   ${!flash.flipped ? `
                     <div class="fc-art">${cueArt(scene.cue, scene.cueText)}</div>
                     <h3 class="fc-title">${esc(scene.title)}</h3>
+                    ${importanceBadge(scene)}
                     <p class="fc-hint">What happens in this scene — and why does it matter?</p>
                     <p class="flip-hint">Press <kbd>Space</kbd> to flip</p>
                     <div class="rate-row" hidden></div>
                   ` : `
                     <h3 class="fc-fulltitle">${esc(scene.fullTitle)}</h3>
+                    ${importanceBadge(scene)}
                     <p class="fc-desc">${esc(scene.description)}</p>
                     ${scene.keyLine ? `<p class="fc-keyline">“${esc(scene.keyLine)}”</p>` : ''}
                     <div class="fc-back-grid">
                       <div class="fc-block"><h4>${esc(displayHeading(scene.techniqueLabel,'Film Technique'))}</h4><p>${esc(scene.techniques)}</p></div>
                       <div class="fc-block"><h4>${esc(displayHeading(scene.meaningLabel,'Meaning & Effect'))}</h4><p>${esc(scene.essay)}</p></div>
                     </div>
-                    <div class="theme-chips">${scene.analysisType ? `<span class="theme-chip analysis-chip">${esc(scene.analysisType)}</span>` : ''}${(scene.themes || []).map((t) => `<span class="theme-chip">${esc(t)}</span>`).join('')}${tagsOf(scene).map((t) => tagChip(t)).join('')}</div>
+                    <div class="theme-chips">${scene.analysisType ? `<span class="theme-chip analysis-chip">${esc(scene.analysisType)}</span>` : ''}${tagsOf(scene).map((t) => tagChip(t)).join('')}</div>
                     <div class="rate-row">
                       ${[['again', 'Again', 'ok-soft'], ['good', 'Good', ''], ['easy', 'Easy', '']].map(([r, lbl]) => `
                         <button class="rate-btn ${r}" data-action="rate" data-rating="${r}" data-id="${scene.id}">
@@ -742,7 +746,7 @@
               <span class="select-wrap"><select aria-label="Matching Category" data-change="matchCategory">
                 <option value="technique" ${match.category === 'technique' ? 'selected' : ''}>Scene + Film Technique</option>
                 <option value="meaning" ${match.category === 'meaning' ? 'selected' : ''}>Scene + Big Idea</option>
-                <option value="tag" ${match.category === 'tag' ? 'selected' : ''}>Scene + Essay Tag</option>
+                <option value="tag" ${match.category === 'tag' ? 'selected' : ''}>Scene + Tag</option>
               </select>${icon('sliders', 14)}</span>
             </div>
             ${enough ? `
@@ -763,12 +767,12 @@
               </div>
               <div class="matching-link" aria-hidden="true">${icon('link', 22)}</div>
               <div>
-                <div class="column-label"><span>${match.category === 'technique' ? 'The Technique' : match.category === 'tag' ? 'The Essay Tag' : 'The Big Idea'}</span><span>5 Connections</span></div>
+                <div class="column-label"><span>${match.category === 'technique' ? 'The Technique' : match.category === 'tag' ? 'The Tag' : 'The Big Idea'}</span><span>5 Connections</span></div>
                 <div class="match-list">
                   ${match.right.map((s) => `
                     <button class="match-item right-item ${match.selR === s.id ? 'selected' : ''} ${match.pairs.includes(s.id) ? 'matched' : ''} ${match.wrong && match.selR === s.id ? 'wrong' : ''}"
                       data-action="pickRight" data-id="${s.id}" aria-pressed="${match.selR === s.id}"
-                      aria-label="${match.category === 'technique' ? 'Technique' : match.category === 'tag' ? 'Essay tag' : 'Idea'}: ${esc(rightLabel(s))}"
+                      aria-label="${match.category === 'technique' ? 'Technique' : match.category === 'tag' ? 'Tag' : 'Idea'}: ${esc(rightLabel(s))}"
                       ${match.pairs.includes(s.id) || match.wrong ? 'disabled' : ''}>
                       <strong>${esc(rightLabel(s))}</strong>
                       <span class="match-check">${match.pairs.includes(s.id) ? icon('check', 17) : ''}</span>
@@ -780,12 +784,12 @@
               ${match.done ? `
                 <div class="match-success">${icon('checkCircle', 26)}<div><h3>Everything Clicked.</h3><p>5 pairs in ${plural(match.attempts, 'attempt')}. Ready for a fresh mix?</p></div>
                 <button class="button yellow" style="margin-left:auto" data-action="newMatch">${icon('shuffle', 16)} New Round</button></div>`
-              : match.wrong ? `<p class="error-text">Not quite. Think about the ${match.category === 'technique' ? 'technique' : match.category === 'tag' ? 'essay tag' : 'idea'}, then try again.</p>`
-              : match.selL || match.selR ? `<p>Now pick the ${match.selL ? (match.category === 'technique' ? 'technique' : match.category === 'tag' ? 'essay tag' : 'idea') : 'scene'} that connects.</p>`
+              : match.wrong ? `<p class="error-text">Not quite. Think about the ${match.category === 'technique' ? 'technique' : match.category === 'tag' ? 'tag' : 'idea'}, then try again.</p>`
+              : match.selL || match.selR ? `<p>Now pick the ${match.selL ? (match.category === 'technique' ? 'technique' : match.category === 'tag' ? 'tag' : 'idea') : 'scene'} that connects.</p>`
               : `<p>Pick any scene to start matching.</p>`}
             </div>
             <div class="technique-footer">${icon('bulb', 18)}<div><strong>Concrete Examples</strong><p>Matching forces you to tell similar moments apart — the exact skill an essay question rewards.</p></div></div>`
-            : `${!scenes.length ? emptyLibraryCta() : `<div class="empty-note"><p>${scenes.length < 5 ? `Match &amp; Mix needs at least 5 scenes, and your library has ${scenes.length}. Select more scenes to come back.` : match.category === 'tag' ? 'The essay-tag round needs 5 scenes with five different primary tags — your library has fewer.' : 'This round cannot start.'}</p><div class="hero-actions">${scenes.length >= 5 && match.category === 'tag' ? '<button class="button primary" data-action="matchTechniques">Try Film Techniques</button>' : ''}<button class="button secondary" data-action="nav" data-view="selection">Choose Scenes</button></div></div>`}`}`;
+            : `${!scenes.length ? emptyLibraryCta() : `<div class="empty-note"><p>${scenes.length < 5 ? `Match &amp; Mix needs at least 5 scenes, and your library has ${scenes.length}. Select more scenes to come back.` : match.category === 'tag' ? 'The tag round needs 5 scenes with five different primary tags — your library has fewer.' : 'This round cannot start.'}</p><div class="hero-actions">${scenes.length >= 5 && match.category === 'tag' ? '<button class="button primary" data-action="matchTechniques">Try Film Techniques</button>' : ''}<button class="button secondary" data-action="nav" data-view="selection">Choose Scenes</button></div></div>`}`}`;
         }
         function matchPick(side, id) {
           if (match.wrong || match.done || match.pairs.includes(id)) return;
@@ -1018,7 +1022,7 @@
                   ${tags.map((t) => `<option value="${t}" ${quiz.focus === t ? 'selected' : ''}>${esc(tagLabel(t))}</option>`).join('')}
                 </select>${icon('sliders', 14)}</span>
                 <button class="button primary" data-action="quizStart" style="margin-top:16px">${icon('zap', 16)} Start The Round</button>
-                <p class="setup-note">Tags come from each scene's essay tags — study them in the Scene Library.</p>
+                <p class="setup-note">Use the same scene tags you study in the Scene Library.</p>
               </div>
             </div>`;
             return;
@@ -1210,19 +1214,19 @@
           return `<div class="empty-cta"><div class="empty-cta-art">${icon('grid', 30)}</div><h3>No Scenes Selected Yet</h3><p>Your library is empty, so there is nothing to study. Choose scenes from the built-in catalogue of ${BUILTIN_SCENES.length} to begin.</p><button class="button primary" data-action="nav" data-view="selection">${icon('right', 16)} Choose Scenes</button></div>`;
         }
 
-        const sceneHay = s => `${s.id} ${s.title} ${s.fullTitle} ${s.description} ${s.character} ${(s.themes||[]).join(' ')} ${tagsOf(s).map(tagLabel).join(' ')} ${s.cueText||''} ${s.techniqueLabel||''} ${s.meaningLabel||''} ${s.techniques||''} ${s.essay||''} ${s.keyLine||''} ${s.watchFor||''} ${s.historyNote||''} ${s.essayStarter||''}`.toLowerCase();
+        const sceneHay = s => `${s.id} ${s.title} ${s.fullTitle} ${s.description} ${s.character} ${tagsOf(s).join(' ')} ${tagsOf(s).map(tagLabel).join(' ')} ${s.cueText||''} ${s.techniqueLabel||''} ${s.meaningLabel||''} ${s.techniques||''} ${s.essay||''} ${s.keyLine||''} ${s.watchFor||''} ${s.historyNote||''} ${s.essayStarter||''}`.toLowerCase();
         const sceneSearch = new Map(BUILTIN_SCENES.map(s=>[s.id,sceneHay(s)]));
-        const facetValues = (s,k) => k==='char' ? [s.character] : k==='analysis' ? [s.analysisType] : k==='theme' ? s.themes||[] : k==='tag' ? tagsOf(s) : [masteryOf(s.id),...(state.bookmarks.includes(s.id)?['saved']:[])];
+        const facetValues = (s,k) => k==='char' ? [s.character] : k==='analysis' ? [s.analysisType] : k==='tag' ? tagsOf(s) : k==='importance' ? [String(importanceOf(s))] : [masteryOf(s.id),...(state.bookmarks.includes(s.id)?['saved']:[])];
         function matchesFilters(s, except=null) {
           return (!library.q.trim() || sceneSearch.get(s.id).includes(library.q.trim().toLowerCase())) && facetKeys.every(k=>k===except||!library[k].length||library[k].some(v=>facetValues(s,k).includes(v)));
         }
         const filmSort = (a,b) => ((Number.isFinite(a.timestamps?.start)?a.timestamps.start:Infinity)-(Number.isFinite(b.timestamps?.start)?b.timestamps.start:Infinity)) || a.id-b.id;
         function filteredScenes() {
           const list=getScenes().filter(s=>matchesFilters(s)); const rank={new:0,learning:1,confident:2};
-          return list.sort(library.sort==='az'?(a,b)=>a.title.localeCompare(b.title)||a.id-b.id:library.sort==='weak'?(a,b)=>rank[masteryOf(a.id)]-rank[masteryOf(b.id)]||filmSort(a,b):filmSort);
+          return list.sort(library.sort==='importance'?(a,b)=>importanceOf(b)-importanceOf(a)||filmSort(a,b):library.sort==='az'?(a,b)=>a.title.localeCompare(b.title)||a.id-b.id:library.sort==='weak'?(a,b)=>rank[masteryOf(a.id)]-rank[masteryOf(b.id)]||filmSort(a,b):filmSort);
         }
-        const facetLabels={char:'Character',analysis:'Essay Type',mastery:'Study Status',tag:'Essay Tag',theme:'Theme'};
-        const valueLabel=(k,v)=>k==='tag'?tagLabel(v):k==='mastery'?({new:'Not Started',learning:'Learning',confident:'Confident',saved:'Bookmarked'}[v]||v):v;
+        const facetLabels={char:'Character',analysis:'Essay Type',mastery:'Study Status',tag:'Tags',importance:'Importance'};
+        const valueLabel=(k,v)=>k==='tag'?tagLabel(v):k==='importance'?`${v} ${v==='1'?'Star':'Stars'}`:k==='mastery'?({new:'Not Started',learning:'Learning',confident:'Confident',saved:'Bookmarked'}[v]||v):v;
         const activeFilterCount=()=>facetKeys.reduce((n,k)=>n+library[k].length,0);
         function libraryCountHTML(scenes) { return `Showing ${scenes.length} of ${plural(getScenes().length,'scene')}.`; }
         function activePillsHTML() {
@@ -1241,7 +1245,7 @@
           const all=getScenes(),scenes=filteredScenes(),n=activeFilterCount();
           const mode=libraryPhone.matches?'phone':'desktop';
           const filters=facetKeys.map(k=>{
-            const universe=k==='mastery'?['new','learning','confident','saved']:[...new Set(all.flatMap(s=>facetValues(s,k)).filter(Boolean))].sort((a,b)=>valueLabel(k,a).localeCompare(valueLabel(k,b)));
+            const universe=k==='mastery'?['new','learning','confident','saved']:k==='importance'?['5','4','3','2','1']:[...new Set(all.flatMap(s=>facetValues(s,k)).filter(Boolean))].sort((a,b)=>valueLabel(k,a).localeCompare(valueLabel(k,b)));
             const values=[...new Set([...universe,...library[k]])]; const pool=all.filter(s=>matchesFilters(s,k));
             const open=library.groups[mode][k]??mode==='desktop';
             return `<details class="filter-disclosure" data-filter-group="${k}" data-mode="${mode}" ${open?'open':''}><summary>${facetLabels[k]}${library[k].length?`<span class="filter-badge">${library[k].length} selected</span>`:''}</summary><fieldset class="filter-group"><legend class="sr-only">${facetLabels[k]}</legend>${library[k].length?`<button class="text-button filter-clear" data-action="libClearGroup" data-kind="${k}" aria-label="Clear ${facetLabels[k]} Filters">Clear</button>`:''}<div class="filter-options">${values.map(v=>{const count=pool.filter(s=>facetValues(s,k).includes(v)).length;return `<label class="filter-option ${library[k].includes(v)?'selected':''}"><input type="checkbox" data-change="libFacet" data-kind="${k}" value="${esc(v)}" ${library[k].includes(v)?'checked':''}><span>${esc(valueLabel(k,v))}</span><b aria-label="${count} matching scenes">${count}</b></label>`}).join('')}</div></fieldset></details>`;
@@ -1249,10 +1253,10 @@
           root.innerHTML=`
             <div class="section-toolbar"><div><h2>Scene Library</h2><p class="section-sub">Find the evidence you want to study.</p></div><button class="button secondary small-button" data-action="printPack">${icon('printer',16)} Print Study Pack</button></div>
             <div class="print-only print-head" aria-hidden="true"><h1>${esc(FILM_NAME)} — Evidence Cards</h1><p>${scenes.length} of ${plural(all.length,'scene')} · ${new Date().toLocaleDateString()}</p></div>
-            <div class="library-toolbar"><span class="search-box">${icon('search',18)}<input type="search" id="librarySearch" placeholder="Search scenes, quotes, techniques" aria-label="Search Scenes" data-input="librarySearch" value="${esc(library.q)}">${library.q?`<button class="search-clear" data-action="libSearchClear" aria-label="Clear Search">${icon('x',18)}</button>`:'<kbd class="search-kbd" aria-hidden="true">/</kbd>'}</span><span class="select-wrap"><select aria-label="Sort Scenes" data-change="libSort">${[['film','Film Order'],['az','Title A–Z'],['weak','Weakest First']].map(([v,l])=>`<option value="${v}" ${library.sort===v?'selected':''}>${l}</option>`).join('')}</select>${icon('sliders',14)}</span><button class="button secondary" data-action="libFilters" aria-controls="libraryFilters" aria-expanded="${library.open}">${icon('sliders',18)} Filters${n?`<b class="filter-badge">${n}</b>`:''}</button></div>
+            <div class="library-toolbar"><span class="search-box">${icon('search',18)}<input type="search" id="librarySearch" placeholder="Search scenes, quotes, techniques" aria-label="Search Scenes" data-input="librarySearch" value="${esc(library.q)}">${library.q?`<button class="search-clear" data-action="libSearchClear" aria-label="Clear Search">${icon('x',18)}</button>`:'<kbd class="search-kbd" aria-hidden="true">/</kbd>'}</span><span class="select-wrap"><select aria-label="Sort Scenes" data-change="libSort">${[['film','Film Order'],['importance','Importance'],['az','Title A–Z'],['weak','Weakest First']].map(([v,l])=>`<option value="${v}" ${library.sort===v?'selected':''}>${l}</option>`).join('')}</select>${icon('sliders',14)}</span><button class="button secondary" data-action="libFilters" aria-controls="libraryFilters" aria-expanded="${library.open}">${icon('sliders',18)} Filters${n?`<b class="filter-badge">${n}</b>`:''}</button></div>
             <section id="libraryFilters" class="filter-panel" aria-label="Scene Filters" ${library.open?'':'hidden'}><div class="filter-panel-head"><p>Choose any values within a group. Combine groups to narrow the results.</p><button class="text-button" data-action="libClear">Clear All</button></div><div class="filter-groups">${filters}</div><div class="filter-panel-foot"><button class="button primary" data-action="libShowResults">Show ${plural(scenes.length,'Scene')} ${icon('right',16)}</button></div></section>
             ${activePillsHTML()}<p class="library-count" tabindex="-1" role="status" aria-live="polite">${libraryCountHTML(scenes)}</p>
-            ${scenes.length?`<div class="library-grid">${scenes.map(s=>`<article class="scene-tile"><div class="tile-top"><span class="tile-num">${masteryRing(s.id)}${pad2(s.id)}</span>${state.notes[s.id]?.trim()?`<span class="tile-notedot" role="img" aria-label="Recall Notes Saved">${icon('notes',14)}</span>`:''}<button class="icon-button tile-save ${state.bookmarks.includes(s.id)?'saved':''}" data-action="toggleBookmarkStop" data-id="${s.id}" aria-pressed="${state.bookmarks.includes(s.id)}" aria-label="${state.bookmarks.includes(s.id)?'Remove Bookmark':'Bookmark'}: ${esc(s.title)}">${icon('bookmark',18)}</button></div><button class="tile-main" data-action="openScene" data-id="${s.id}" aria-label="Open Details For ${esc(s.title)}">${cueArt(s.cue,s.cueText,'art')}<span class="tile-title">${esc(s.title)}</span><span class="scene-timestamp">${sceneTimeLabel(s.id)}</span><span class="tile-char">${esc(s.character)}</span>${s.analysisType?`<span class="tile-analysis">${esc(s.analysisType)}</span>`:''}<span class="tile-tags">${tagsOf(s).slice(0,3).map(t=>`<i style="color:${tagColor(t)}">#${esc(tagLabel(t))}</i>`).join(' ')}${tagsOf(s).length>3?` <b>+${tagsOf(s).length-3}</b>`:''}</span><span class="tile-cue print-only">${esc(s.cueText)}</span></button></article>`).join('')}</div>`:!all.length?emptyLibraryCta():`<div class="empty-note"><h3>No scenes match these filters.</h3><p>Remove a filter or try a different search.</p><button class="text-button" data-action="libClear">Clear All Filters</button></div>`}`;
+            ${scenes.length?`<div class="library-grid">${scenes.map(s=>`<article class="scene-tile"><div class="tile-top"><span class="tile-num">${masteryRing(s.id)}${pad2(s.id)}</span>${state.notes[s.id]?.trim()?`<span class="tile-notedot" role="img" aria-label="Recall Notes Saved">${icon('notes',14)}</span>`:''}<button class="icon-button tile-save ${state.bookmarks.includes(s.id)?'saved':''}" data-action="toggleBookmarkStop" data-id="${s.id}" aria-pressed="${state.bookmarks.includes(s.id)}" aria-label="${state.bookmarks.includes(s.id)?'Remove Bookmark':'Bookmark'}: ${esc(s.title)}">${icon('bookmark',18)}</button></div><button class="tile-main" data-action="openScene" data-id="${s.id}" aria-label="Open Details For ${esc(s.title)}">${cueArt(s.cue,s.cueText,'art')}<span class="tile-title">${esc(s.title)}</span><span class="scene-timestamp">${sceneTimeLabel(s.id)}</span>${importanceBadge(s)}<span class="tile-char">${esc(s.character)}</span>${s.analysisType?`<span class="tile-analysis">${esc(s.analysisType)}</span>`:''}<span class="tile-tags">${tagsOf(s).slice(0,3).map(t=>`<i style="color:${tagColor(t)}">#${esc(tagLabel(t))}</i>`).join(' ')}${tagsOf(s).length>3?` <b>+${tagsOf(s).length-3}</b>`:''}</span><span class="tile-cue print-only">${esc(s.cueText)}</span></button></article>`).join('')}</div>`:!all.length?emptyLibraryCta():`<div class="empty-note"><h3>No scenes match these filters.</h3><p>Remove a filter or try a different search.</p><button class="text-button" data-action="libClear">Clear All Filters</button></div>`}`;
         }
 
         function relatedScenes(id) {
@@ -1283,9 +1287,9 @@
                 <span class="theme-chip">${esc(s.character)}</span>
                 ${s.analysisType ? `<span class="theme-chip analysis-chip">${icon('quote', 12)} ${esc(s.analysisType)}</span>` : ''}
                 ${(() => { const m = masteryOf(s.id); return m === 'new' ? '' : `<span class="theme-chip mastery-chip mastery-${m}">${m === 'confident' ? 'Confident' : 'Learning'} · ${esc(dueLabel(s.id))}</span>`; })()}
-                ${(s.themes || []).map((t) => `<span class="theme-chip">${esc(t)}</span>`).join('')}
               </div>
-              ${tagsOf(s).length ? `<div class="detail-tagrow"><span class="answer-label">Essay Tags <span class="tagrow-hint">· Tap a tag to filter the library</span></span><div class="detail-tags">${tagsOf(s).map((t) => `<button class="tag-chip tag-chip-btn" style="--tag-color:${tagColor(t)}" data-action="modalTag" data-tag="${esc(t)}" aria-label="Show All ${esc(tagLabel(t))} Scenes In The Library">${icon('tag', 11)} ${esc(tagLabel(t))}</button>`).join('')}</div></div>` : ''}
+              ${tagsOf(s).length ? `<div class="detail-tagrow"><span class="answer-label">Tags <span class="tagrow-hint">· Tap a tag to filter the library</span></span><div class="detail-tags">${tagsOf(s).map((t) => `<button class="tag-chip tag-chip-btn" style="--tag-color:${tagColor(t)}" data-action="modalTag" data-tag="${esc(t)}" aria-label="Show All ${esc(tagLabel(t))} Scenes In The Library">${icon('tag', 11)} ${esc(tagLabel(t))}</button>`).join('')}</div></div>` : ''}
+              <div class="detail-block importance-detail"><span class="answer-label">Importance</span>${importanceBadge(s,false)}<p>${esc(s.essayImportance?.reason || '')}</p><p class="importance-help">Higher ratings highlight stronger essay evidence. Choose scenes that fit your argument.</p></div>
               <div class="detail-block"><span class="answer-label">The Moment</span><p>${esc(s.description)}</p></div>
               ${s.keyLine ? `<blockquote class="key-line"><span class="answer-label">Key Line</span><p>“${esc(s.keyLine)}”</p></blockquote>` : ''}
               <section class="movie-clip-card" aria-label="Movie clip for ${esc(s.title)}">
@@ -1497,7 +1501,7 @@
               ${history.length ? `<div class="history-list"><h4>History · ${history.length} ${history.length === 1 ? 'Record' : 'Records'}</h4>${history.slice(0,50).map((event) => `<div class="history-row"><time datetime="${new Date(event.at).toISOString()}">${new Date(event.at).toLocaleDateString(undefined, { month: 'short', day: 'numeric' })}, ${new Date(event.at).toLocaleTimeString(undefined, { hour: 'numeric', minute: '2-digit' })}</time><span>${esc(typeName[event.type] || event.type)}${event.sceneId && sceneById(event.sceneId) ? ` · ${esc(sceneById(event.sceneId).title)}` : ''}</span>${event.type==='quiz' ? `<b>${event.score}%</b>` : ''}</div>`).join('')}${history.length>50?`<p class="history-note">Showing the 50 most recent records in this range. The chart includes all ${history.length}.</p>`:''}</div>` : `<p class="history-empty">No practice records in this range yet. Finish a review, quiz, matching round, or scene explanation and it will appear here.</p>`}`}
             </section>
             <div class="progress-grid" role="list"><div class="stat-tile ${due?'accent':''}" role="listitem"><div class="stat-num">${due}</div><div class="stat-label">Due For Review</div></div><div class="stat-tile ${a.streak?'streak':''}" role="listitem"><div class="stat-num">${a.streak||0}<span class="stat-suffix">${a.streak===1?' day':' days'}</span></div><div class="stat-label">Study Streak</div></div><div class="stat-tile" role="listitem"><div class="stat-num">${confident}</div><div class="stat-label">Confident Scenes</div></div><div class="stat-tile" role="listitem"><div class="stat-num">${learning}</div><div class="stat-label">Learning Scenes</div></div></div>
-            ${tagStats.length ? `<h2 class="progress-h2">Mastery By Essay Tag</h2><div class="tagstat-list" role="list">${tagStats.map((ts) => `<div class="tagstat-row" role="listitem">${tagChip(ts.t)}<span class="tagstat-n">${plural(ts.n,'scene')}</span><span class="tagstat-barwrap"><i class="tagstat-bar" style="width:${ts.pct}%;background:${tagColor(ts.t)}"></i></span><b class="tagstat-pct">${ts.pct}%</b><button class="practice-btn" data-action="practiceTag" data-tag="${esc(ts.t)}">Practice</button></div>`).join('')}</div>` : ''}
+            ${tagStats.length ? `<h2 class="progress-h2">Mastery By Tag</h2><div class="tagstat-list" role="list">${tagStats.map((ts) => `<div class="tagstat-row" role="listitem">${tagChip(ts.t)}<span class="tagstat-n">${plural(ts.n,'scene')}</span><span class="tagstat-barwrap"><i class="tagstat-bar" style="width:${ts.pct}%;background:${tagColor(ts.t)}"></i></span><b class="tagstat-pct">${ts.pct}%</b><button class="practice-btn" data-action="practiceTag" data-tag="${esc(ts.t)}">Practice</button></div>`).join('')}</div>` : ''}
             <h2 class="progress-h2">Scene By Scene</h2><div class="scene-status-list">${scenes.map((scene) => { const mastery=masteryOf(scene.id); const card=state.cards[scene.id]; const status=card?.reviews && card.dueAt<=Date.now()?'Due Now':mastery==='confident'?'Confident':mastery==='learning'?dueLabel(scene.id):'Not Studied'; return `<div class="status-row"><span class="mono">${pad2(scene.id)} · ${sceneTimeLabel(scene.id)}</span><span class="st-title">${esc(scene.title)}</span>${card?.reviews?`<span class="status-pill count">${plural(card.reviews,'review')}</span>`:''}<span class="status-pill ${status === 'Due Now' ? 'due' : mastery}">${esc(status)}</span></div>`;}).join('')}</div>
             <div class="progress-actions"><button class="button danger-button" data-action="confirmReset">${icon('rotate',16)} Restart Current Progress</button></div>`;
         }
@@ -1544,7 +1548,7 @@
             <div class="selection-toolbar"><span><b>${selected.size}</b> Selected · ${BUILTIN_SCENES.length} Authored Scenes</span><div><button class="text-button" data-action="selectSelectionResults" ${matches.some(s=>!selected.has(s.id))?'':'disabled'}>Select Results</button><button class="text-button" data-action="deselectSelectionResults" ${matches.some(s=>selected.has(s.id))?'':'disabled'}>Deselect Results</button><button class="text-button" data-action="selectAllScenes">Select All</button><button class="text-button" data-action="selectNoScenes">Deselect All</button></div></div>
             <p id="selectionResults" class="library-count" tabindex="-1" role="status" aria-live="polite">${selectionResultLabel(matches,selected)}</p>
             <div class="scene-choice-list" role="group" aria-label="Choose Scenes To Study">
-              ${matches.map((scene) => `<label class="scene-choice ${selected.has(scene.id) ? 'selected' : ''}"><input type="checkbox" data-action="toggleSceneSelection" data-id="${scene.id}" ${selected.has(scene.id) ? 'checked' : ''} aria-label="Select ${esc(scene.title)}"><span class="choice-number">${pad2(scene.id)}</span><span class="choice-copy"><b>${esc(scene.title)}</b><small>${esc(scene.character)} · ${sceneTimeLabel(scene.id)}</small></span><span class="choice-tags">${tagsOf(scene).slice(0,2).map((tag) => `<i>${esc(tagLabel(tag))}</i>`).join('')}</span></label>`).join('')}
+              ${matches.map((scene) => `<label class="scene-choice ${selected.has(scene.id) ? 'selected' : ''}"><input type="checkbox" data-action="toggleSceneSelection" data-id="${scene.id}" ${selected.has(scene.id) ? 'checked' : ''} aria-label="Select ${esc(scene.title)}"><span class="choice-number">${pad2(scene.id)}</span><span class="choice-copy"><b>${esc(scene.title)}</b><small>${esc(scene.character)} · ${sceneTimeLabel(scene.id)}</small>${importanceBadge(scene)}</span><span class="choice-tags">${tagsOf(scene).slice(0,2).map((tag) => `<i>${esc(tagLabel(tag))}</i>`).join('')}</span></label>`).join('')}
             </div>
             ${matches.length?'':'<div class="empty-note"><h3>No scenes match this search.</h3><button class="text-button" data-action="selectionSearchClear">Clear Search</button></div>'}
             <div class="selection-footer"><span>${selected.size ? `${selected.size} scenes will appear across your study modes.` : 'Select at least one scene to use the study modes.'}</span><button class="button primary" data-action="applySceneSelection" ${selected.size ? '' : 'disabled'}>Use Selected Scenes ${icon('right', 16)}</button></div>`;
@@ -1982,9 +1986,9 @@
             const meta = [];
             if (s.character) meta.push(`**Character:** ${s.character}`);
             if (s.analysisType) meta.push(`**Essay type:** ${s.analysisType}`);
+            meta.push(`**Importance:** ${importanceOf(s)}/5 stars — ${s.essayImportance?.reason || ''}`);
             const tg = tagsOf(s);
-            if (tg.length) meta.push(`**Essay tags:** ${tg.map((t) => `#${t}`).join(', ')}`);
-            if (s.themes && s.themes.length) meta.push(`**Themes:** ${s.themes.join(', ')}`);
+            if (tg.length) meta.push(`**Tags:** ${tg.map(tagLabel).join(', ')}`);
             if (meta.length) L.push(meta.join('  \n'), '');
             if (s.description) L.push(`**What happens.** ${s.description}`, '');
             if (s.keyLine) L.push(`**Key line.** “${s.keyLine}”`, '');

@@ -2,6 +2,14 @@
 
 Hidden Figures study application with 67 authored scenes, a searchable scene library, flashcards, matching, essay quizzes, recall notes and progress tracking.
 
+## Tags and Importance
+
+Every scene uses one consistent Tags list throughout the application. Former essay tags and theme classifications are combined without duplicate labels; names such as Teamwork, Recognition and Self-Respect make them easier to understand.
+
+Importance is a curated 1–5-star rating of usefulness as essay evidence. Higher ratings identify clear arguments, specific techniques, turning points and strong comparisons; details explain each rating. Library sorting places the highest ratings first, and star filters can be combined with tags. Use the rating to find strong examples that fit your particular essay topic.
+
+The latest update passed 57 focused checks, a 75-state interface check and 36 production-build states. All other existing scene fields, including timestamps, remain unchanged. No new critic or improvement loops were requested for this update. Evidence is in `audit/tag-update/` and `audit/importance-update/` on the workspace branch.
+
 ## Run and build
 
 Serve this directory with a static web server and open `index.html`. For example:
