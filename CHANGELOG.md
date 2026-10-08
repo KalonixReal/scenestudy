@@ -1,5 +1,11 @@
 # SceneStudy changes
 
+## User-edited scene times and shorter tab changes (2026-10-08)
+
+- Applied the 30 timestamp edits made in the dist scene JSON to the current source catalogue, mapping changes for merged duplicate IDs to their surviving scene records. Kept all newer theme, technique, Importance and scene additions.
+- Synchronized the JSON and JavaScript catalogue mirrors, rebuilt dist, and updated the scene generator to preserve these timestamp edits on future regeneration.
+- Reduced randomized tab transitions to 60–100 ms.
+
 ## Desktop catalogue and interface update (2026-10-08)
 
 - Preserved the Choose Scenes filters previously present only in dist, bringing them into source.

@@ -17,8 +17,8 @@
       "expertise"
     ],
     "timestamps": {
-      "start": 0,
-      "end": 37.12
+      "start": 6.0,
+      "end": 19.44
     },
     "sourceSlugline": "EXT. White Sulphur Springs Grammar School — Day",
     "retrievalPrompts": [
@@ -307,7 +307,7 @@
     ],
     "timestamps": {
       "start": 212.72,
-      "end": 363.84
+      "end": 373.0
     },
     "sourceSlugline": "EXT. Rural Virginia Highway — Day",
     "retrievalPrompts": [
@@ -370,7 +370,7 @@
     "sourceSlugline": "NASA grounds; Langley Research Center",
     "timestamps": {
       "start": 231.48,
-      "end": 288.36
+      "end": 320.24
     },
     "retrievalPrompts": [
       {
@@ -430,7 +430,7 @@
     "sourceSlugline": "White House; US Central Command; Tracking Control Room",
     "timestamps": {
       "start": 374.08,
-      "end": 434.68
+      "end": 428.08
     },
     "retrievalPrompts": [
       {
@@ -488,7 +488,7 @@
       "teamwork"
     ],
     "timestamps": {
-      "start": 434.68,
+      "start": 428.08,
       "end": 501.56
     },
     "sourceSlugline": "INT. NASA Headquarters Briefing Room — Day",
@@ -549,8 +549,8 @@
     ],
     "sourceSlugline": "NASA Tracking Control Room, Hampton",
     "timestamps": {
-      "start": 378.56,
-      "end": 395.24
+      "start": 522.16,
+      "end": 556.8
     },
     "retrievalPrompts": [
       {
@@ -849,7 +849,7 @@
     "sourceSlugline": "NASA hallway; Space Task Group office",
     "timestamps": {
       "start": 895.72,
-      "end": 974.28
+      "end": 988.6
     },
     "retrievalPrompts": [
       {
@@ -907,8 +907,8 @@
       "discrimination"
     ],
     "timestamps": {
-      "start": 1006,
-      "end": 1044.44
+      "start": 1006.0,
+      "end": 1057.0
     },
     "sourceSlugline": "INT. Space Task Group — Day",
     "retrievalPrompts": [
@@ -967,7 +967,7 @@
     "sourceSlugline": "NASA grounds; West Campus hallway",
     "timestamps": {
       "start": 1184.04,
-      "end": 1254.12
+      "end": 1273.88
     },
     "retrievalPrompts": [
       {
@@ -1027,8 +1027,8 @@
     ],
     "sourceSlugline": "Space Task Group office",
     "timestamps": {
-      "start": 5714.6,
-      "end": 5740.04
+      "start": 1058.0,
+      "end": 1105.68
     },
     "retrievalPrompts": [
       {
@@ -1267,8 +1267,8 @@
       "opportunity"
     ],
     "timestamps": {
-      "start": 5794.92,
-      "end": 5823.44
+      "start": 5851.0,
+      "end": 5923.64
     },
     "sourceSlugline": "INT. Space Task Group — Day",
     "retrievalPrompts": [
@@ -1448,7 +1448,7 @@
     "sourceSlugline": "IBM computer room",
     "timestamps": {
       "start": 4130.24,
-      "end": 4152.08
+      "end": 4154.88
     },
     "retrievalPrompts": [
       {
@@ -1509,7 +1509,7 @@
     "sourceSlugline": "West Computing hallway",
     "timestamps": {
       "start": 6433.96,
-      "end": 6478.72
+      "end": 6476.48
     },
     "retrievalPrompts": [
       {
@@ -1569,7 +1569,7 @@
     "sourceSlugline": "Hampton Public Library",
     "timestamps": {
       "start": 3545.84,
-      "end": 3587.6
+      "end": 3573.92
     },
     "retrievalPrompts": [
       {
@@ -1629,7 +1629,7 @@
     ],
     "sourceSlugline": "Hampton Public Library and bus",
     "timestamps": {
-      "start": 3555,
+      "start": 3573.92,
       "end": 3635.56
     },
     "retrievalPrompts": [
@@ -1750,8 +1750,8 @@
     ],
     "sourceSlugline": "Community party dance floor",
     "timestamps": {
-      "start": 3720.92,
-      "end": 3777.6
+      "start": 3695.0,
+      "end": 3799.96
     },
     "retrievalPrompts": [
       {
@@ -2048,7 +2048,7 @@
     ],
     "sourceSlugline": "Space Task Group office",
     "timestamps": {
-      "start": 4218.04,
+      "start": 4226.0,
       "end": 4271.4
     },
     "retrievalPrompts": [
@@ -2108,7 +2108,7 @@
       "teamwork"
     ],
     "timestamps": {
-      "start": 4349.04,
+      "start": 4364.0,
       "end": 4410.64
     },
     "sourceSlugline": "EXT. Langley Segregated Restroom — Day",
@@ -2525,7 +2525,7 @@
       "discrimination"
     ],
     "timestamps": {
-      "start": 6859.08,
+      "start": 6826.44,
       "end": 6912.76
     },
     "sourceSlugline": "INT. Langley Ladies' Restroom — Day",
@@ -2589,7 +2589,7 @@
     ],
     "sourceSlugline": "IBM computer room; West Computing Group hallway",
     "timestamps": {
-      "start": 6478.72,
+      "start": 6476.48,
       "end": 6548.52
     },
     "retrievalPrompts": [
@@ -2830,7 +2830,7 @@
     "sourceSlugline": "West Computing Room — Day",
     "timestamps": {
       "start": 7975.88,
-      "end": 8035.88
+      "end": 8032.96
     },
     "retrievalPrompts": [
       {
@@ -2886,7 +2886,7 @@
     ],
     "sourceSlugline": "Katherine's daughters' bedroom — Night",
     "timestamps": {
-      "start": 2006.0,
+      "start": 1918.6,
       "end": 2068.68
     },
     "retrievalPrompts": [
@@ -3005,7 +3005,7 @@
     "sourceSlugline": "Tracking Control Room — Day",
     "timestamps": {
       "start": 8631.12,
-      "end": 8669.0
+      "end": 8669.68
     },
     "retrievalPrompts": [
       {
@@ -3062,7 +3062,7 @@
     ],
     "timestamps": {
       "start": 7551.08,
-      "end": 7588.84
+      "end": 7632.04
     },
     "sourceSlugline": "INT. Space Task Group / Cape Canaveral — Launch Day",
     "retrievalPrompts": [
@@ -3353,8 +3353,8 @@
     ],
     "sourceSlugline": "Space Task Group; NASA Tracking Control",
     "timestamps": {
-      "start": 8300.2,
-      "end": 8424.88
+      "start": 8293.96,
+      "end": 8429.68
     },
     "retrievalPrompts": [
       {
@@ -3410,7 +3410,7 @@
     ],
     "sourceSlugline": "NASA Tracking Control; Atlantic Ocean",
     "timestamps": {
-      "start": 8486.12,
+      "start": 8464.36,
       "end": 8622.36
     },
     "retrievalPrompts": [
@@ -3469,7 +3469,7 @@
     ],
     "timestamps": {
       "start": 8622.36,
-      "end": 8669.0
+      "end": 8669.68
     },
     "sourceSlugline": "INT. NASA Tracking Control Room — Day",
     "retrievalPrompts": [
@@ -3585,7 +3585,7 @@
     ],
     "sourceSlugline": "Space Task Group — Day",
     "timestamps": {
-      "start": 8722.72,
+      "start": 8722.76,
       "end": 8781.44
     },
     "retrievalPrompts": [
@@ -3642,7 +3642,7 @@
     ],
     "sourceSlugline": "NASA grounds; Langley",
     "timestamps": {
-      "start": 8669.0,
+      "start": 8670.28,
       "end": 8813.6
     },
     "retrievalPrompts": [

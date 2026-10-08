@@ -32,7 +32,7 @@ Watch Film uses the existing third-party MP4 URL. Hosting availability and playb
 
 ## Desktop interface
 
-Desktop layouts are the supported review scope. Both light and dark themes are checked across the nine views, filters, exercises and scene details. Tab changes have a randomized 350–650 ms transition; choosing a film clip starts immediately.
+Desktop layouts are the supported review scope. Both light and dark themes are checked across the nine views, filters, exercises and scene details. Tab changes have a randomized 60–100 ms transition; choosing a film clip starts immediately.
 
 Print Study Pack, Related Scenes, streak/due badges and shortcut help have been removed. Exercises, bookmarks, recall notes, review scheduling and backup/export remain available.
 

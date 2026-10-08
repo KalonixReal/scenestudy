@@ -487,7 +487,7 @@
           clearTimeout(navigationTimer);
           if(currentView==='watch'&&v!=='watch')clearMovie();
           viewEl.setAttribute('aria-busy','true');viewEl.classList.add('view-pending');$('#main').inert=true;
-          navigationTimer=setTimeout(()=>go(v),350+Math.floor(Math.random()*301));
+          navigationTimer=setTimeout(()=>go(v),60+Math.floor(Math.random()*41));
         }
         if(navigator.mediaSession){
           try{navigator.mediaSession.setActionHandler('play',()=>{const p=$('#filmPlayer');if(currentView==='watch'&&navigationTimer==null&&p?.isConnected)p.playClip();});
