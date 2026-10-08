@@ -4,9 +4,11 @@ Hidden Figures study application with 64 scenes, a searchable library, flashcard
 
 ## Scenes and filters
 
-Six themes organize the catalogue: Discrimination, Education & Opportunity, Expertise & Recognition, Leadership & Teamwork, Family, and Space Race & Technology. Every scene also has tags from a set of 15 common visual film techniques.
+Eight themes organize the catalogue: Discrimination & Segregation, Education & Opportunity, Expertise & Recognition, Leadership & Teamwork, Family & Community, Space Race & Technology, Self-Respect & Resistance, and Visibility & Legacy. Each scene has a small, primary-first set of themes and up to three technique tags selected from a shared set of 15 film techniques.
 
-The Library and Choose Scenes each have independent search, filters and sorting. Multiple choices within a filter combine with OR; different filters combine with AND. Importance is scored out of 10 for usefulness as essay evidence.
+The Library and Choose Scenes each have independent search, filters and sorting. Multiple choices within a filter combine with OR; different filters combine with AND. The essay-type filter has been removed. Importance is scored out of 10 for usefulness as essay evidence, not plot or historical importance.
+
+Technique tags and descriptions were reviewed against silent frames from the current clip ranges. Camera movement, sound, and editing patterns are only named when the available visual evidence supports them; descriptions avoid presenting the film's dramatized scenes as proof of historical events.
 
 Five identical clip ranges have been merged, preserving saved notes, bookmarks, reviews and selections. Two running scenes feature Sam alone and Sam with Katherine. Overlapping clips remain when they show different parts of an event.
 
@@ -34,7 +36,7 @@ Watch Film uses the existing third-party MP4 URL. Hosting availability and playb
 
 Desktop layouts are the supported review scope. Both light and dark themes are checked across the nine views, filters, exercises and scene details. Tab changes have a randomized 60–100 ms transition; choosing a film clip starts immediately.
 
-Print Study Pack, Related Scenes, streak/due badges and shortcut help have been removed. Exercises, bookmarks, recall notes, review scheduling and backup/export remain available.
+Watch Film is grouped with Exercises. Print Study Pack, Related Scenes, streak/due badges and shortcut help have been removed. Exercises, bookmarks, recall notes, review scheduling and backup/export remain available.
 
 ## Repository
 

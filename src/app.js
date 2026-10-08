@@ -94,20 +94,21 @@
 
         /* ================= BUILT-IN SCENE LIBRARY ================= */
         const BUILTIN_SCENES = window.SCENESTUDY_MASTER_SCENES;
-        const SCENE_ALIASES={52:29,32:31,38:37,54:56,64:55};
-        const resolveSceneId=(id,map=null)=>{const n=map?map[Number(id)]:Number(id);return SCENE_ALIASES[n]||n;};
+        const resolveSceneId=(id)=>Number(id);
         const FILM_NAME = 'Hidden Figures';
         const MOVIE_SOURCE = 'https://cdn2.etv.nz/vod/etv5-token202504/etv/hidden_figures_tv_3_20181202_2030_640x360_1500k.mp4';
         const FILM_RUNTIME = 8960.52; // seconds, measured from the provided file
 
         /* ================= SCENE TAGS ================= */
         const TAGS = {
-          discrimination:{label:'Discrimination',def:'racial and gender barriers, exclusion and responses to prejudice'},
-          opportunity:{label:'Education & Opportunity',def:'learning and access to educational and professional opportunities'},
-          expertise:{label:'Expertise & Recognition',def:'skilled work and the recognition it earns'},
-          teamwork:{label:'Leadership & Teamwork',def:'shared work, advocacy and collective advancement'},
-          family:{label:'Family',def:'relationships, care and support outside the workplace'},
-          spacerace:{label:'Space Race & Technology',def:'the mission, computing and technical change'},
+          discrimination:{label:'Discrimination & Segregation',def:'racial and gender barriers, unequal rules, exclusion, and their direct effects'},
+          opportunity:{label:'Education & Opportunity',def:'access to learning, qualifications, assignments, and routes into a profession'},
+          expertise:{label:'Expertise & Recognition',def:'demonstrated skill, its practical use, and whether others see, trust, or credit it'},
+          teamwork:{label:'Leadership & Teamwork',def:'collective work, mentorship, advocacy for colleagues, and shared achievement'},
+          family:{label:'Family & Community',def:'care, kinship, friendship, and community support beyond formal workplace structures'},
+          spacerace:{label:'Space Race & Technology',def:'the mission, engineering, computing, and technical change that frame the story’s work'},
+          selfrespect:{label:'Self-Respect & Resistance',def:'a character asserts dignity, names a stereotype, or actively challenges a degrading expectation'},
+          legacy:{label:'Visibility & Legacy',def:'work made publicly visible, credit restored, or the film’s closing links to lasting impact'},
         };
         const TECHNIQUES = {"closeup": "Close-up", "medium": "Medium shot", "wide": "Wide shot", "pov": "POV shot", "lowangle": "Low-angle shot", "tracking": "Tracking shot", "natural": "Natural lighting", "lowkey": "Low-key lighting", "crosscut": "Cross-cutting", "montage": "Montage", "props": "Props", "costume": "Costume", "setting": "Setting", "color": "Color palette", "blocking": "Actor blocking"};
         const techniquesOf=s=>Array.isArray(s.techniqueTags)?[...new Set(s.techniqueTags)].filter(t=>TECHNIQUES[t]):[];
@@ -134,49 +135,52 @@
         /* Curated essay content — theses, turning points and counter-claims used by the quiz engine */
         const THESES = [
           { text: 'Discrimination in Hidden Figures is not just personal prejudice — it is built into everyday rules and routines.', tags: ['discrimination'], scene: 23 },
-          { text: 'Racism and sexism compound each other in a single life, creating a barrier neither would create alone.', tags: ['discrimination'], scene: 13 },
-          { text: 'Family support provides a foundation for demanding professional work.', tags: ['family'], scene: 39 },
-          { text: 'Institutions only change when discrimination becomes visibly costly to them.', tags: ['discrimination', 'teamwork'], scene: 37 },
-          { text: 'Custom and “the way things are done” can exclude people as firmly as any written rule.', tags: ['discrimination'], scene: 22 },
-          { text: 'People can take part in injustice while sincerely believing they are free of prejudice.', tags: ['discrimination'], scene: 45 },
-          { text: 'Progress is measured in shared victories, not individual promotions.', tags: ['teamwork', 'expertise'], scene: 63 },
-          { text: 'Trust across racial lines is earned through demonstrated competence, not granted through goodwill.', tags: ['expertise', 'teamwork'], scene: 56 },
-          { text: 'Self-respect is itself a form of resistance.', tags: ['discrimination'], scene: 21 },
-          { text: 'A single moment of eloquence can move the people who hold power.', tags: ['discrimination'], scene: 35 },
-          { text: 'Technology can either entrench exclusion or break it open — the difference is who is prepared for it.', tags: ['spacerace', 'teamwork'], scene: 33 },
-          { text: 'National crisis forces societies to confront the waste of discrimination.', tags: ['spacerace'], scene: 9 },
+          { text: 'Racism and sexism compound each other in a single life, creating a barrier neither would create alone.', tags: ['discrimination'], scene: 14 },
+          { text: 'Family support provides a foundation for demanding professional work.', tags: ['family'], scene: 35 },
+          { text: 'The film frames some institutional change as a response to the visible cost of excluding skilled workers.', tags: ['discrimination'], scene: 34 },
+          { text: 'Custom and “the way things are done” can exclude people as firmly as any written rule.', tags: ['discrimination'], scene: 40 },
+          { text: 'People can take part in injustice while sincerely believing they are free of prejudice.', tags: ['discrimination'], scene: 47 },
+          { text: 'The collective launch celebration broadens the film’s idea of achievement beyond one person’s success.', tags: ['teamwork', 'legacy'], scene: 59 },
+          { text: 'The film links cross-racial trust during the launch crisis to specific professional skill, while leaving broader equality unresolved.', tags: ['expertise', 'spacerace'], scene: 49 },
+          { text: 'A character’s self-respect becomes visible when she directly rejects a degrading expectation.', tags: ['selfrespect'], scene: 22 },
+          { text: 'Direct speech makes everyday institutional barriers visible to the people who benefit from them.', tags: ['discrimination', 'selfrespect'], scene: 32 },
+          { text: 'Technology can either entrench exclusion or break it open — the difference is who is prepared for it.', tags: ['spacerace', 'teamwork'], scene: 29 },
+          { text: 'The briefing establishes Space Race urgency; later scenes show how discrimination limits whose expertise can meet that pressure.', tags: ['spacerace'], scene: 9 },
           { text: 'Information control is a subtle but powerful tool of oppression.', tags: ['discrimination'], scene: 24 },
           { text: 'Endurance has a measurable cost: the film quantifies the tax of segregation.', tags: ['discrimination'], scene: 19 },
-          { text: 'Acceptance, when it finally comes, is expressed through small everyday gestures.', tags: ['teamwork', 'expertise', 'discrimination'], scene: 65 },
-          { text: 'Foundational knowledge never stops paying off — old mathematics can solve brand-new problems.', tags: ['expertise'], scene: 43 },
+          { text: 'Recognition can arrive through a small gesture, while the report title makes professional credit concrete.', tags: ['expertise', 'legacy', 'teamwork'], scene: 63 },
+          { text: 'Foundational knowledge never stops paying off — old mathematics can solve brand-new problems.', tags: ['expertise'], scene: 46 },
+          { text: 'The film’s closing coda restores visibility to the women’s work while placing it within a longer NASA story.', tags: ['legacy', 'opportunity'], scene: 61 },
         ];
         const TURNING_POINTS = [
-          { text: 'silent endurance finally erupts into open resistance', scene: 35 },
-          { text: 'the institution physically tears down one of its own symbols of segregation', scene: 37 },
-          { text: 'a life is entrusted to Katherine’s calculations because accuracy matters more than prejudice', scene: 56 },
-          { text: 'mathematical authority is established in front of the military brass', scene: 44 },
-          { text: 'Mary realises that talent without opportunity is wasted', scene: 13 },
-          { text: 'years of workplace prejudice dissolve into one small, personal gesture of respect', scene: 65 },
-          { text: 'a closed door to the decision-makers is argued open', scene: 48 },
-          { text: 'a centuries-old method is proposed to solve a brand-new problem', scene: 43 },
+          { text: 'Katherine names how everyday workplace rules affect her ability to do her job', scene: 32 },
+          { text: 'a manager removes one visible restroom restriction, without resolving every workplace barrier', scene: 34 },
+          { text: 'Glenn asks Katherine to verify the calculations when the launch team needs a trusted manual check', scene: 49 },
+          { text: 'Katherine’s calculation earns attention from the engineers and officials in the briefing, while access to expertise remains uneven elsewhere', scene: 42 },
+          { text: 'Mary realises that talent without opportunity is wasted', scene: 14 },
+          { text: 'the report’s title gives Katherine visible credit alongside Paul Stafford', scene: 63 },
+          { text: 'a closed door to the decision-makers is argued open', scene: 41 },
+          { text: 'a centuries-old method is proposed to solve a brand-new problem', scene: 46 },
         ];
         const NUANCES = [
           { claim: 'Racism at NASA was always loud and explicit.', scene: 23, why: 'The coffee pot is a quiet, almost polite act of exclusion — discrimination hiding in an everyday object.' },
           { claim: 'Kindness from white colleagues is what solves discrimination in the film.', scene: 11, why: 'Vivian Mitchell is never hostile, yet her polite bureaucracy keeps Dorothy out — niceness is not the same as fairness.' },
-          { claim: 'People like Vivian Mitchell are simply villains.', scene: 45, why: 'The mirror scene shows Vivian sincerely believing she bears no animosity — unconscious bias can wear a polite face and still do harm.' },
-          { claim: 'Victory in the film belongs to one heroic individual.', scene: 63, why: 'The celebration is deliberately collective — wide views and reaction shots share the celebration across the room, and Katherine is visibly part of it.' },
-          { claim: 'Technology simply made human mathematicians unnecessary.', scene: 56, why: 'When the IBM output is doubted, a human being is the final check — the machine never fully replaces judgment.' },
-          { claim: 'Once the restroom sign came down, segregation at NASA was over.', scene: 24, why: 'The redacted report is another example of exclusion: removing one sign does not by itself settle every barrier to equal participation.' },
-          { claim: 'Katherine’s success is essentially a matter of luck.', scene: 1, why: 'The prologue shows a lifetime of disciplined study behind every ability the plot later uses.' },
-          { claim: 'Prejudice at NASA affected social life but never the actual work.', scene: 24, why: 'Blacked-out data directly blocks the trajectory work itself — discrimination reaches into the mathematics.' },
+          { claim: 'People like Vivian Mitchell are simply villains.', scene: 47, why: 'The mirror scene shows Vivian sincerely believing she bears no animosity — unconscious bias can wear a polite face and still do harm.' },
+          { claim: 'Victory in the film belongs to one heroic individual.', scene: 59, why: 'The celebration is deliberately collective — wide views and reaction shots share the celebration across the room, and Katherine is visibly part of it.' },
+          { claim: 'Technology simply made human mathematicians unnecessary.', scene: 52, why: 'Katherine compares the IBM output with her own calculations, showing how machine results and trained human judgment are checked together.' },
+          { claim: 'Once the restroom sign came down, segregation at NASA was over.', scene: 34, why: 'The scene removes one specific restroom restriction. The separate report scene (scene 24) shows that access to information remains another barrier.' },
+          { claim: 'Katherine’s success is essentially a matter of luck.', scene: 1, why: 'The brief clip associates young Katherine with mathematical thinking but cannot prove a lifetime of study; later work scenes show her expertise in practice.' },
+          { claim: 'Prejudice at NASA affected social life but never the actual work.', scene: 24, why: 'The report on Katherine’s desk has numbers blacked out even as she is expected to check the calculations, tying exclusion to the work itself.' },
         ];
         const ESSAY_PROMPTS = {
-          discrimination:'How do the setting, rules and interactions reveal discrimination in this scene?',
-          opportunity:'How does access to learning or professional opportunity change in this scene?',
-          expertise:'How does the filmmaking make expertise and recognition visible?',
-          teamwork:'How does collective work or leadership shape this scene?',
-          family:'How does family support relate to professional responsibility?',
-          spacerace:'How do mission urgency and technology shape the choices in this scene?',
+          discrimination:'How do rules, spaces, or interactions expose unequal treatment?',
+          opportunity:'What access to learning or professional opportunity changes here?',
+          expertise:'How does the scene show skill being used, trusted, or recognized?',
+          teamwork:'How does leadership or shared work shape the outcome?',
+          family:'How do family, friends, or community support the characters?',
+          spacerace:'How do the mission or technical changes shape the choices?',
+          selfrespect:'How does a character assert dignity or resist an expectation?',
+          legacy:'How does the film make overlooked work visible or connect it to lasting impact?',
         };
         const essayPromptFor = (scene) => {
           const tags = tagsOf(scene).filter((t) => ESSAY_PROMPTS[t]);
@@ -186,9 +190,9 @@
         const lower1 = (str) => { if (!str) return str; if (/^[A-Z]{2,}\b/.test(str)) return str; return str.charAt(0).toLowerCase() + str.slice(1); };
 
         /* ================= STATE ================= */
-        const STORE_KEY = 'scenestudy-v2';
+        const STORE_KEY = 'scenestudy-v3';
         const freshState = () => ({
-          v: 4,
+          v: 6,
           cards: {},            // id -> { dueAt, interval(days), last, reviews }
           bookmarks: [],
           notes: {},            // id -> recall text
@@ -200,82 +204,53 @@
           progressStart: '',
           progressEnd: '',
         });
-        // Scene IDs were renumbered 1–67 in film order (previously 1–75 with gaps).
-        const IDMAP_V2 = { 1: 1, 2: 16, 3: 13, 4: 21, 7: 6, 8: 9, 9: 23, 10: 19, 11: 31, 13: 11, 14: 24, 15: 35, 16: 37, 19: 44, 20: 56, 21: 47, 22: 65, 24: 45, 25: 39, 28: 43, 29: 22, 30: 63, 31: 2, 32: 3, 33: 4, 34: 5, 35: 7, 36: 8, 37: 10, 38: 32, 39: 25, 40: 12, 41: 14, 42: 15, 43: 18, 44: 17, 45: 34, 46: 36, 47: 38, 48: 27, 49: 28, 50: 33, 51: 26, 52: 40, 53: 41, 54: 42, 55: 29, 56: 48, 57: 54, 58: 58, 59: 57, 60: 59, 61: 60, 62: 61, 63: 62, 64: 64, 65: 46, 66: 49, 67: 52, 68: 53, 69: 51, 70: 30, 71: 20, 72: 55, 73: 50, 74: 66, 75: 67 };
-        const remapIdList = (list) => { const seen = new Set(); const out = []; for (const raw of (Array.isArray(list) ? list : [])) { const nid = resolveSceneId(raw,IDMAP_V2); if (nid != null && !seen.has(nid) && BUILTIN_SCENES.some((s) => s.id === nid)) { seen.add(nid); out.push(nid); } } return out; };
         let state = freshState();
         try {
           const raw = localStorage.getItem(STORE_KEY);
           if (raw) {
             const parsed = JSON.parse(raw);
-            if (parsed && [3,4].includes(parsed.v)) {
+            if (parsed && parsed.v === 6) {
               state = Object.assign(freshState(), parsed);
               if (!Array.isArray(parsed.selectedSceneIds)) state.selectedSceneIds = BUILTIN_SCENES.map((scene) => scene.id);
               if (!Array.isArray(state.history)) state.history = [];
               if (!state.progressRange) state.progressRange = '30';
               if (!Number.isFinite(state.watchPos)) state.watchPos = 0;
-            } else if (parsed && parsed.v === 2) {
-              const cards = {};
-              Object.entries(parsed.cards || {}).forEach(([id, c]) => {
-                const nid = IDMAP_V2[Number(id)];
-                if (nid) cards[nid] = c;
-              });
-              const notes = {};
-              Object.entries(parsed.notes || {}).forEach(([id, t]) => {
-                const nid = IDMAP_V2[Number(id)];
-                if (nid) notes[nid] = t;
-              });
-              state = Object.assign(freshState(), {
-                cards,
-                bookmarks: remapIdList(parsed.bookmarks),
-                notes,
-                activity: Object.assign(freshState().activity, parsed.activity || {}, { explanations: remapIdList(parsed.activity && parsed.activity.explanations) }),
-                selectedSceneIds: Array.isArray(parsed.selectedSceneIds) ? remapIdList(parsed.selectedSceneIds) : BUILTIN_SCENES.map(s => s.id),
-                history: Array.isArray(parsed.history) ? parsed.history.map((e) => ({ ...e, sceneId: e.sceneId != null && IDMAP_V2[e.sceneId] ? IDMAP_V2[e.sceneId] : null })) : [],
-                watchPos: parsed.watchPos,
-                progressRange: parsed.progressRange,
-                progressStart: parsed.progressStart,
-                progressEnd: parsed.progressEnd,
-              });
-              if (!Array.isArray(state.history)) state.history = [];
-              if (!state.progressRange) state.progressRange = '30';
-              if (!Number.isFinite(state.watchPos)) state.watchPos = 0;
-              state.activity.streak = Number.isFinite(state.activity.streak) ? state.activity.streak : 0;
-              state.activity.lastStudyDay = state.activity.lastStudyDay || null;
-              try { localStorage.setItem(STORE_KEY, JSON.stringify(state)); } catch (e) {}
+            } else {
+              state = freshState();
+              localStorage.setItem(STORE_KEY, JSON.stringify(state));
             }
           }
-        } catch (e) { state = freshState(); }
+        } catch (e) { state = freshState(); try { localStorage.setItem(STORE_KEY, JSON.stringify(state)); } catch (ignored) {} }
 
         const validSceneIds = new Set(BUILTIN_SCENES.map(s => s.id));
-        const cleanIds = (list, map = null) => [...new Set((Array.isArray(list) ? list : []).map(id => resolveSceneId(id,map)).filter(id => validSceneIds.has(id)))];
-        const cardEntries = (cards, map = null) => Object.fromEntries(Object.entries(cards && typeof cards === 'object' && !Array.isArray(cards) ? cards : {}).flatMap(([id,c]) => {
-          const n = resolveSceneId(id,map);
+        const cleanIds = (list) => [...new Set((Array.isArray(list) ? list : []).map(resolveSceneId).filter(id => validSceneIds.has(id)))];
+        const cardEntries = (cards) => Object.fromEntries(Object.entries(cards && typeof cards === 'object' && !Array.isArray(cards) ? cards : {}).flatMap(([id,c]) => {
+          const n = resolveSceneId(id);
           if (!validSceneIds.has(n) || !c || typeof c !== 'object' || Array.isArray(c)) return [];
           return [[id, { interval: Number.isFinite(c.interval) ? clamp(c.interval,0,30) : 0, reviews: Number.isFinite(c.reviews) ? clamp(Math.floor(c.reviews),0,1000000) : 0,
             dueAt: Number.isFinite(c.dueAt) && c.dueAt >= 0 && c.dueAt <= 8640000000000000 ? c.dueAt : 0,
             last: Number.isFinite(c.last) && c.last >= 0 && c.last <= 8640000000000000 ? c.last : 0,
             lastRating: ['again','good','easy'].includes(c.lastRating) ? c.lastRating : null }]];
         }));
-        const noteEntries = (notes, map = null) => Object.fromEntries(Object.entries(notes && typeof notes === 'object' && !Array.isArray(notes) ? notes : {}).flatMap(([id,text]) => {
-          const n = resolveSceneId(id,map);
+        const noteEntries = (notes) => Object.fromEntries(Object.entries(notes && typeof notes === 'object' && !Array.isArray(notes) ? notes : {}).flatMap(([id,text]) => {
+          const n = resolveSceneId(id);
           return validSceneIds.has(n) && typeof text === 'string' && text.trim() ? [[id,text.slice(0,200000)]] : [];
         }));
-        const cleanCards=(cards,map=null)=>{const out={};for(const [id,c] of Object.entries(cardEntries(cards,map))){const n=resolveSceneId(id,map),prev=out[n];if(!prev){out[n]=c;continue;}out[n]={...(c.last>prev.last?c:prev),reviews:clamp(c.reviews+prev.reviews,0,1000000)};}return out;};
-        const cleanNotes=(notes,map=null)=>{const out={};for(const [id,text] of Object.entries(noteEntries(notes,map))){const n=resolveSceneId(id,map);if(!out[n])out[n]=text;else if(out[n].trim()!==text.trim())out[n]=(out[n]+'\n\n'+text).slice(0,200000);}return out;};
-        const cleanActivity = (a = {}, map = null) => ({
+        const cleanCards=(cards)=>{const out={};for(const [id,c] of Object.entries(cardEntries(cards))){const n=resolveSceneId(id),prev=out[n];if(!prev){out[n]=c;continue;}out[n]={...(c.last>prev.last?c:prev),reviews:clamp(c.reviews+prev.reviews,0,1000000)};}return out;};
+        const cleanNotes=(notes)=>{const out={};for(const [id,text] of Object.entries(noteEntries(notes))){const n=resolveSceneId(id);if(!out[n])out[n]=text;else if(out[n].trim()!==text.trim())out[n]=(out[n]+'\n\n'+text).slice(0,200000);}return out;};
+        const cleanActivity = (a = {}) => ({
           matches: Number.isFinite(a?.matches) ? clamp(Math.floor(a.matches),0,1000000) : 0,
           quizzes: Number.isFinite(a?.quizzes) ? clamp(Math.floor(a.quizzes),0,1000000) : 0,
           lastScore: Number.isFinite(a?.lastScore) ? clamp(a.lastScore,0,100) : null,
-          explanations: cleanIds(a?.explanations,map),
+          explanations: cleanIds(a?.explanations),
           streak: Number.isFinite(a?.streak) ? clamp(Math.floor(a.streak),0,100000) : 0,
           lastStudyDay: typeof a?.lastStudyDay === 'string' && Number.isFinite(Date.parse(a.lastStudyDay)) ? a.lastStudyDay : null,
         });
-        const cleanHistory = (list, map=null) => (Array.isArray(list) ? list : []).filter(e => e && typeof e === 'object' && Number.isFinite(e.at) && e.at >= 0 && e.at <= Date.now() + DAY && ['review','quiz','matching','explanation'].includes(e.type))
-          .slice(-2000).map(e => {const id=resolveSceneId(e.sceneId,map);return { type:e.type, at:e.at, sceneId:validSceneIds.has(id) ? id : null, score:Number.isFinite(e.score) ? clamp(e.score,0,100) : null };});
+        const cleanHistory = (list) => (Array.isArray(list) ? list : []).filter(e => e && typeof e === 'object' && Number.isFinite(e.at) && e.at >= 0 && e.at <= Date.now() + DAY && ['review','quiz','matching','explanation'].includes(e.type))
+          .slice(-2000).map(e => {const id=resolveSceneId(e.sceneId);return { type:e.type, at:e.at, sceneId:validSceneIds.has(id) ? id : null, score:Number.isFinite(e.score) ? clamp(e.score,0,100) : null };});
         const cleanDate = value => typeof value==='string' && /^\d{4}-\d{2}-\d{2}$/.test(value) && Number.isFinite(Date.parse(value)) && new Date(value).toISOString().slice(0,10)===value ? value : '';
-        const wasAllSelected=Array.isArray(state.selectedSceneIds)&&Array.from({length:67},(_,i)=>i+1).every(id=>state.selectedSceneIds.includes(id));
-        state.v=4;
+        const wasAllSelected=Array.isArray(state.selectedSceneIds)&&state.selectedSceneIds.length===BUILTIN_SCENES.length&&BUILTIN_SCENES.every(scene=>state.selectedSceneIds.includes(scene.id));
+        state.v=6;
         state.cards = cleanCards(state.cards);
         state.notes = cleanNotes(state.notes);
         state.bookmarks = cleanIds(state.bookmarks);
@@ -432,7 +407,6 @@
           { section: 'Home' },
           { id: 'overview', label: 'Overview', icn: 'home' },
           { id: 'library', label: 'Scene Library', icn: 'grid' },
-          { id: 'watch', label: 'Watch Film', icn: 'film' },
           { id: 'progress', label: 'Progress', icn: 'chart' },
           { id: 'selection', label: 'Choose Scenes', icn: 'check' },
           { section: 'Exercises' },
@@ -440,6 +414,7 @@
           { id: 'matching', label: 'Match & Mix', icn: 'link' },
           { id: 'quiz', label: 'Essay Quiz', icn: 'zap' },
           { id: 'recall', label: 'Recall & Explain', icn: 'quote' },
+          { id: 'watch', label: 'Watch Film', icn: 'film' },
 
         ];
         let currentView = 'overview';
@@ -515,10 +490,10 @@
         const match = { category: 'technique', left: [], right: [], selL: null, selR: null, pairs: [], attempts: 0, wrong: false, done: false, timer: null };
         const quiz = { qs: [], idx: 0, picked: null, answers: [], done: false, len: 10, focus: 'all', effFocus: 'all' };
         const recall = { sceneId: null, checked: false };
-        const facetKeys = ['char','analysis','mastery','tag','technique','importance'];
-        const library = { q: '', char: [], tag: [], technique: [], importance: [], analysis: [], mastery: [], sort: 'film', open: false, groups:{phone:{},desktop:{}} };
+        const facetKeys = ['char','mastery','tag','technique','importance'];
+        const library = { q: '', char: [], tag: [], technique: [], importance: [], mastery: [], sort: 'film', open: false, groups:{phone:{},desktop:{}} };
         const libraryPhone=matchMedia('(max-width:640px)');
-        const selection={q:'',char:[],tag:[],technique:[],importance:[],analysis:[],mastery:[],sort:'film',open:false,groups:{phone:{},desktop:{}}};
+        const selection={q:'',char:[],tag:[],technique:[],importance:[],mastery:[],sort:'film',open:false,groups:{phone:{},desktop:{}}};
         function resetViewStates() {
           flash.deck = 'all'; flash.order = []; flash.idx = 0; flash.flipped = false; flash.session = []; flash.done = false; flash.focus = null;
           newMatchRound(); quiz.qs = []; quiz.idx = 0; quiz.picked = null; quiz.answers = []; quiz.done = false; quiz.partial = false;
@@ -672,7 +647,7 @@
                       <div class="fc-block"><h4>${esc(displayHeading(scene.techniqueLabel,'Film Technique'))}</h4><p>${esc(scene.techniques)}</p></div>
                       <div class="fc-block"><h4>${esc(displayHeading(scene.meaningLabel,'Meaning & Effect'))}</h4><p>${esc(scene.essay)}</p></div>
                     </div>
-                    ${techniqueChips(scene)}<div class="theme-chips">${scene.analysisType ? `<span class="theme-chip analysis-chip">${esc(scene.analysisType)}</span>` : ''}${tagsOf(scene).map((t) => tagChip(t)).join('')}</div>
+                    ${techniqueChips(scene)}<div class="theme-chips">${tagsOf(scene).map((t) => tagChip(t)).join('')}</div>
                     <div class="rate-row">
                       ${[['again', 'Again', 'ok-soft'], ['good', 'Good', ''], ['easy', 'Easy', '']].map(([r, lbl]) => `
                         <button class="rate-btn ${r}" data-action="rate" data-rating="${r}" data-id="${scene.id}">
@@ -737,7 +712,7 @@
             pool = pool.filter((s) => { const t = tagsOf(s)[0]; if (!t || seen.has(t)) return false; seen.add(t); return true; });
             if (pool.length < 5) { match.left = []; match.right = []; return; }
           }
-          const labelOf = (s) => match.category === 'technique' ? s.techniqueLabel : match.category === 'tag' ? tagLabel(tagsOf(s)[0] || 'merit') : s.meaningLabel;
+          const labelOf = (s) => match.category === 'technique' ? s.techniqueLabel : match.category === 'tag' ? tagLabel(tagsOf(s)[0] || 'default') : s.meaningLabel;
           const seenLabels = new Set();
           const uniquePool = pool.filter((s) => { const lbl = labelOf(s); if (seenLabels.has(lbl)) return false; seenLabels.add(lbl); return true; });
           const picked = uniquePool.slice(0, 5);
@@ -746,7 +721,7 @@
           match.right = shuffle(match.left);
           match.selL = null; match.selR = null; match.pairs = []; match.attempts = 0; match.wrong = false; match.done = false;
         }
-        function rightLabel(s) { return match.category === 'technique' ? s.techniqueLabel : match.category === 'tag' ? tagLabel(tagsOf(s)[0] || 'merit') : s.meaningLabel; }
+        function rightLabel(s) { return match.category === 'technique' ? s.techniqueLabel : match.category === 'tag' ? tagLabel(tagsOf(s)[0] || 'default') : s.meaningLabel; }
         function vMatching(root) {
           const scenes = getScenes();
           const enough = scenes.length >= 5 && match.left.length===5;
@@ -1044,8 +1019,6 @@
             quiz.answers.filter(a => !a.correct).forEach(a => missedScenes.set(a.id, (missedScenes.get(a.id) || 0) + 1));
             const skills = {};
             quiz.qs.forEach((qq, i) => { const a = quiz.answers[i]; if (!a) return; const key = qq.kindLabel; (skills[key] = skills[key] || { ok: 0, n: 0 }); skills[key].n++; if (a.correct) skills[key].ok++; });
-            const types = {};
-            quiz.qs.forEach((qq, i) => { const a = quiz.answers[i]; if (!a || !qq.scene || !qq.scene.analysisType) return; const key = qq.scene.analysisType; (types[key] = types[key] || { ok: 0, n: 0 }); types[key].n++; if (a.correct) types[key].ok++; });
             root.innerHTML = `
             <div class="section-toolbar">
               <div><h2>Essay Quiz</h2><p class="section-sub">${quiz.partial ? 'Partial round — ended early. Here is what the answered questions say about your essay readiness.' : 'Round complete — here is what the results say about your essay readiness.'}</p></div>
@@ -1063,12 +1036,6 @@
                   ${Object.entries(skills).map(([lbl, v]) => `
                     <div class="skill-row ${v.ok === v.n ? 'perfect' : v.ok === 0 ? 'weak' : ''}"><span>${esc(lbl)}</span><span class="skill-score"><b>${v.ok}</b>/${v.n}</span></div>`).join('')}
                 </div>
-                ${Object.keys(types).length ? `
-                <div class="skill-breakdown" aria-label="Score By Essay Type">
-                  <span class="breakdown-cap">By Essay Type</span>
-                  ${Object.entries(types).map(([lbl, v]) => `
-                    <div class="skill-row ${v.ok === v.n ? 'perfect' : v.ok === 0 ? 'weak' : ''}"><span>${esc(lbl)}</span><span class="skill-score"><b>${v.ok}</b>/${v.n}</span></div>`).join('')}
-                </div>` : ''}
                 <details class="answer-review">
                   <summary>Review Every Question</summary>
                   <div class="review-list">
@@ -1172,7 +1139,7 @@
                 <div class="writing-meta">
                   <span>${note.trim() ? note.trim().split(/\s+/).length : 0} / 40 words</span>
                   <span class="word-target"><i style="width:${Math.min(100, Math.round(((note.trim() ? note.trim().split(/\s+/).length : 0) / 40) * 100))}%"></i></span>
-                  <span id="draftStatus" role="status">${storageWarning ? 'Draft Could Not Be Saved' : saveTimer ? 'Saving Draft…' : note.trim() ? 'Draft Saved' : 'Draft Ready'}</span>
+                  <span id="draftStatus" role="status">${storageWarning ? 'Draft Could Not Be Saved' : recall.checked ? 'Explanation Saved' : saveTimer ? 'Saving Draft…' : note.trim() ? 'Draft Saved' : 'Draft Ready'}</span>
                 </div>
                 <div class="writing-actions">
                   <button class="button primary" ${note.trim() ? '' : 'disabled'} data-action="checkRecall">${recall.checked ? 'Save Explanation' : 'Check My Explanation'} ${icon('right', 16)}</button>
@@ -1185,7 +1152,6 @@
                 <div class="reference-panel">
                   <span class="eyebrow">Check Your Connection</span>
                   <h3>${esc(scene.title)}</h3>
-                  ${scene.analysisType ? `<p class="ref-analysis"><span class="theme-chip analysis-chip">${esc(scene.analysisType)}</span></p>` : ''}
                   <div class="answer-block"><span class="answer-label">${esc(displayHeading(scene.techniqueLabel,'Film Technique'))}</span><p>${esc(scene.techniques)}</p></div>
                   <div class="answer-block"><span class="answer-label">${esc(displayHeading(scene.meaningLabel,'Meaning & Effect'))}</span><p>${esc(scene.essay)}</p></div>
                   <div class="self-check">
@@ -1214,9 +1180,8 @@
           recordHistory('explanation', recall.sceneId);
           save(); markStudied();
           recall.checked = true;
-          const saved = saveNow();
+          saveNow();
           renderView();
-          if (saved) toast('Explanation saved. Compare the ideas, not exact wording.', 'checkCircle');
         }
 
         /* ================= LIBRARY ================= */
@@ -1226,7 +1191,7 @@
 
         const sceneHay = s => `${s.id} ${s.title} ${s.fullTitle} ${s.description} ${s.character} ${tagsOf(s).join(' ')} ${tagsOf(s).map(tagLabel).join(' ')} ${s.cueText||''} ${s.techniqueLabel||''} ${s.meaningLabel||''} ${s.techniques||''} ${s.essay||''} ${s.keyLine||''} ${s.watchFor||''} ${s.historyNote||''} ${s.essayStarter||''} ${techniquesOf(s).map(techniqueLabel).join(' ')}`.toLowerCase();
         const sceneSearch = new Map(BUILTIN_SCENES.map(s=>[s.id,sceneHay(s)]));
-        const facetValues = (s,k) => k==='char' ? [s.character] : k==='analysis' ? [s.analysisType] : k==='tag' ? tagsOf(s) : k==='technique' ? techniquesOf(s) : k==='importance' ? [String(importanceOf(s))] : [masteryOf(s.id),...(state.bookmarks.includes(s.id)?['saved']:[])];
+        const facetValues = (s,k) => k==='char' ? [s.character] : k==='tag' ? tagsOf(s) : k==='technique' ? techniquesOf(s) : k==='importance' ? [String(importanceOf(s))] : [masteryOf(s.id),...(state.bookmarks.includes(s.id)?['saved']:[])];
         function matchesFilters(s, except=null) {
           return (!library.q.trim() || sceneSearch.get(s.id).includes(library.q.trim().toLowerCase())) && facetKeys.every(k=>k===except||!library[k].length||library[k].some(v=>facetValues(s,k).includes(v)));
         }
@@ -1235,7 +1200,7 @@
           const list=getScenes().filter(s=>matchesFilters(s)); const rank={new:0,learning:1,confident:2};
           return list.sort(library.sort==='importance'?(a,b)=>importanceOf(b)-importanceOf(a)||filmSort(a,b):library.sort==='az'?(a,b)=>a.title.localeCompare(b.title)||a.id-b.id:library.sort==='weak'?(a,b)=>rank[masteryOf(a.id)]-rank[masteryOf(b.id)]||filmSort(a,b):filmSort);
         }
-        const facetLabels={char:'Character',analysis:'Essay Type',mastery:'Study Status',tag:'Themes',technique:'Techniques',importance:'Importance'};
+        const facetLabels={char:'Character',mastery:'Study Status',tag:'Themes',technique:'Techniques',importance:'Importance'};
         const valueLabel=(k,v)=>k==='tag'?tagLabel(v):k==='technique'?techniqueLabel(v):k==='importance'?`${v}/10`:k==='mastery'?({new:'Not Started',learning:'Learning',confident:'Confident',saved:'Bookmarked'}[v]||v):v;
         const activeFilterCount=()=>facetKeys.reduce((n,k)=>n+library[k].length,0);
         function libraryCountHTML(scenes) { return `Showing ${scenes.length} of ${plural(getScenes().length,'scene')}.`; }
@@ -1268,7 +1233,7 @@
             <div class="library-toolbar"><span class="search-box">${icon('search',18)}<input type="search" id="librarySearch" placeholder="Search scenes, quotes, techniques" aria-label="Search Scenes" data-input="librarySearch" value="${esc(library.q)}">${library.q?`<button class="search-clear" data-action="libSearchClear" aria-label="Clear Search">${icon('x',18)}</button>`:'<kbd class="search-kbd" aria-hidden="true">/</kbd>'}</span><span class="select-wrap"><select aria-label="Sort Scenes" data-change="libSort">${[['film','Film Order'],['importance','Importance'],['az','Title A–Z'],['weak','Weakest First']].map(([v,l])=>`<option value="${v}" ${library.sort===v?'selected':''}>${l}</option>`).join('')}</select>${icon('sliders',14)}</span><button class="button secondary" data-action="libFilters" aria-controls="libraryFilters" aria-expanded="${library.open}">${icon('sliders',18)} Filters${n?`<b class="filter-badge">${n}</b>`:''}</button></div>
             <section id="libraryFilters" class="filter-panel" aria-label="Scene Filters" ${library.open?'':'hidden'}><div class="filter-panel-head"><p>Choose any values within a group. Combine groups to narrow the results.</p><button class="text-button" data-action="libClear">Clear All</button></div><div class="filter-groups">${filters}</div><div class="filter-panel-foot"><button class="button primary" data-action="libShowResults">Show ${plural(scenes.length,'Scene')} ${icon('right',16)}</button></div></section>
             ${activePillsHTML()}<p class="library-count" tabindex="-1" role="status" aria-live="polite">${libraryCountHTML(scenes)}</p>
-            ${scenes.length?`<div class="library-grid">${scenes.map(s=>`<article class="scene-tile"><div class="tile-top"><span class="tile-num">${masteryRing(s.id)}${pad2(s.id)}</span>${state.notes[s.id]?.trim()?`<span class="tile-notedot" role="img" aria-label="Recall Notes Saved">${icon('notes',14)}</span>`:''}<button class="icon-button tile-save ${state.bookmarks.includes(s.id)?'saved':''}" data-action="toggleBookmarkStop" data-id="${s.id}" aria-pressed="${state.bookmarks.includes(s.id)}" aria-label="${state.bookmarks.includes(s.id)?'Remove Bookmark':'Bookmark'}: ${esc(s.title)}">${icon('bookmark',18)}</button></div><button class="tile-main" data-action="openScene" data-id="${s.id}" aria-label="Open Details For ${esc(s.title)}">${cueArt(s.cue,s.cueText,'art')}<span class="tile-title">${esc(s.title)}</span><span class="scene-timestamp">${sceneTimeLabel(s.id)}</span>${importanceBadge(s)}${techniqueChips(s)}<span class="tile-char">${esc(s.character)}</span>${s.analysisType?`<span class="tile-analysis">${esc(s.analysisType)}</span>`:''}<span class="tile-tags">${tagsOf(s).slice(0,3).map(t=>`<i style="color:${tagColor(t)}">#${esc(tagLabel(t))}</i>`).join(' ')}${tagsOf(s).length>3?` <b>+${tagsOf(s).length-3}</b>`:''}</span><span class="tile-cue print-only">${esc(s.cueText)}</span></button></article>`).join('')}</div>`:!all.length?emptyLibraryCta():`<div class="empty-note"><h3>No scenes match these filters.</h3><p>Remove a filter or try a different search.</p><button class="text-button" data-action="libClear">Clear All Filters</button></div>`}`;
+            ${scenes.length?`<div class="library-grid">${scenes.map(s=>`<article class="scene-tile"><div class="tile-top"><span class="tile-num">${masteryRing(s.id)}${pad2(s.id)}</span>${state.notes[s.id]?.trim()?`<span class="tile-notedot" role="img" aria-label="Recall Notes Saved">${icon('notes',14)}</span>`:''}<button class="icon-button tile-save ${state.bookmarks.includes(s.id)?'saved':''}" data-action="toggleBookmarkStop" data-id="${s.id}" aria-pressed="${state.bookmarks.includes(s.id)}" aria-label="${state.bookmarks.includes(s.id)?'Remove Bookmark':'Bookmark'}: ${esc(s.title)}">${icon('bookmark',18)}</button></div><button class="tile-main" data-action="openScene" data-id="${s.id}" aria-label="Open Details For ${esc(s.title)}">${cueArt(s.cue,s.cueText,'art')}<span class="tile-title">${esc(s.title)}</span><span class="scene-timestamp">${sceneTimeLabel(s.id)}</span>${importanceBadge(s)}${techniqueChips(s)}<span class="tile-char">${esc(s.character)}</span><span class="tile-tags">${tagsOf(s).slice(0,3).map(t=>`<i style="color:${tagColor(t)}">#${esc(tagLabel(t))}</i>`).join(' ')}${tagsOf(s).length>3?` <b>+${tagsOf(s).length-3}</b>`:''}</span><span class="tile-cue print-only">${esc(s.cueText)}</span></button></article>`).join('')}</div>`:!all.length?emptyLibraryCta():`<div class="empty-note"><h3>No scenes match these filters.</h3><p>Remove a filter or try a different search.</p><button class="text-button" data-action="libClear">Clear All Filters</button></div>`}`;
         }
 
         function openSceneModal(id) {          const s = sceneById(id);
@@ -1281,12 +1246,11 @@
               <div class="detail-meta">
                 <span class="fc-scene-tag">${icon('film', 13)} Scene ${pad2(s.id)}</span>
                 <span class="theme-chip">${esc(s.character)}</span>
-                ${s.analysisType ? `<span class="theme-chip analysis-chip">${icon('quote', 12)} ${esc(s.analysisType)}</span>` : ''}
                 ${(() => { const m = masteryOf(s.id); return m === 'new' ? '' : `<span class="theme-chip mastery-chip mastery-${m}">${m === 'confident' ? 'Confident' : 'Learning'} · ${esc(dueLabel(s.id))}</span>`; })()}
               </div>
               ${tagsOf(s).length ? `<div class="detail-tagrow"><span class="answer-label">Themes</span><div class="detail-tags">${tagsOf(s).map((t) => `<button class="tag-chip tag-chip-btn" style="--tag-color:${tagColor(t)}" data-action="modalTag" data-tag="${esc(t)}" aria-label="Show All ${esc(tagLabel(t))} Scenes In The Library">${icon('tag', 11)} ${esc(tagLabel(t))}</button>`).join('')}</div></div>` : ''}
               <div class="detail-tagrow"><span class="answer-label">Techniques</span>${techniqueChips(s)}</div>
-              <div class="detail-block importance-detail"><span class="answer-label">Importance</span>${importanceBadge(s,false)}<p>${esc(s.essayImportance?.reason || '')}</p><p class="importance-help">Higher ratings highlight stronger essay evidence. Choose scenes that fit your argument.</p></div>
+              <div class="detail-block importance-detail"><span class="answer-label">Importance</span>${importanceBadge(s,false)}<p>${esc(s.essayImportance?.reason || '')}</p><p class="importance-help">The score reflects usefulness as essay evidence, not plot or historical importance.</p></div>
               <div class="detail-block"><span class="answer-label">The Moment</span><p>${esc(s.description)}</p></div>
               ${s.keyLine ? `<blockquote class="key-line"><span class="answer-label">Key Line</span><p>“${esc(s.keyLine)}”</p></blockquote>` : ''}
               <section class="movie-clip-card" aria-label="Movie clip for ${esc(s.title)}">
@@ -1308,7 +1272,7 @@
 
         /* ================= PROGRESS ================= */
         function exportProgress() {
-          const payload = { v: 4, exportedAt: new Date().toISOString(), sheet: FILM_NAME, progress: { cards: state.cards, bookmarks: state.bookmarks, notes: state.notes, activity: state.activity, selectedSceneIds:state.selectedSceneIds, history:state.history, watchPos:state.watchPos, progressRange:state.progressRange, progressStart:state.progressStart, progressEnd:state.progressEnd } };
+          const payload = { v: 6, exportedAt: new Date().toISOString(), sheet: FILM_NAME, progress: { cards: state.cards, bookmarks: state.bookmarks, notes: state.notes, activity: state.activity, selectedSceneIds:state.selectedSceneIds, history:state.history, watchPos:state.watchPos, progressRange:state.progressRange, progressStart:state.progressStart, progressEnd:state.progressEnd } };
           downloadFile(JSON.stringify(payload, null, 2), 'scenestudy-progress-backup.json', 'application/json');
           toast('Progress backup downloaded.', 'download');
         }
@@ -1321,16 +1285,11 @@
             let payload;
             try { payload = JSON.parse(String(reader.result)); } catch (e) { toast('That file is not valid JSON — restore cancelled.', 'alert'); return; }
             const p = payload && payload.progress ? payload.progress : (payload && payload.cards ? payload : null);
-            if (!p || typeof p !== 'object' || !p.cards || Array.isArray(p.cards) || typeof p.cards !== 'object' || (payload.v != null && ![2,3,4].includes(payload.v))) { toast('No progress found in that file — restore cancelled.', 'alert'); return; }
-            const validIds = new Set(BUILTIN_SCENES.map((s) => s.id));
-            const idMap = payload.v === 2 ? IDMAP_V2 : null;
-            const mapId = (id) => {
-              const n = Number(id);
-              const resolved=resolveSceneId(n,idMap);return validIds.has(resolved)?resolved:null;
-            };
-            const restoredCards = cleanCards(p.cards,idMap);
-            const restoredNotes = cleanNotes(p.notes,idMap);
-            const restoredActivity = cleanActivity(p.activity,idMap);
+            if (payload?.v !== 6) { toast('This backup uses older scene IDs and cannot be restored. Export a new backup from the current version.', 'alert'); return; }
+            if (!p || typeof p !== 'object' || !p.cards || Array.isArray(p.cards) || typeof p.cards !== 'object') { toast('No progress found in that file — restore cancelled.', 'alert'); return; }
+            const restoredCards = cleanCards(p.cards);
+            const restoredNotes = cleanNotes(p.notes);
+            const restoredActivity = cleanActivity(p.activity);
             const today = new Date().toDateString();
             const priorDay = new Date(); priorDay.setDate(priorDay.getDate()-1);
             const yesterday = priorDay.toDateString();
@@ -1338,10 +1297,10 @@
             if (!Number.isFinite(restoredActivity.streak)) restoredActivity.streak = 0;
             const exportedDate = payload.exportedAt ? new Date(payload.exportedAt) : null;
             const when = exportedDate && !isNaN(exportedDate) ? exportedDate.toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric' }) : 'an unknown date';
-            pendingRestore = { cards: restoredCards, bookmarks: cleanIds(p.bookmarks,idMap), notes: restoredNotes, activity: restoredActivity };
+            pendingRestore = { cards: restoredCards, bookmarks: cleanIds(p.bookmarks), notes: restoredNotes, activity: restoredActivity };
             const supplied=key=>Object.hasOwn(p,key);
-            if(supplied('selectedSceneIds'))pendingRestore.selectedSceneIds=cleanIds(p.selectedSceneIds,idMap);
-            if(supplied('history'))pendingRestore.history=cleanHistory(p.history,idMap);
+            if(supplied('selectedSceneIds'))pendingRestore.selectedSceneIds=cleanIds(p.selectedSceneIds);
+            if(supplied('history'))pendingRestore.history=cleanHistory(p.history);
             if(supplied('watchPos'))pendingRestore.watchPos=Number.isFinite(p.watchPos)?clamp(p.watchPos,0,FILM_RUNTIME):0;
             if(supplied('progressRange'))pendingRestore.progressRange=['7','30','90','all','custom'].includes(p.progressRange)?p.progressRange:'30';
             for(const key of ['progressStart','progressEnd'])if(supplied(key))pendingRestore[key]=cleanDate(p[key]);
@@ -1815,7 +1774,6 @@
               document.documentElement.dataset.theme = nextTheme;
               try { localStorage.setItem(THEME_KEY, nextTheme); } catch (e) {}
               updateThemeBtns();
-              toast(nextTheme === 'dark' ? 'Dark theme on. Easy on the eyes for late-night study.' : 'Light theme on. Bright and focused.', nextTheme === 'dark' ? 'moon' : 'sun');
               break;
             }
             case 'exportNotes': exportNotesMarkdown(); break;
@@ -1999,7 +1957,6 @@
             L.push(`## ${pad2(s.id)} — ${s.title}`, '');
             const meta = [];
             if (s.character) meta.push(`**Character:** ${s.character}`);
-            if (s.analysisType) meta.push(`**Essay type:** ${s.analysisType}`);
             meta.push(`**Importance:** ${importanceOf(s)}/10 — ${s.essayImportance?.reason || ''}`);
             const tg = tagsOf(s);
             if (tg.length) meta.push(`**Themes:** ${tg.map(tagLabel).join(', ')}`);
