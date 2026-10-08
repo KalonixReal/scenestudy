@@ -1,17 +1,44 @@
-# Hidden Figures — SceneStudy
+# SceneStudy
 
-A standalone, offline-capable essay study tool for the film *Hidden Figures* (2016), built around a curated Katherine Johnson-centred scene catalogue: **22 scenes** selected for essay writing, each anchoring either a **theme essay** or a **character study** — filterable by essay type everywhere.
+Hidden Figures study application with 67 authored scenes, a searchable scene library, flashcards, matching, essay quizzes, recall notes and progress tracking.
 
-**Study modes:** flashcards with spaced repetition (by character, essay tag or analysis type), a **271-question essay-skills quiz** across 10 archetypes (argument → evidence, technique → effect, topic sentences, barrier analysis, analysis vs summary, paragraph building, turning points, counter-claims, scope discipline…), scene matching in three categories (technique / big idea / essay tag), recall practice with per-scene essay angles, and a scene library organised by **17 color-coded essay tags** (racism, sexism, segregation, intersectionality, solidarity, family and more) plus 7 themes and 5 characters.
+## Run and build
 
-**Progress tooling:** dark / light theme (persisted), mastery-by-tag analytics with one-click practice deep-links, per-scene mastery rings + mastery filter in the library, study streak tracking, a 7-day review forecast chart, full answer review with per-skill and per-essay-type breakdowns, **progress backup export + restore** (JSON, moves your progress between browsers), **Markdown study-notes export** (Notion/Docs-ready), a printable study pack (evidence cards + visual cues on paper), and a keyboard shortcut cheat sheet (press `?`).
+Serve this directory with a static web server and open `index.html`. For example:
 
-**Custom sheets:** upload any film's scenes as JSON or CSV (optional `tags` and `analysisType` columns) — every mode switches instantly; templates included.
+```sh
+python -m http.server 8765
+```
 
-**Deploying (Cloudflare Pages):** this branch is the entire site — no build step, no dependencies.
+Build the Cloudflare Pages output:
 
-- Build command: *(leave empty)*
-- Build output directory: `/`
-- Everything is inlined in `index.html`; it works offline once loaded.
+```sh
+node scripts/build.mjs
+```
 
-The full development workspace lives on the `workspace` branch.
+The output is `dist/`. The website also works directly from the root `index.html`, with `src/`, `styles/` and `data/` alongside it. No package installation is needed to build.
+
+## Film source
+
+Watch Film uses the existing third-party MP4 URL. Hosting availability and playback permissions are controlled by that provider. Movie files are excluded from builds and version control.
+
+## Project layout
+
+- `index.html`: application shell and initial theme.
+- `src/app.js`: view rendering, exercises, filters and progress.
+- `styles/app.css`: theme tokens, components, responsive and print styles.
+- `data/`: authored scene catalogue and its source JSON.
+- `scripts/build.mjs`: static production build.
+- `audit/`: baseline, independent reviews, screenshots and verification evidence in the workspace branch.
+
+## Verification
+
+The audit checks all nine views in light and dark at 1280, 768, 390 and 320 pixels, plus important interaction states. Browser audits use isolated headless Chrome with audio muted. `audit/REVIEW-ROUNDS.md` records completed critic and improvement rounds and their limits.
+
+The verification scripts use Playwright. Their runtime paths reflect the audit environment; adjust the import path and Chrome executable when running elsewhere. Start the static server on port 8765 before running them.
+
+Completed the initial repair loop and all three practical improvement loops with clean independent critics. Final checks include 75 view states and 39 focused interaction assertions, plus 36 page states served from the actual production output. Movie playback was simulated or blocked during these checks; the hosted source was checked separately.
+
+## Repository branches and release
+
+`main` contains the finished website with `index.html` at its root and the fresh `dist/` output. `workspace` contains the complete project, source references, screenshots, review evidence and scripts, excluding movies and credentials. `release/scenestudy-site.zip` and its hash manifest on the workspace branch provide a portable website package.

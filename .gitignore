@@ -1,0 +1,9 @@
+# User-owned movie files and credentials must never be published.
+*.mp4
+*.MP4
+.env
+.env.*
+*.pem
+*.key
+.publish/
+node_modules/
