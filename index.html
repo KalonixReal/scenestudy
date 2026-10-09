@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <script>try { const theme = localStorage.getItem('scenestudy-theme'); document.documentElement.dataset.theme = theme === 'dark' || (theme !== 'light' && matchMedia('(prefers-color-scheme: dark)').matches) ? 'dark' : 'light'; } catch (e) { document.documentElement.dataset.theme = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'; }</script>
+    <script>try { const theme = localStorage.getItem('scenestudy-theme'); document.documentElement.dataset.theme = theme === 'dark' || (theme !== 'light' && matchMedia('(prefers-color-scheme: dark)').matches) ? 'dark' : 'light'; document.documentElement.dataset.motion = localStorage.getItem('scenestudy-motion') === 'off' ? 'off' : 'on'; } catch (e) { document.documentElement.dataset.theme = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'; document.documentElement.dataset.motion = 'on'; }</script>
     <meta name="description" content="Study the key scenes in Hidden Figures with authored scene cards, film analysis practice, and a personal progress history." />
     <meta name="theme-color" content="#fcfcf9" />
     <meta name="mobile-web-app-capable" content="yes" />
@@ -32,6 +32,7 @@
         <p class="workspace-label"><span class="workspace-dot"></span><span id="workspaceName">Hidden Figures</span></p>
         <nav class="study-nav" id="studyNav" aria-label="Study Modes"></nav>
         <div class="sidebar-foot">
+          <button type="button" class="motion-toggle" data-action="motion" aria-pressed="true"></button>
           <button type="button" class="theme-toggle" data-action="theme" aria-label="Switch Color Theme"></button>
         </div>
       </aside>

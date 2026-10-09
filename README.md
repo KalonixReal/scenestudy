@@ -36,7 +36,7 @@ Watch Film uses the existing third-party MP4 URL. Hosting availability and playb
 
 Desktop layouts are the supported review scope. Both light and dark themes are checked across the nine views, filters, exercises and scene details. Tab changes have a randomized 60–100 ms transition; choosing a film clip starts immediately.
 
-Buttons, cards, quiz feedback and view changes use short motion cues. The interface honors the system reduced-motion preference.
+Buttons, cards, quiz feedback and view changes use short motion cues. Use the persistent **Animations: On/Off** switch at the bottom of the sidebar to control motion in the app; it does not depend on your operating-system setting.
 
 Watch Film is grouped with Exercises. Print Study Pack, Related Scenes, streak/due badges and shortcut help have been removed. Exercises, bookmarks, recall notes, review scheduling and backup/export remain available.
 

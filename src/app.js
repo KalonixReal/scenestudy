@@ -191,6 +191,11 @@
 
         /* ================= STATE ================= */
         const STORE_KEY = 'scenestudy-v3';
+        const LEGACY_STORE_KEY = 'scenestudy-v2';
+        const MOTION_KEY = 'scenestudy-motion';
+        let motionEnabled = true;
+        try { motionEnabled = localStorage.getItem(MOTION_KEY) !== 'off'; } catch (e) {}
+        document.documentElement.dataset.motion = motionEnabled ? 'on' : 'off';
         const freshState = () => ({
           v: 6,
           cards: {},            // id -> { dueAt, interval(days), last, reviews }
@@ -204,23 +209,110 @@
           progressStart: '',
           progressEnd: '',
         });
+        const LEGACY_SCENE_ID_MAP = Object.freeze({1:1,2:2,3:4,4:3,5:5,6:6,7:7,8:8,9:9,10:10,11:11,12:12,13:14,14:13,15:15,16:16,17:18,18:17,19:19,20:21,21:22,22:40,23:23,24:24,25:30,26:43,27:26,28:27,29:45,30:28,31:25,33:29,34:31,35:32,36:33,37:34,39:35,40:36,41:37,42:38,43:46,44:42,45:47,46:44,47:48,48:41,49:39,50:56,51:20,53:62,55:60,56:49,57:51,58:52,59:54,60:55,61:57,62:58,63:59,65:63,66:64,67:61,68:50,69:53});
+        const remapLegacyList = (list) => [...new Set((Array.isArray(list) ? list : []).map((id) => LEGACY_SCENE_ID_MAP[Number(id)]).filter(Number.isInteger))];
+        const remapLegacyObject = (object) => Object.fromEntries(Object.entries(object && typeof object === 'object' && !Array.isArray(object) ? object : {}).flatMap(([id, value]) => {
+          const mapped = LEGACY_SCENE_ID_MAP[Number(id)];
+          return Number.isInteger(mapped) ? [[mapped, value]] : [];
+        }));
+        function migrateLegacyState(parsed) {
+          if (!parsed || ![3, 4].includes(parsed.v)) return null;
+          const migrated = Object.assign(freshState(), parsed, { v: 6 });
+          migrated.cards = remapLegacyObject(parsed.cards);
+          migrated.notes = remapLegacyObject(parsed.notes);
+          migrated.bookmarks = remapLegacyList(parsed.bookmarks);
+          migrated.selectedSceneIds = Array.isArray(parsed.selectedSceneIds) ? remapLegacyList(parsed.selectedSceneIds) : BUILTIN_SCENES.map((scene) => scene.id);
+          migrated.activity = Object.assign(freshState().activity, parsed.activity || {}, { explanations: remapLegacyList(parsed.activity?.explanations) });
+          migrated.history = (Array.isArray(parsed.history) ? parsed.history : []).map((event) => ({
+            ...event,
+            sceneId: event?.sceneId == null ? null : (LEGACY_SCENE_ID_MAP[Number(event.sceneId)] ?? null),
+          }));
+          return migrated;
+        }
+        const stateHasProgress = (value) => Boolean(Object.keys(value?.cards || {}).length || Object.keys(value?.notes || {}).length || value?.bookmarks?.length || value?.history?.length || value?.activity?.matches || value?.activity?.quizzes || value?.activity?.explanations?.length || !allSceneIdsSelected(value?.selectedSceneIds) || value?.watchPos || value?.progressRange && value.progressRange !== '30' || value?.progressStart || value?.progressEnd);
+        const allSceneIdsSelected = (ids) => Array.isArray(ids) && ids.length === BUILTIN_SCENES.length && BUILTIN_SCENES.every((scene) => ids.includes(scene.id));
+        function mergeRecoveredProgress(current, legacy, hasCurrentState) {
+          if (!hasCurrentState) return legacy;
+          const cards = { ...(legacy.cards || {}) };
+          for (const [id, card] of Object.entries(current.cards || {})) {
+            const previous = cards[id];
+            if (!previous) { cards[id] = card; continue; }
+            const latest = Number(card.last || 0) >= Number(previous.last || 0) ? card : previous;
+            cards[id] = { ...latest, reviews: clamp(Number(previous.reviews || 0) + Number(card.reviews || 0), 0, 1000000) };
+          }
+          const notes = { ...(legacy.notes || {}) };
+          for (const [id, note] of Object.entries(current.notes || {})) {
+            if (!notes[id]) notes[id] = note;
+            else if (notes[id].trim() !== note.trim()) notes[id] = `${notes[id]}\n\n${note}`.slice(0, 200000);
+          }
+          const oldDay = Date.parse(legacy.activity?.lastStudyDay || '');
+          const currentDay = Date.parse(current.activity?.lastStudyDay || '');
+          const latestActivity = currentDay >= oldDay ? current.activity : legacy.activity;
+          const history = [...(legacy.history || []), ...(current.history || [])];
+          const seen = new Set();
+          const uniqueHistory = history.filter((event) => {
+            const key = `${event.at}|${event.type}|${event.sceneId ?? ''}|${event.score ?? ''}`;
+            if (seen.has(key)) return false;
+            seen.add(key); return true;
+          }).sort((a, b) => a.at - b.at).slice(-2000);
+          const currentHasProgress = stateHasProgress(current);
+          const legacySelection = allSceneIdsSelected(legacy.selectedSceneIds) ? BUILTIN_SCENES.map((scene) => scene.id) : legacy.selectedSceneIds;
+          return Object.assign(freshState(), legacy, current, {
+            v: 6,
+            cards,
+            notes,
+            bookmarks: [...new Set([...(legacy.bookmarks || []), ...(current.bookmarks || [])])],
+            selectedSceneIds: (!currentHasProgress && allSceneIdsSelected(current.selectedSceneIds)) ? legacySelection : current.selectedSceneIds,
+            activity: {
+              ...latestActivity,
+              matches: Number(legacy.activity?.matches || 0) + Number(current.activity?.matches || 0),
+              quizzes: Number(legacy.activity?.quizzes || 0) + Number(current.activity?.quizzes || 0),
+              lastScore: current.activity?.lastScore ?? legacy.activity?.lastScore ?? null,
+              explanations: [...new Set([...(legacy.activity?.explanations || []), ...(current.activity?.explanations || [])])],
+            },
+            history: uniqueHistory,
+            watchPos: current.watchPos || legacy.watchPos || 0,
+            progressRange: current.progressRange === '30' ? (legacy.progressRange || '30') : current.progressRange,
+            progressStart: current.progressStart || legacy.progressStart || '',
+            progressEnd: current.progressEnd || legacy.progressEnd || '',
+          });
+        }
         let state = freshState();
+        let legacyMigrationApplied = false;
+        let legacyMigrationSummary = null;
+        let hasCurrentState = false;
         try {
           const raw = localStorage.getItem(STORE_KEY);
           if (raw) {
             const parsed = JSON.parse(raw);
             if (parsed && parsed.v === 6) {
               state = Object.assign(freshState(), parsed);
+              hasCurrentState = true;
               if (!Array.isArray(parsed.selectedSceneIds)) state.selectedSceneIds = BUILTIN_SCENES.map((scene) => scene.id);
               if (!Array.isArray(state.history)) state.history = [];
               if (!state.progressRange) state.progressRange = '30';
               if (!Number.isFinite(state.watchPos)) state.watchPos = 0;
-            } else {
-              state = freshState();
-              localStorage.setItem(STORE_KEY, JSON.stringify(state));
             }
           }
-        } catch (e) { state = freshState(); try { localStorage.setItem(STORE_KEY, JSON.stringify(state)); } catch (ignored) {} }
+        } catch (e) { state = freshState(); hasCurrentState = false; }
+        try {
+          if (!state.legacyProgressMigrated) {
+            const legacyRaw = localStorage.getItem(LEGACY_STORE_KEY);
+            if (legacyRaw) {
+              const legacy = migrateLegacyState(JSON.parse(legacyRaw));
+              if (legacy && stateHasProgress(legacy)) {
+                state = mergeRecoveredProgress(state, legacy, hasCurrentState);
+                state.legacyProgressMigrated = true;
+                legacyMigrationApplied = true;
+                legacyMigrationSummary = {
+                  reviews: Object.values(legacy.cards).filter((card) => card?.reviews > 0).length,
+                  bookmarks: legacy.bookmarks.length,
+                  notes: Object.values(legacy.notes).filter((note) => typeof note === 'string' && note.trim()).length,
+                };
+              }
+            }
+          }
+        } catch (e) { /* Keep the untouched legacy save available if it cannot be parsed. */ }
 
         const validSceneIds = new Set(BUILTIN_SCENES.map(s => s.id));
         const cleanIds = (list) => [...new Set((Array.isArray(list) ? list : []).map(resolveSceneId).filter(id => validSceneIds.has(id)))];
@@ -262,6 +354,9 @@
         state.watchPos = Number.isFinite(state.watchPos) ? clamp(state.watchPos,0,FILM_RUNTIME) : 0;
         { const today = new Date().toDateString(); const yesterday = new Date(); yesterday.setDate(yesterday.getDate()-1);
           if (![today,yesterday.toDateString()].includes(state.activity.lastStudyDay)) state.activity.streak = 0; }
+        if (legacyMigrationApplied) {
+          try { localStorage.setItem(STORE_KEY, JSON.stringify(state)); } catch (e) {}
+        }
         let saveTimer = null, storageWarning = false;
         const saveNow = () => {
           clearTimeout(saveTimer);
@@ -421,9 +516,7 @@
         const viewEl = $('#view');
         let viewMotionTimer = null;
 
-        function motionAllowed() {
-          return !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-        }
+        function motionAllowed() { return motionEnabled; }
 
         function animateViewChange() {
           clearTimeout(viewMotionTimer);
@@ -503,7 +596,7 @@
           clearTimeout(navigationTimer);
           if(currentView==='watch'&&v!=='watch')clearMovie();
           viewEl.setAttribute('aria-busy','true');viewEl.classList.add('view-pending');$('#main').inert=true;
-          navigationTimer=setTimeout(()=>go(v),60+Math.floor(Math.random()*41));
+          navigationTimer=setTimeout(()=>go(v),motionAllowed()?60+Math.floor(Math.random()*41):0);
         }
         if(navigator.mediaSession){
           try{navigator.mediaSession.setActionHandler('play',()=>{const p=$('#filmPlayer');if(currentView==='watch'&&navigationTimer==null&&p?.isConnected)p.playClip();});
@@ -1819,6 +1912,21 @@
               updateThemeBtns();
               break;
             }
+            case 'motion': {
+              motionEnabled = !motionEnabled;
+              document.documentElement.dataset.motion = motionEnabled ? 'on' : 'off';
+              try { localStorage.setItem(MOTION_KEY, motionEnabled ? 'on' : 'off'); }
+              catch (e) { toast('The animation setting could not be saved in this browser.', 'alert'); }
+              if (motionEnabled) animateViewChange();
+              else {
+                clearTimeout(viewMotionTimer);
+                viewEl.classList.remove('view-entering');
+                document.getAnimations().forEach((animation) => animation.cancel());
+              }
+              updateMotionButton();
+              toast(motionEnabled ? 'Animations are on.' : 'Animations are off.', 'sparkles');
+              break;
+            }
             case 'exportNotes': exportNotesMarkdown(); break;
           }
         });
@@ -1991,6 +2099,16 @@
           if (meta) meta.setAttribute('content', dark ? '#15170f' : '#fcfcf9');
         }
 
+        function updateMotionButton() {
+          document.querySelectorAll('[data-action="motion"]').forEach((button) => {
+            const label = motionEnabled ? 'Animations: On' : 'Animations: Off';
+            button.textContent = label;
+            button.setAttribute('aria-pressed', String(motionEnabled));
+            button.setAttribute('aria-label', `${label}. Click to turn animations ${motionEnabled ? 'off' : 'on'}.`);
+            button.title = `Turn animations ${motionEnabled ? 'off' : 'on'}`;
+          });
+        }
+
         function exportNotesMarkdown() {
           const L = [];
           L.push(`# ${FILM_NAME} — Study Notes`, '');
@@ -2037,8 +2155,16 @@
         $('#mobileBrandMark').innerHTML = BRAND_MARK;
         $('#footMark').innerHTML = BRAND_MARK;
         updateThemeBtns();
+        updateMotionButton();
         resetViewStates();
         renderNav();
         renderView();
         syncOverlays();
+        if (legacyMigrationApplied && legacyMigrationSummary) {
+          const parts = [];
+          if (legacyMigrationSummary.reviews) parts.push(`${legacyMigrationSummary.reviews} reviewed scenes`);
+          if (legacyMigrationSummary.bookmarks) parts.push(`${legacyMigrationSummary.bookmarks} bookmarks`);
+          if (legacyMigrationSummary.notes) parts.push(`${legacyMigrationSummary.notes} notes`);
+          toast(`Recovered earlier progress${parts.length ? `: ${parts.join(', ')}` : ''}.`, 'check');
+        }
       })();

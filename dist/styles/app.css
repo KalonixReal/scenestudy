@@ -734,16 +734,19 @@
 
       @media print { .sidebar, .mobile-topbar, .app-footer { display: none !important; } .main-area { margin: 0; } }
 
-      @media (prefers-reduced-motion: reduce) {
-        *, *::before, *::after { animation: none !important; transition-duration: 0.01ms !important; }
-        html { scroll-behavior: auto !important; }
-      }
       /* ============ THEME TOGGLE BUTTONS ============ */
       .theme-toggle {
         display: flex; align-items: center; gap: 9px; width: 100%; justify-content: flex-start;
         background: transparent; border: 1px solid var(--line-strong); color: var(--ink-soft);
         border-radius: 11px; padding: 9px 12px; font-size: 0.85rem; font-weight: 600; margin-bottom: 10px;
       }
+      .motion-toggle {
+        display: flex; align-items: center; justify-content: flex-start; width: 100%; min-height: 42px;
+        background: transparent; border: 1px solid var(--line-strong); color: var(--ink-soft);
+        border-radius: 11px; padding: 9px 12px; font-size: 0.85rem; font-weight: 600;
+      }
+      .motion-toggle:hover { background: var(--sage-soft); color: var(--ink); border-color: var(--muted); }
+      .motion-toggle[aria-pressed="true"] { color: var(--ink); }
       .theme-toggle:hover { background: var(--sage-soft); color: var(--ink); border-color: var(--muted); }
       .topbar-theme {
         display: grid; place-items: center; width: 44px; height: 44px; flex-shrink: 0;
@@ -1129,11 +1132,9 @@ html[data-theme="dark"] {--tag-discrimination:#f0b29d;--tag-opportunity:#b5d497;
 .fc-top .fc-time {grid-column:1;white-space:normal;overflow-wrap:anywhere;}
 .fc-top .fc-actions {grid-column:2;grid-row:1 / span 2;position:static;display:flex;gap:10px;}
 @media(min-width:901px){.progress-grid{grid-template-columns:repeat(2,minmax(0,1fr));}.choice-copy{flex:1;}.choice-tags{flex:0 1 220px;}.filter-groups{grid-template-columns:repeat(2,minmax(0,1fr));}}
-@media(prefers-reduced-motion:reduce){.view-wrap{transition:none;}}
-
 .selection-toolbar,.selection-footer {position:static;margin:24px 0;}
 
-/* Motion system: consistent interaction feedback, with a native reduced-motion escape hatch. */
+/* Motion system: controlled by the persistent in-app Animations switch. */
 :root {--motion-ease:cubic-bezier(.2,.75,.25,1);--motion-short:140ms;--motion-medium:220ms;}
 button:not(:disabled) {transition:transform var(--motion-short) var(--motion-ease),background-color var(--motion-short) ease,border-color var(--motion-short) ease,color var(--motion-short) ease,box-shadow var(--motion-short) ease;}
 button:not(:disabled):hover {transform:translateY(-1px) scale(1.01);}
@@ -1161,8 +1162,5 @@ input[type="checkbox"]:active,input[type="radio"]:active {transform:scale(.88);}
 @keyframes motion-answer-in {0% {transform:scale(.985);}70% {transform:scale(1.012);}100% {transform:scale(1);}}
 @keyframes motion-answer-miss {0%,100% {transform:translateX(0);}30% {transform:translateX(-4px);}70% {transform:translateX(4px);}}
 .theme-toggle:hover svg,.topbar-theme:hover svg {transform:rotate(-12deg) scale(1.08);}
-@media (prefers-reduced-motion: reduce) {
-  .view-wrap.view-entering > *, .flashcard.complete-card .completion-icon, .quiz-option.correct, .quiz-option.incorrect {animation:none!important;}
-  button:not(:disabled):hover,button:not(:disabled):active,button:not(:disabled):hover svg,button:not(:disabled):active svg,input[type="checkbox"]:active,input[type="radio"]:active,.theme-toggle:hover svg,.topbar-theme:hover svg {transform:none!important;}
-  a:not(.skip-link),input,select,textarea,.filter-option,.scene-choice,.filter-chip,.active-pill,.tag-chip-btn,.chapter-row,.match-item,.quiz-option,.revisit-row,.status-row,.fc-block,.technique-chip,.tag-chip,.theme-chip {transition:none!important;}
-}
+html[data-motion="off"] *,html[data-motion="off"] *::before,html[data-motion="off"] *::after {animation:none!important;transition:none!important;scroll-behavior:auto!important;}
+html[data-motion="off"] button:not(:disabled):hover,html[data-motion="off"] button:not(:disabled):active,html[data-motion="off"] button:not(:disabled):hover svg,html[data-motion="off"] button:not(:disabled):active svg,html[data-motion="off"] input[type="checkbox"]:active,html[data-motion="off"] input[type="radio"]:active,html[data-motion="off"] .theme-toggle:hover svg,html[data-motion="off"] .topbar-theme:hover svg {transform:none!important;}

@@ -1,10 +1,11 @@
 # SceneStudy changes
 
-## Motion polish (2026-10-09)
+## Motion controls and progress recovery (2026-10-09)
 
 - Added consistent press and hover feedback across enabled buttons and interactive controls, plus a short entrance for newly opened views.
 - Flashcards now animate both reveal directions, card changes and session completion; quiz feedback and the completion mark have restrained motion.
-- All added motion respects the operating system's reduced-motion setting.
+- Added a persistent Animations: On/Off switch in the sidebar. Motion defaults on and follows the in-app switch rather than the operating-system preference.
+- Restored older browser saves by mapping the previous scene IDs to current IDs using their scene titles. Reviews, notes, bookmarks, selected scenes and history are carried forward.
 
 ## Evidence-based content review (2026-10-08)
 
@@ -13,7 +14,7 @@
 - Ranked the technique tags against silent frames sampled from all 64 current ranges. Each scene now has at most three technique tags, keeping the combined theme and technique chips to six or fewer. Replaced 22 technique descriptions where camera movement, shot composition, or editing claims were unsupported, and shortened 21 headings that were being hidden by the app's length limit.
 - Added clear essay prompts for the two new themes, updated quiz thesis examples to avoid overclaiming what a single scene proves, and clarified that Importance measures essay evidence rather than plot or historical significance.
 - Fixed spacing in the checked Recall & Explain reference panel, removed the essay-type filter, and grouped Watch Film under Exercises.
-- Sorted the catalogue by clip start time and assigned consecutive IDs 1–64. Older saved progress and backups are not remapped to the new IDs.
+- Sorted the catalogue by clip start time and assigned consecutive IDs 1–64. Saved progress is now migrated to the new IDs using unique scene-title matches.
 - Focused review relied on visible frames only; no audio claims were newly verified. One existing clip begins on an advertisement frame; timestamps were left unchanged.
 
 ## User-edited scene times and shorter tab changes (2026-10-08)
