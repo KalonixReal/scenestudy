@@ -326,8 +326,6 @@
         min-height: 430px; padding: 30px 32px; display: flex; flex-direction: column;
         box-shadow: var(--shadow); transform-origin: center;
       }
-      .flashcard.flipping { animation: cardpulse 0.3s ease; }
-      @keyframes cardpulse { 0% { transform: scale(0.985); } 100% { transform: scale(1); } }
       .flashcard .fc-top { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-bottom: 14px; }
       .fc-scene-tag { display: inline-flex; align-items: center; gap: 8px; font-family: var(--mono); font-weight: 700; font-size: 0.82rem; color: var(--accent-text); background: var(--yellow-soft); border-radius: 8px; padding: 5px 10px; }
       .fc-actions { display: flex; gap: 4px; }
@@ -1134,3 +1132,37 @@ html[data-theme="dark"] {--tag-discrimination:#f0b29d;--tag-opportunity:#b5d497;
 @media(prefers-reduced-motion:reduce){.view-wrap{transition:none;}}
 
 .selection-toolbar,.selection-footer {position:static;margin:24px 0;}
+
+/* Motion system: consistent interaction feedback, with a native reduced-motion escape hatch. */
+:root {--motion-ease:cubic-bezier(.2,.75,.25,1);--motion-short:140ms;--motion-medium:220ms;}
+button:not(:disabled) {transition:transform var(--motion-short) var(--motion-ease),background-color var(--motion-short) ease,border-color var(--motion-short) ease,color var(--motion-short) ease,box-shadow var(--motion-short) ease;}
+button:not(:disabled):hover {transform:translateY(-1px) scale(1.01);}
+button:not(:disabled):active {transform:translateY(0) scale(.975);transition-duration:80ms;}
+button:not(:disabled) svg {transition:transform var(--motion-short) var(--motion-ease),color var(--motion-short) ease;}
+button:not(:disabled):hover svg {transform:translateY(-1px) scale(1.06);}
+button:not(:disabled):active svg {transform:scale(.9);}
+button:disabled {transform:none;transition:none;}
+a:not(.skip-link) {transition:color var(--motion-short) ease,opacity var(--motion-short) ease;}
+input,select,textarea {transition:background-color var(--motion-short) ease,border-color var(--motion-short) ease,color var(--motion-short) ease,box-shadow var(--motion-short) ease;}
+input[type="checkbox"],input[type="radio"] {transition:transform var(--motion-short) var(--motion-ease);}
+input[type="checkbox"]:active,input[type="radio"]:active {transform:scale(.88);}
+.filter-option,.scene-choice,.filter-chip,.active-pill,.tag-chip-btn,.chapter-row,.match-item,.quiz-option,.revisit-row,.status-row,.fc-block,.technique-chip,.tag-chip,.theme-chip {transition:background-color var(--motion-short) ease,border-color var(--motion-short) ease,color var(--motion-short) ease,box-shadow var(--motion-short) ease,transform var(--motion-short) var(--motion-ease);}
+.view-wrap.view-entering > * {animation:motion-section-in 280ms var(--motion-ease) both;}
+.view-wrap.view-entering > *:nth-child(2) {animation-delay:24ms;}
+.view-wrap.view-entering > *:nth-child(3) {animation-delay:48ms;}
+.view-wrap.view-entering > *:nth-child(4) {animation-delay:72ms;}
+.view-wrap.view-entering > *:nth-child(5) {animation-delay:96ms;}
+@keyframes motion-section-in {from {opacity:0;transform:translateY(9px);}to {opacity:1;transform:translateY(0);}}
+.flashcard {transform-style:preserve-3d;backface-visibility:hidden;}
+.flashcard.complete-card .completion-icon {animation:motion-complete-pop 420ms var(--motion-ease) both;}
+@keyframes motion-complete-pop {0% {opacity:0;transform:scale(.72) rotate(-10deg);}72% {opacity:1;transform:scale(1.08) rotate(2deg);}100% {opacity:1;transform:scale(1) rotate(0);}}
+.quiz-option.correct {animation:motion-answer-in 260ms var(--motion-ease) both;}
+.quiz-option.incorrect {animation:motion-answer-miss 300ms ease-out both;}
+@keyframes motion-answer-in {0% {transform:scale(.985);}70% {transform:scale(1.012);}100% {transform:scale(1);}}
+@keyframes motion-answer-miss {0%,100% {transform:translateX(0);}30% {transform:translateX(-4px);}70% {transform:translateX(4px);}}
+.theme-toggle:hover svg,.topbar-theme:hover svg {transform:rotate(-12deg) scale(1.08);}
+@media (prefers-reduced-motion: reduce) {
+  .view-wrap.view-entering > *, .flashcard.complete-card .completion-icon, .quiz-option.correct, .quiz-option.incorrect {animation:none!important;}
+  button:not(:disabled):hover,button:not(:disabled):active,button:not(:disabled):hover svg,button:not(:disabled):active svg,input[type="checkbox"]:active,input[type="radio"]:active,.theme-toggle:hover svg,.topbar-theme:hover svg {transform:none!important;}
+  a:not(.skip-link),input,select,textarea,.filter-option,.scene-choice,.filter-chip,.active-pill,.tag-chip-btn,.chapter-row,.match-item,.quiz-option,.revisit-row,.status-row,.fc-block,.technique-chip,.tag-chip,.theme-chip {transition:none!important;}
+}

@@ -419,6 +419,46 @@
         ];
         let currentView = 'overview';
         const viewEl = $('#view');
+        let viewMotionTimer = null;
+
+        function motionAllowed() {
+          return !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        }
+
+        function animateViewChange() {
+          clearTimeout(viewMotionTimer);
+          viewEl.classList.remove('view-entering');
+          if (!motionAllowed()) return;
+          void viewEl.offsetWidth;
+          viewEl.classList.add('view-entering');
+          viewMotionTimer = setTimeout(() => viewEl.classList.remove('view-entering'), 430);
+        }
+
+        function animateFlashcard(kind = 'flip', direction = 1) {
+          const card = kind === 'complete' ? $('.flashcard.complete-card', viewEl) : $('.flashcard:not(.complete-card)', viewEl);
+          if (!card || !motionAllowed() || typeof card.animate !== 'function') return;
+          const turn = kind === 'flip';
+          const sign = direction < 0 ? -1 : 1;
+          const angle = turn ? 76 : 9;
+          const frames = kind === 'complete'
+            ? [
+                { opacity: 0, transform: 'translateY(12px) scale(.97)' },
+                { opacity: 1, transform: 'translateY(-2px) scale(1.01)', offset: 0.72 },
+                { opacity: 1, transform: 'translateY(0) scale(1)' },
+              ]
+            : turn
+            ? [
+                { opacity: 0.72, transform: `perspective(1200px) rotateY(${angle * sign}deg) scale(.985)` },
+                { opacity: 1, transform: `perspective(1200px) rotateY(${-angle * sign * 0.11}deg) scale(1.008)`, offset: 0.76 },
+                { opacity: 1, transform: 'perspective(1200px) rotateY(0deg) scale(1)' },
+              ]
+            : [
+                { opacity: 0.7, transform: `translateX(${12 * sign}px) scale(.985)` },
+                { opacity: 1, transform: `translateX(${-3 * sign}px) scale(1.006)`, offset: 0.72 },
+                { opacity: 1, transform: 'translateX(0) scale(1)' },
+              ];
+          card.animate(frames, { duration: turn ? 380 : kind === 'complete' ? 360 : 260, easing: 'cubic-bezier(.2,.75,.25,1)' });
+        }
 
         function renderNav() {
           const due = dueCount();
@@ -441,6 +481,7 @@
           $('#menuBtn').setAttribute('aria-expanded', 'false');
           renderNav();
           renderView();
+          animateViewChange();
           syncOverlays();
           if (viewEl && viewEl.focus) { try { viewEl.focus({ preventScroll: true }); } catch (e) { try { viewEl.focus(); } catch (e2) {} } }
           $('#main').scrollIntoView({ block: 'start' });
@@ -622,7 +663,7 @@
                      <button class="button secondary" data-action="nav" data-view="progress">See Progress</button>
                   </div>
                 </div>` : `
-                <article class="flashcard ${flash.flipped ? 'flipping' : ''}" aria-label="Flashcard for scene ${scene.id}">
+                <article class="flashcard" aria-label="Flashcard for scene ${scene.id}">
                     <div class="fc-top">
                       <span class="fc-scene-tag">${icon('film', 13)} Scene ${pad2(scene.id)}</span>
                       <span class="fc-time mono" title="Where this scene plays in the provided film">${sceneTimeLabel(scene.id)}</span>
@@ -692,12 +733,14 @@
           if (flash.idx >= flash.order.length - 1) flash.done = true;
           else flash.idx++;
           renderNav(); renderView();
+          animateFlashcard(flash.done ? 'complete' : 'swap', 1);
         }
         function flashNav(delta) {
           const n = flash.idx + delta;
           if (n < 0 || n >= flash.order.length) return;
           flash.idx = n; flash.flipped = false; flash.done = false;
           renderView();
+          animateFlashcard('swap', delta);
         }
 
         /* ================= MATCHING ================= */
@@ -1613,7 +1656,7 @@
             case 'flashPrev': flashNav(-1); break;
             case 'flashNext': flashNav(1); break;
             case 'restartDeck': flashSetDeck(flash.deck, false); renderView(); break;
-            case 'flipCard': flash.flipped = !flash.flipped; renderView(); break;
+            case 'flipCard': flash.flipped = !flash.flipped; renderView(); animateFlashcard('flip', flash.flipped ? 1 : -1); break;
             case 'rate': flashRate(target.dataset.rating); break;
             case 'toggleBookmark': {
               if (target.dataset.id == null) break;
@@ -1853,7 +1896,7 @@
           if ($('#main').inert || e.ctrlKey || e.altKey || e.metaKey) return;
           if (currentView !== 'flashcards' || !flash.order.length) return;
           if (e.target.closest('input, textarea, select') || modalRoot.childElementCount) return;
-          if (e.code === 'Space' && e.target.tagName !== 'BUTTON') { e.preventDefault(); flash.flipped = !flash.flipped; renderView(); }
+          if (e.code === 'Space' && e.target.tagName !== 'BUTTON') { e.preventDefault(); flash.flipped = !flash.flipped; renderView(); animateFlashcard('flip', flash.flipped ? 1 : -1); }
           else if (e.key === 'ArrowLeft') { e.preventDefault(); flashNav(-1); }
           else if (e.key === 'ArrowRight') { e.preventDefault(); flashNav(1); }
           else if (e.key === '1' && flash.flipped) { e.preventDefault(); flashRate('again'); }

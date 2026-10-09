@@ -1,5 +1,11 @@
 # SceneStudy changes
 
+## Motion polish (2026-10-09)
+
+- Added consistent press and hover feedback across enabled buttons and interactive controls, plus a short entrance for newly opened views.
+- Flashcards now animate both reveal directions, card changes and session completion; quiz feedback and the completion mark have restrained motion.
+- All added motion respects the operating system's reduced-motion setting.
+
 ## Evidence-based content review (2026-10-08)
 
 - Recalibrated Importance scores and reasons for all 64 scenes on a 1–10 essay-evidence scale. Scores name scene-specific evidence and reserve 10 for the strongest, most analyzable essay anchors.
