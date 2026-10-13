@@ -5,7 +5,7 @@
     "fullTitle": "The Childhood Prologue (1926 White Sulphur Springs)",
     "character": "Katherine Johnson",
     "description": "Young Katherine walks along a path in the brief childhood clip, with a short mathematical notation appearing over the image. The scene introduces her early connection to mathematics without showing the later geometric-window passage.",
-    "techniques": "A close view of footsteps gives way to wider views of Katherine moving through the school grounds.",
+    "techniques": "The brief mathematical notation introduces a visual motif; its return in Katherine’s later blackboard work creates a parallel across the film.",
     "essay": "The brief mathematical notation associates young Katherine with mathematical thinking early in life, but this short clip alone does not show how her ability was taught or developed.",
     "techniqueLabel": "Footsteps and child-scale framing",
     "meaningLabel": "A brief early sign of mathematical thinking",
@@ -51,8 +51,10 @@
     "barrierTypes": [],
     "techniqueTags": [
       "closeup",
-      "setting"
-    ]
+      "motif",
+      "parallel"
+    ],
+    "techniqueThemeAnalysis": "The notation over young Katherine establishes a visual leitmotif that returns with her later blackboard calculations. Echoing this image across the film links early aptitude with expertise NASA eventually relies on, suggesting that talent persists while recognition is shaped by access."
   },
   {
     "id": 2,
@@ -106,9 +108,9 @@
     "barrierTypes": [],
     "techniqueTags": [
       "closeup",
-      "props",
       "medium"
-    ]
+    ],
+    "techniqueThemeAnalysis": "Close framing around the envelope and joined hands makes the scholarship tangible. By showing teachers and neighbors pooling support, the film connects Katherine’s opportunity to collective care and reminds us that ability needs material access."
   },
   {
     "id": 3,
@@ -165,7 +167,8 @@
       "blocking",
       "closeup",
       "medium"
-    ]
+    ],
+    "techniqueThemeAnalysis": "The larger classroom and older classmates make the leap to advanced schooling visible. The shift in setting presents education as an opportunity while the family’s move reminds us that advancement carries shared costs."
   },
   {
     "id": 4,
@@ -221,7 +224,8 @@
       "closeup",
       "wide",
       "setting"
-    ]
+    ],
+    "techniqueThemeAnalysis": "The close view at the car window moves to a wide countryside landscape, aligning the viewer with Katherine’s gaze. That change in scale turns travel into an image of education widening the world around her."
   },
   {
     "id": 5,
@@ -277,7 +281,8 @@
       "medium",
       "wide",
       "setting"
-    ]
+    ],
+    "techniqueThemeAnalysis": "Car-interior group framing lets jokes and conversation establish friendship before the breakdown interrupts the trip. The contrast makes the roadside barrier feel like a disruption to an already supportive team, not a story of isolated individuals."
   },
   {
     "id": 6,
@@ -335,9 +340,9 @@
     ],
     "techniqueTags": [
       "wide",
-      "props",
       "blocking"
-    ]
+    ],
+    "techniqueThemeAnalysis": "Close reactions around the badge exchange give way to wider road views of the escort. The shift makes the officer’s response visible, while the need to prove NASA’s work before receiving help exposes the conditional nature of respect."
   },
   {
     "id": 7,
@@ -394,10 +399,10 @@
       "coldwar"
     ],
     "techniqueTags": [
-      "props",
       "costume",
       "closeup"
-    ]
+    ],
+    "techniqueThemeAnalysis": "The badges and uniform stay in the frame as the women explain their work, changing what the officer sees. The scene makes professional identity legible while showing the burden placed on Black women to prove expertise before being believed."
   },
   {
     "id": 8,
@@ -452,9 +457,9 @@
     ],
     "techniqueTags": [
       "montage",
-      "wide",
-      "props"
-    ]
+      "wide"
+    ],
+    "techniqueThemeAnalysis": "The montage links satellite, tracking imagery, and officials’ reactions, rapidly converting a distant launch into national urgency. It supplies the external pressure behind NASA’s work without claiming that women share power within it."
   },
   {
     "id": 9,
@@ -510,9 +515,9 @@
     ],
     "techniqueTags": [
       "wide",
-      "medium",
-      "props"
-    ]
+      "medium"
+    ],
+    "techniqueThemeAnalysis": "Wide group views punctuated by closer reactions make Webb’s warning an institutional demand rather than a private exchange. The scene frames the Space Race as pressure on the organization, setting the stakes for later labor."
   },
   {
     "id": 10,
@@ -566,9 +571,9 @@
     "barrierTypes": [],
     "techniqueTags": [
       "wide",
-      "setting",
-      "props"
-    ]
+      "setting"
+    ],
+    "techniqueThemeAnalysis": "The progression from an empty room to workers behind glass and the exterior introduces mission spaces through cuts. It shows the operational world taking shape, but offers little evidence about how credit or access is distributed."
   },
   {
     "id": 11,
@@ -628,7 +633,8 @@
       "closeup",
       "medium",
       "blocking"
-    ]
+    ],
+    "techniqueThemeAnalysis": "Medium framing holds Dorothy and Vivian in the same office exchange as the line about rockets and advancement lands. The verbal contrast exposes bureaucracy’s unequal pace: technical ambition moves quickly while professional recognition is withheld."
   },
   {
     "id": 12,
@@ -683,9 +689,9 @@
     "barrierTypes": [],
     "techniqueTags": [
       "wide",
-      "props",
       "medium"
-    ]
+    ],
+    "techniqueThemeAnalysis": "Wide views of the wind tunnel and moving air give physical scale to Mary’s calculations. The film links mathematical expertise to practical engineering work, suggesting that her talent is already being used even before the institution offers a route forward."
   },
   {
     "id": 13,
@@ -740,9 +746,9 @@
     "barrierTypes": [],
     "techniqueTags": [
       "closeup",
-      "props",
       "costume"
-    ]
+    ],
+    "techniqueThemeAnalysis": "The wide chamber view and closer attention to Mary’s trapped heel contrast her vulnerability with the machine’s scale. Her quick response lets her continue, making resourcefulness visible without treating the obstacle as a major engineering achievement."
   },
   {
     "id": 14,
@@ -803,7 +809,8 @@
       "closeup",
       "medium",
       "blocking"
-    ]
+    ],
+    "techniqueThemeAnalysis": "Medium two-shots keep Mary and Zielinski within the same exchange, while closer reactions emphasize her reply. The balanced framing supports her clear-eyed point: ability is not the barrier; unequal access to training is."
   },
   {
     "id": 15,
@@ -863,7 +870,8 @@
       "wide",
       "blocking",
       "setting"
-    ]
+    ],
+    "techniqueThemeAnalysis": "Threshold framing and colleagues’ glances make Katherine’s entrance an event. The room’s established layout contrasts with her new presence, so recognition of her skill arrives alongside a reminder that she is entering a space organized without her."
   },
   {
     "id": 16,
@@ -922,7 +930,8 @@
       "closeup",
       "medium",
       "blocking"
-    ]
+    ],
+    "techniqueThemeAnalysis": "Closer views and the shift of attention toward Katherine give her mathematical explanation visual weight. The moment makes expertise command the room, while its focus on one successful exchange leaves broader access unresolved."
   },
   {
     "id": 17,
@@ -981,7 +990,8 @@
       "medium",
       "closeup",
       "blocking"
-    ]
+    ],
+    "techniqueThemeAnalysis": "Medium group framing keeps Katherine’s request and Stafford’s appeal to custom inside the workroom. The decision-makers share the frame while she is denied the briefing, showing exclusion operating through routine rather than a dispute about her calculations."
   },
   {
     "id": 18,
@@ -1038,7 +1048,8 @@
     "techniqueTags": [
       "wide",
       "setting"
-    ]
+    ],
+    "techniqueThemeAnalysis": "Wide campus views trace Katherine’s route between buildings. The distance turns segregation into visible lost time and labor, connecting an abstract rule to the interruption of work NASA says it urgently needs."
   },
   {
     "id": 19,
@@ -1046,7 +1057,7 @@
     "fullTitle": "The Half-Mile Bathroom Sprint Sequence",
     "character": "Katherine Johnson",
     "description": "Because the East Campus lacks a restroom she is permitted to use, Katherine runs across the grounds to the West Campus restroom in high heels, carrying data folders. The film cuts between her journey and the office waiting for her return.",
-    "techniques": "The clip cuts from Katherine’s departure through hallway and restroom views to her return, making the trip’s length concrete.",
+    "techniques": "Wide campus views and cuts from Katherine’s departure through the restroom and back make the imposed trip visible; this solo run becomes a visual motif echoed near the launch.",
     "essay": "Visually quantifies the physical and temporal tax of segregation. Discrimination is inefficient because it wastes the working hours of NASA's most talented personnel.",
     "techniqueLabel": "Office-to-restroom sequence",
     "meaningLabel": "Segregation taxes time and labor",
@@ -1095,8 +1106,9 @@
     "techniqueTags": [
       "wide",
       "medium",
-      "setting"
-    ]
+      "motif"
+    ],
+    "techniqueThemeAnalysis": "Cuts across Katherine’s departure, the route, and return make the trip’s length concrete. The repeated running image establishes a visual motif of time taken from her; later scenes echo the run but change who is making it and why."
   },
   {
     "id": 20,
@@ -1150,9 +1162,9 @@
     "barrierTypes": [],
     "techniqueTags": [
       "lowkey",
-      "closeup",
-      "props"
-    ]
+      "closeup"
+    ],
+    "techniqueThemeAnalysis": "Warm, low-key bedroom lighting and alternating close views connect NASA’s mission talk with Katherine’s family life. The scene frames care and technical ambition as simultaneous parts of her life rather than competing identities."
   },
   {
     "id": 21,
@@ -1211,7 +1223,8 @@
       "closeup",
       "blocking",
       "natural"
-    ]
+    ],
+    "techniqueThemeAnalysis": "Warm community framing gives Katherine’s response room to redirect Jim’s assumption. Her humor and precise answer ground dignity in knowledge, showing that sexist expectations can surface beyond the workplace too."
   },
   {
     "id": 22,
@@ -1271,7 +1284,8 @@
       "closeup",
       "medium",
       "blocking"
-    ]
+    ],
+    "techniqueThemeAnalysis": "Close views within the church conversation emphasize Katherine’s calm delivery and the attention it commands. The line about glasses rather than skirts replaces a gendered assumption with professional evidence, making self-respect an act of definition."
   },
   {
     "id": 23,
@@ -1326,9 +1340,9 @@
     ],
     "techniqueTags": [
       "closeup",
-      "props",
       "blocking"
-    ]
+    ],
+    "techniqueThemeAnalysis": "The labeled coffee pot beside the main urn makes segregation visible in an everyday routine; Katherine’s glance and choice to use the main urn complete the gesture. The scene shows how exclusion is built into ordinary workplace habits."
   },
   {
     "id": 24,
@@ -1384,9 +1398,9 @@
     ],
     "techniqueTags": [
       "closeup",
-      "props",
       "medium"
-    ]
+    ],
+    "techniqueThemeAnalysis": "Low framing of the report landing and close views of blacked-out figures make missing information visible. The technique links restricted data to the limits placed on Katherine’s task, without guessing why the values were withheld."
   },
   {
     "id": 25,
@@ -1441,9 +1455,9 @@
     ],
     "techniqueTags": [
       "wide",
-      "props",
       "blocking"
-    ]
+    ],
+    "techniqueThemeAnalysis": "The wide view of the IBM against the narrow doorway turns technological change into a spatial mismatch. The scene uses scale for comic effect and raises a question about readiness, without yet showing the machine’s later impact on jobs."
   },
   {
     "id": 26,
@@ -1502,7 +1516,8 @@
       "wide",
       "setting",
       "blocking"
-    ]
+    ],
+    "techniqueThemeAnalysis": "Wide views of ordered shelves establish the library as a place of learning before blocking and the guard’s escort show Dorothy being excluded. The contrast makes unequal access to knowledge visible as an institutional barrier, not a lack of effort."
   },
   {
     "id": 27,
@@ -1560,9 +1575,9 @@
     ],
     "techniqueTags": [
       "closeup",
-      "props",
       "medium"
-    ]
+    ],
+    "techniqueThemeAnalysis": "Close views of the FORTRAN book and Dorothy reading it on the bus shift the book from restricted resource to tool for learning. The scene frames knowledge as something she intends to share with the team, not keep as individual advantage."
   },
   {
     "id": 28,
@@ -1618,7 +1633,8 @@
       "closeup",
       "color",
       "blocking"
-    ]
+    ],
+    "techniqueThemeAnalysis": "Close framing, warm color, and the dance’s shared movement create intimacy distinct from NASA’s offices. The scene allows partnership to support Katherine’s life while keeping private recognition separate from workplace equality."
   },
   {
     "id": 29,
@@ -1675,9 +1691,9 @@
     ],
     "techniqueTags": [
       "wide",
-      "blocking",
-      "props"
-    ]
+      "blocking"
+    ],
+    "techniqueThemeAnalysis": "Group blocking around the blackboard gives Dorothy’s explanation a collective focus. Rather than centering a lone genius, the scene presents leadership as teaching peers to prepare for work that technology is about to change."
   },
   {
     "id": 30,
@@ -1733,9 +1749,9 @@
     ],
     "techniqueTags": [
       "closeup",
-      "props",
       "medium"
-    ]
+    ],
+    "techniqueThemeAnalysis": "Medium views of Dorothy reading beside the IBM, followed by closer details of its wiring, connect study to hands-on investigation. The sequence frames learning as active preparation and leadership as anticipating change before it arrives."
   },
   {
     "id": 31,
@@ -1791,9 +1807,9 @@
     ],
     "techniqueTags": [
       "wide",
-      "setting",
-      "props"
-    ]
+      "setting"
+    ],
+    "techniqueThemeAnalysis": "Wide views of Katherine hurrying through rain with her papers compress the long route and its work cost into one image. The return echoes her earlier sprint, but the soaked clothing makes an imposed daily burden newly undeniable."
   },
   {
     "id": 32,
@@ -1853,7 +1869,8 @@
       "closeup",
       "medium",
       "blocking"
-    ]
+    ],
+    "techniqueThemeAnalysis": "Close and medium views hold Katherine’s anger and the colleagues’ response as she explains the unequal facilities. The scene shifts from a routine absence to a spoken account of exclusion, giving self-respect the force of testimony."
   },
   {
     "id": 33,
@@ -1913,7 +1930,8 @@
       "closeup",
       "medium",
       "blocking"
-    ]
+    ],
+    "techniqueThemeAnalysis": "A held reaction lets Katherine’s explanation interrupt the office’s normal rhythm. The stillness gives the measurable distance and lost time space to register, turning an invisible arrangement into a workplace problem."
   },
   {
     "id": 34,
@@ -1969,9 +1987,9 @@
     ],
     "techniqueTags": [
       "wide",
-      "props",
       "blocking"
-    ]
+    ],
+    "techniqueThemeAnalysis": "Wide hallway framing keeps Harrison, the sign, and watching workers visible as he knocks it down. The repeated action makes a rule physically removable, while its managerial solution points to pragmatic change rather than complete justice."
   },
   {
     "id": 35,
@@ -2026,7 +2044,8 @@
       "wide",
       "color",
       "blocking"
-    ]
+    ],
+    "techniqueThemeAnalysis": "Close views of joined hands and a wider table composition balance intimacy with the family group. The scene presents support at home as part of Katherine’s life and work, not as a substitute for fair treatment at NASA."
   },
   {
     "id": 36,
@@ -2086,7 +2105,8 @@
       "closeup",
       "medium",
       "setting"
-    ]
+    ],
+    "techniqueThemeAnalysis": "Courtroom staging places Mary’s request before a legal gatekeeper. The formal setting connects her career path to rules beyond NASA, showing that access to engineering education depends on changing who is permitted to enter."
   },
   {
     "id": 37,
@@ -2147,7 +2167,8 @@
       "closeup",
       "blocking",
       "medium"
-    ]
+    ],
+    "techniqueThemeAnalysis": "Cuts among Mary, the judge, and the gallery make her request a public argument rather than a private plea. Her rhetoric turns knowledge of the rules into a strategy for opening a path for herself and others."
   },
   {
     "id": 38,
@@ -2206,7 +2227,8 @@
       "closeup",
       "medium",
       "blocking"
-    ]
+    ],
+    "techniqueThemeAnalysis": "The restrained courtroom resolution gives a small procedural decision visual weight. Permission creates a narrow opening in a segregated system, while the modest scale of the moment reminds us that talent alone did not secure it."
   },
   {
     "id": 39,
@@ -2262,9 +2284,9 @@
     ],
     "techniqueTags": [
       "closeup",
-      "props",
       "medium"
-    ]
+    ],
+    "techniqueThemeAnalysis": "Close console details and Dorothy’s assured movements balance the IBM’s size with her command of its processes. The scene presents technology as something that still requires skilled people, and expertise as a route into changing work."
   },
   {
     "id": 40,
@@ -2324,7 +2346,8 @@
       "medium",
       "blocking",
       "setting"
-    ]
+    ],
+    "techniqueThemeAnalysis": "Over-the-shoulder framing places Katherine on one side of the meeting-room threshold while the discussion lies beyond it. The physical boundary makes ‘custom’ visible as an exclusionary practice even without a written rule."
   },
   {
     "id": 41,
@@ -2379,9 +2402,9 @@
     "barrierTypes": [],
     "techniqueTags": [
       "wide",
-      "blocking",
-      "props"
-    ]
+      "blocking"
+    ],
+    "techniqueThemeAnalysis": "Wider group blocking and closer attention to faces and equations turn the briefing into a test of trust. Katherine’s expertise becomes consequential when the crew depends on the numbers, though that recognition follows repeated exclusion."
   },
   {
     "id": 42,
@@ -2389,7 +2412,7 @@
     "fullTitle": "Space Task Group Briefing And Blackboard Trajectory Calculation",
     "character": "Katherine Johnson",
     "description": "In the high-level briefing, Katherine is invited to calculate the Go/No Go re-entry point. She takes the blackboard, works through the trajectory and gives the landing coordinates before officials, engineers and John Glenn.",
-    "techniques": "The edit moves between Katherine writing on the blackboard and the engineers following her calculation.",
+    "techniques": "The edit moves between Katherine writing and the engineers following her calculation; the returning mathematical image acts as a visual leitmotif and echoes the childhood prologue.",
     "essay": "Katherine's re-entry calculation earns attention in the briefing and makes her expertise central to a high-stakes decision. The scene shows recognition in this moment, while equal access to the work remains unresolved elsewhere in the film.",
     "techniqueLabel": "Blackboard work and engineer reactions",
     "meaningLabel": "Katherine's calculation earns attention in the briefing",
@@ -2436,9 +2459,10 @@
     "barrierTypes": [],
     "techniqueTags": [
       "closeup",
-      "medium",
-      "props"
-    ]
+      "motif",
+      "parallel"
+    ],
+    "techniqueThemeAnalysis": "The return of mathematical marks at the blackboard acts as a visual leitmotif, echoing the notation introduced in Katherine’s childhood. Cuts between her chalk work and engineers listening turn that image into parallel structure: her talent persists, while recognition changes when the institution finally relies on her expertise."
   },
   {
     "id": 43,
@@ -2495,9 +2519,9 @@
     ],
     "techniqueTags": [
       "medium",
-      "blocking",
-      "props"
-    ]
+      "blocking"
+    ],
+    "techniqueThemeAnalysis": "The hallway framing turns Dorothy’s exchange with Vivian into a negotiation over who advances. Dorothy’s refusal to leave her colleagues behind shifts the idea of opportunity from individual promotion to collective access."
   },
   {
     "id": 44,
@@ -2556,7 +2580,8 @@
       "wide",
       "blocking",
       "setting"
-    ]
+    ],
+    "techniqueThemeAnalysis": "The group’s entrance into the IBM room changes the visual meaning of the machine space: it is no longer only a threat of replacement. Group blocking presents preparation and shared skill as a way to claim a place in technological change."
   },
   {
     "id": 45,
@@ -2614,9 +2639,9 @@
     ],
     "techniqueTags": [
       "wide",
-      "blocking",
-      "props"
-    ]
+      "blocking"
+    ],
+    "techniqueThemeAnalysis": "Wide classroom views emphasize that Mary’s study happens after the workday. The setting makes the extra time required for qualification visible, framing advancement as sustained effort under unequal conditions rather than effortless talent."
   },
   {
     "id": 46,
@@ -2670,9 +2695,9 @@
     "barrierTypes": [],
     "techniqueTags": [
       "closeup",
-      "props",
       "medium"
-    ]
+    ],
+    "techniqueThemeAnalysis": "Shot/reverse-shot views hold Katherine’s proposal and the engineers’ doubt in the same conversation, with the blackboard keeping the problem visible. The structure presents classical mathematics as useful expertise for a new technical challenge."
   },
   {
     "id": 47,
@@ -2731,7 +2756,8 @@
       "closeup",
       "setting",
       "blocking"
-    ]
+    ],
+    "techniqueThemeAnalysis": "The mirror holds Dorothy and Vivian together before closer views isolate their reactions. That movement supports a reading about self-perception and complicity: sincere claims of fairness can coexist with participation in unequal arrangements."
   },
   {
     "id": 48,
@@ -2788,9 +2814,9 @@
     ],
     "techniqueTags": [
       "closeup",
-      "props",
       "medium"
-    ]
+    ],
+    "techniqueThemeAnalysis": "A close insert of the pearls recalls the earlier dress-code exchange, giving the gift a visual echo. The gesture signals appreciation for Katherine’s contribution, but its warmth cannot undo her reassignment or settle the wider question of fairness."
   },
   {
     "id": 49,
@@ -2847,9 +2873,9 @@
     ],
     "techniqueTags": [
       "crosscut",
-      "closeup",
-      "props"
-    ]
+      "closeup"
+    ],
+    "techniqueThemeAnalysis": "Cross-cutting the phone request between Glenn and Harrison makes trust travel through a chain of people. The urgency puts Katherine’s calculations at the center of launch preparations, while stopping short of proving that workplace barriers have ended."
   },
   {
     "id": 50,
@@ -2857,7 +2883,7 @@
     "fullTitle": "Sam Runs To Find Katherine",
     "character": "Sam",
     "description": "After the request for Katherine to check the numbers, Sam hurries out of the building, crosses the parking area and enters West Computing. He finds Katherine and brings the urgent calculation request. The sequence cuts between the trip, her preparation and the approaching launch.",
-    "techniques": "The sequence cuts between Sam's route to Katherine and views of the approaching launch preparations, keeping the urgent request connected to the mission timeline.",
+    "techniques": "Cuts between Sam’s route to Katherine and launch preparations echo the earlier running sequence, now recasting the recurring image as colleagues’ dependence on her expertise.",
     "essay": "The familiar journey now consumes a colleague’s time because NASA needs Katherine’s expertise. Compare the urgency of bringing her back with the routine exclusion that previously sent her away.",
     "techniqueLabel": "Fixed views of Sam’s urgent run",
     "meaningLabel": "The launch emergency sends Sam to find Katherine",
@@ -2904,8 +2930,9 @@
     "techniqueTags": [
       "wide",
       "crosscut",
-      "setting"
-    ]
+      "motif"
+    ],
+    "techniqueThemeAnalysis": "Cuts between Sam’s route to Katherine and the approaching launch echo the earlier running sequence. The recurring visual motif changes meaning: a colleague now crosses the campus because NASA depends on the expertise it once kept at a distance."
   },
   {
     "id": 51,
@@ -2959,9 +2986,9 @@
     "barrierTypes": [],
     "techniqueTags": [
       "crosscut",
-      "medium",
-      "props"
-    ]
+      "medium"
+    ],
+    "techniqueThemeAnalysis": "Parallel spaces place Glenn’s preparation beside the NASA team’s final checks. This structure frames courage as coordinated labor across distance, with the astronaut’s risk supported by people whose work remains mostly off the launch pad."
   },
   {
     "id": 52,
@@ -3017,9 +3044,9 @@
     ],
     "techniqueTags": [
       "closeup",
-      "props",
       "medium"
-    ]
+    ],
+    "techniqueThemeAnalysis": "Close views of Katherine’s notes beside the printed computer output make manual checking legible. The visual comparison shows that reliable technology depends on skilled interpretation and that human expertise can verify, not simply compete with, a machine."
   },
   {
     "id": 53,
@@ -3027,7 +3054,7 @@
     "fullTitle": "Sam And Katherine Run Back",
     "character": "Sam & Katherine Johnson",
     "description": "With the checked figures ready, Katherine and Sam hurry through West Computing, run outside and cross the campus toward the control room. Katherine carries the calculations. Launch preparations are intercut with their journey, which ends at the control-room entrance.",
-    "techniques": "A wide exterior keeps Sam and Katherine together as they hurry across campus, then a cut shows their arrival at the building.",
+    "techniques": "A wide exterior keeps Sam and Katherine together on a route that recalls her earlier solo sprint; intercut launch preparations turn the repeated run into shared, mission-critical work.",
     "essay": "During the launch emergency, Sam and Katherine share the route that Katherine earlier had to make alone for a different reason. This temporary reversal makes the mission's dependence on her calculations visible, but one crisis does not show that the institution has overcome its barriers.",
     "techniqueLabel": "A wide view of the paired run",
     "meaningLabel": "A shared journey reverses earlier isolation",
@@ -3073,9 +3100,10 @@
     "barrierTypes": [],
     "techniqueTags": [
       "wide",
-      "props",
-      "setting"
-    ]
+      "motif",
+      "parallel"
+    ],
+    "techniqueThemeAnalysis": "The running motif is reframed: Katherine no longer runs alone, and Sam runs beside her as cuts return to the launch preparations. This parallel turns the earlier cost of exclusion into shared urgency and collective dependence on her expertise."
   },
   {
     "id": 54,
@@ -3131,7 +3159,8 @@
       "montage",
       "crosscut",
       "wide"
-    ]
+    ],
+    "techniqueThemeAnalysis": "The montage moves from ground preparations to the rocket’s ascent, releasing the tension built across the sequence. Scale and motion make the launch a climax, while its meaning depends on the less visible calculations and monitoring around it."
   },
   {
     "id": 55,
@@ -3185,9 +3214,9 @@
     "barrierTypes": [],
     "techniqueTags": [
       "crosscut",
-      "wide",
-      "props"
-    ]
+      "wide"
+    ],
+    "techniqueThemeAnalysis": "Cross-cutting between capsule, control room, and mission coverage connects flight to the people monitoring it. The editing presents the mission as distributed attention and coordinated work rather than a single heroic image."
   },
   {
     "id": 56,
@@ -3243,7 +3272,8 @@
       "closeup",
       "medium",
       "blocking"
-    ]
+    ],
+    "techniqueThemeAnalysis": "The shift between television coverage and a restrained workplace conversation makes Dorothy’s recognition practical rather than ceremonial. Her expertise earns respect because the operation needs her to train others, showing how skill can change professional standing."
   },
   {
     "id": 57,
@@ -3297,9 +3327,9 @@
     "barrierTypes": [],
     "techniqueTags": [
       "crosscut",
-      "closeup",
-      "props"
-    ]
+      "closeup"
+    ],
+    "techniqueThemeAnalysis": "Tighter framing and faster exchanges turn uncertain heat-shield information into shared suspense. The scene makes expertise visible through the team’s response to incomplete evidence and the consequences attached to its decision."
   },
   {
     "id": 58,
@@ -3355,7 +3385,8 @@
       "crosscut",
       "closeup",
       "wide"
-    ]
+    ],
+    "techniqueThemeAnalysis": "Intercutting the focused tracking room with the distant ocean landing stretches the wait between calculation and outcome. The editing connects data to a human return and frames safety as collective work across roles."
   },
   {
     "id": 59,
@@ -3412,7 +3443,8 @@
       "wide",
       "blocking",
       "closeup"
-    ]
+    ],
+    "techniqueThemeAnalysis": "The wide celebration and closer exchange across the room place Katherine within the team’s relief. The composition offers a moment of recognition and belonging, without suggesting that one celebration erases the divisions shown earlier."
   },
   {
     "id": 60,
@@ -3469,7 +3501,8 @@
       "closeup",
       "medium",
       "blocking"
-    ]
+    ],
+    "techniqueThemeAnalysis": "Close views and a restrained nod give acknowledgment weight through changed attention rather than a speech. The small gesture suggests that recognition can affect whose expertise is seen, even though it does not by itself change institutional rules."
   },
   {
     "id": 61,
@@ -3525,7 +3558,8 @@
       "montage",
       "wide",
       "closeup"
-    ]
+    ],
+    "techniqueThemeAnalysis": "The closing montage and on-screen historical text move from the mission into a longer record. By placing the women’s work within NASA’s continuing story, the film counters the invisibility of contributions left outside a single launch image."
   },
   {
     "id": 62,
@@ -3582,7 +3616,8 @@
       "wide",
       "costume",
       "blocking"
-    ]
+    ],
+    "techniqueThemeAnalysis": "Graduation imagery, ensemble reactions, and written context connect Mary’s achievement to the path that preceded it. The closing sequence presents education access as producing professional outcomes and gestures toward its significance for others."
   },
   {
     "id": 63,
@@ -3637,9 +3672,9 @@
     "barrierTypes": [],
     "techniqueTags": [
       "closeup",
-      "props",
       "wide"
-    ]
+    ],
+    "techniqueThemeAnalysis": "The insert makes the shared report credit readable before the wider office view shows Stafford bringing coffee. The callback turns an ordinary gesture into a sign of changed respect, while the named authorship gives that change concrete evidence."
   },
   {
     "id": 64,
@@ -3694,6 +3729,7 @@
     "techniqueTags": [
       "wide",
       "setting"
-    ]
+    ],
+    "techniqueThemeAnalysis": "Office views paired with career text extend Katherine’s story beyond the mission. The restrained coda links one flight to a longer professional contribution, inviting recognition while acknowledging that summary text cannot show everyday working conditions."
   }
 ]

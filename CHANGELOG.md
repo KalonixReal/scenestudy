@@ -1,5 +1,11 @@
 # SceneStudy changes
 
+## Technique connections and flashcard analysis (2026-10-13)
+
+- Added Parallel structure and Visual leitmotif as scene techniques, including the prologue-to-blackboard echo and the recurring running image. Removed generic Props tags across the catalogue.
+- Added a scene-specific technique-to-theme paragraph to the back of every flashcard and to study-note exports.
+- Removed the animation switch; motion now stays on and ignores operating-system motion preferences.
+
 ## Motion controls and progress recovery (2026-10-09)
 
 - Added consistent press and hover feedback across enabled buttons and interactive controls, plus a short entrance for newly opened views.

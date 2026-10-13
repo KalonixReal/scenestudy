@@ -110,7 +110,7 @@
           selfrespect:{label:'Self-Respect & Resistance',def:'a character asserts dignity, names a stereotype, or actively challenges a degrading expectation'},
           legacy:{label:'Visibility & Legacy',def:'work made publicly visible, credit restored, or the film’s closing links to lasting impact'},
         };
-        const TECHNIQUES = {"closeup": "Close-up", "medium": "Medium shot", "wide": "Wide shot", "pov": "POV shot", "lowangle": "Low-angle shot", "tracking": "Tracking shot", "natural": "Natural lighting", "lowkey": "Low-key lighting", "crosscut": "Cross-cutting", "montage": "Montage", "props": "Props", "costume": "Costume", "setting": "Setting", "color": "Color palette", "blocking": "Actor blocking"};
+        const TECHNIQUES = {"closeup": "Close-up", "medium": "Medium shot", "wide": "Wide shot", "pov": "POV shot", "lowangle": "Low-angle shot", "tracking": "Tracking shot", "natural": "Natural lighting", "lowkey": "Low-key lighting", "crosscut": "Cross-cutting", "montage": "Montage", "parallel": "Parallel structure", "motif": "Visual leitmotif", "costume": "Costume", "setting": "Setting", "color": "Color palette", "blocking": "Actor blocking"};
         const techniquesOf=s=>Array.isArray(s.techniqueTags)?[...new Set(s.techniqueTags)].filter(t=>TECHNIQUES[t]):[];
         const techniqueLabel=t=>TECHNIQUES[t]||t;
         const techniqueChips=s=>`<span class="technique-chips" aria-label="Film techniques">${techniquesOf(s).map(t=>`<span class="technique-chip">${esc(techniqueLabel(t))}</span>`).join('')}</span>`;
@@ -192,10 +192,7 @@
         /* ================= STATE ================= */
         const STORE_KEY = 'scenestudy-v3';
         const LEGACY_STORE_KEY = 'scenestudy-v2';
-        const MOTION_KEY = 'scenestudy-motion';
-        let motionEnabled = true;
-        try { motionEnabled = localStorage.getItem(MOTION_KEY) !== 'off'; } catch (e) {}
-        document.documentElement.dataset.motion = motionEnabled ? 'on' : 'off';
+        document.documentElement.dataset.motion = 'on';
         const freshState = () => ({
           v: 6,
           cards: {},            // id -> { dueAt, interval(days), last, reviews }
@@ -516,7 +513,7 @@
         const viewEl = $('#view');
         let viewMotionTimer = null;
 
-        function motionAllowed() { return motionEnabled; }
+        function motionAllowed() { return true; }
 
         function animateViewChange() {
           clearTimeout(viewMotionTimer);
@@ -596,7 +593,7 @@
           clearTimeout(navigationTimer);
           if(currentView==='watch'&&v!=='watch')clearMovie();
           viewEl.setAttribute('aria-busy','true');viewEl.classList.add('view-pending');$('#main').inert=true;
-          navigationTimer=setTimeout(()=>go(v),motionAllowed()?60+Math.floor(Math.random()*41):0);
+          navigationTimer=setTimeout(()=>go(v),60+Math.floor(Math.random()*41));
         }
         if(navigator.mediaSession){
           try{navigator.mediaSession.setActionHandler('play',()=>{const p=$('#filmPlayer');if(currentView==='watch'&&navigationTimer==null&&p?.isConnected)p.playClip();});
@@ -780,6 +777,7 @@
                     <div class="fc-back-grid">
                       <div class="fc-block"><h4>${esc(displayHeading(scene.techniqueLabel,'Film Technique'))}</h4><p>${esc(scene.techniques)}</p></div>
                       <div class="fc-block"><h4>${esc(displayHeading(scene.meaningLabel,'Meaning & Effect'))}</h4><p>${esc(scene.essay)}</p></div>
+                      <div class="fc-block fc-technique-essay"><h4>Technique → Theme</h4><p>${esc(scene.techniqueThemeAnalysis)}</p></div>
                     </div>
                     ${techniqueChips(scene)}<div class="theme-chips">${tagsOf(scene).map((t) => tagChip(t)).join('')}</div>
                     <div class="rate-row">
@@ -1325,7 +1323,7 @@
           return `<div class="empty-cta"><div class="empty-cta-art">${icon('grid', 30)}</div><h3>No Scenes Selected Yet</h3><p>Your library is empty, so there is nothing to study. Choose scenes from the built-in catalogue of ${BUILTIN_SCENES.length} to begin.</p><button class="button primary" data-action="nav" data-view="selection">${icon('right', 16)} Choose Scenes</button></div>`;
         }
 
-        const sceneHay = s => `${s.id} ${s.title} ${s.fullTitle} ${s.description} ${s.character} ${tagsOf(s).join(' ')} ${tagsOf(s).map(tagLabel).join(' ')} ${s.cueText||''} ${s.techniqueLabel||''} ${s.meaningLabel||''} ${s.techniques||''} ${s.essay||''} ${s.keyLine||''} ${s.watchFor||''} ${s.historyNote||''} ${s.essayStarter||''} ${techniquesOf(s).map(techniqueLabel).join(' ')}`.toLowerCase();
+        const sceneHay = s => `${s.id} ${s.title} ${s.fullTitle} ${s.description} ${s.character} ${tagsOf(s).join(' ')} ${tagsOf(s).map(tagLabel).join(' ')} ${s.cueText||''} ${s.techniqueLabel||''} ${s.meaningLabel||''} ${s.techniques||''} ${s.essay||''} ${s.techniqueThemeAnalysis||''} ${s.keyLine||''} ${s.watchFor||''} ${s.historyNote||''} ${s.essayStarter||''} ${techniquesOf(s).map(techniqueLabel).join(' ')}`.toLowerCase();
         const sceneSearch = new Map(BUILTIN_SCENES.map(s=>[s.id,sceneHay(s)]));
         const facetValues = (s,k) => k==='char' ? [s.character] : k==='tag' ? tagsOf(s) : k==='technique' ? techniquesOf(s) : k==='importance' ? [String(importanceOf(s))] : [masteryOf(s.id),...(state.bookmarks.includes(s.id)?['saved']:[])];
         function matchesFilters(s, except=null) {
@@ -1912,21 +1910,6 @@
               updateThemeBtns();
               break;
             }
-            case 'motion': {
-              motionEnabled = !motionEnabled;
-              document.documentElement.dataset.motion = motionEnabled ? 'on' : 'off';
-              try { localStorage.setItem(MOTION_KEY, motionEnabled ? 'on' : 'off'); }
-              catch (e) { toast('The animation setting could not be saved in this browser.', 'alert'); }
-              if (motionEnabled) animateViewChange();
-              else {
-                clearTimeout(viewMotionTimer);
-                viewEl.classList.remove('view-entering');
-                document.getAnimations().forEach((animation) => animation.cancel());
-              }
-              updateMotionButton();
-              toast(motionEnabled ? 'Animations are on.' : 'Animations are off.', 'sparkles');
-              break;
-            }
             case 'exportNotes': exportNotesMarkdown(); break;
           }
         });
@@ -2099,15 +2082,6 @@
           if (meta) meta.setAttribute('content', dark ? '#15170f' : '#fcfcf9');
         }
 
-        function updateMotionButton() {
-          document.querySelectorAll('[data-action="motion"]').forEach((button) => {
-            const label = motionEnabled ? 'Animations: On' : 'Animations: Off';
-            button.textContent = label;
-            button.setAttribute('aria-pressed', String(motionEnabled));
-            button.setAttribute('aria-label', `${label}. Click to turn animations ${motionEnabled ? 'off' : 'on'}.`);
-            button.title = `Turn animations ${motionEnabled ? 'off' : 'on'}`;
-          });
-        }
 
         function exportNotesMarkdown() {
           const L = [];
@@ -2126,6 +2100,7 @@
             if (s.description) L.push(`**What happens.** ${s.description}`, '');
             if (s.keyLine) L.push(`**Key line.** “${s.keyLine}”`, '');
             if (s.techniques || s.techniqueLabel) L.push(`**How it's filmed.** ${exportAnalysis(s.techniqueLabel,s.techniques)}`, '');
+            if (s.techniqueThemeAnalysis) L.push(`**Technique-to-theme analysis.** ${s.techniqueThemeAnalysis}`, '');
             if (s.watchFor) L.push(`**What to watch for.** ${s.watchFor}`, '');
             if (s.essay || s.meaningLabel) L.push(`**Why it matters.** ${exportAnalysis(s.meaningLabel,s.essay)}`, '');
             if (s.historyNote) L.push(`**History note.** ${s.historyNote}`, '');
@@ -2155,7 +2130,6 @@
         $('#mobileBrandMark').innerHTML = BRAND_MARK;
         $('#footMark').innerHTML = BRAND_MARK;
         updateThemeBtns();
-        updateMotionButton();
         resetViewStates();
         renderNav();
         renderView();
